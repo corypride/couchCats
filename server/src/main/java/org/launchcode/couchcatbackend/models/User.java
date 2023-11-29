@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Objects;
+
 @Entity
 public class User {
     @Id
@@ -20,6 +22,7 @@ public class User {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    public User() {}
 
     public User(String username, String password) {
         this.username = username;
@@ -37,4 +40,9 @@ public class User {
         return encoder.matches(password, pwHash);
     }
 
+    //TO DO: Override hashcode
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
