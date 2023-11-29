@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User {
@@ -20,7 +21,7 @@ public class User {
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
-    public User(String username, String pwHash) {
+    public User(String username, String password) {
         this.username = username;
         this.pwHash = encoder.encode(password);
     }
