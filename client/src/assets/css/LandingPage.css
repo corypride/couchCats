@@ -1,0 +1,8 @@
+html {
+    min-height: 100%;
+}
+
+body {
+    background-image: linear-gradient(#642b6b, #f09f9c);
+    background-size: cover;
+  }
