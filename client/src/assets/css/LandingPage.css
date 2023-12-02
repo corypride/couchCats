@@ -5,4 +5,9 @@ html {
 body {
     background-image: linear-gradient(#642b6b, #f09f9c);
     background-size: cover;
+    text-align: center;
   }
+
+.title {
+    font-size: 7rem;
+}
