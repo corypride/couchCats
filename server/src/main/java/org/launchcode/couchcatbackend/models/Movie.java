@@ -3,7 +3,9 @@ package org.launchcode.couchcatbackend.models;
 import java.util.List;
 import java.util.Objects;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Movie {
