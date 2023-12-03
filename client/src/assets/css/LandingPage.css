@@ -1,3 +1,4 @@
+/* General Page/Background */
 html {
     min-height: 100%;
 }
@@ -8,6 +9,7 @@ body {
     text-align: center;
   }
 
+/* Headline */
 .title {
     font-size: 7rem;
     margin: 0;
@@ -15,4 +17,22 @@ body {
 
 .tagline {
     margin: 0.75rem;
+}
+
+/* Movies of the Day*/
+.topMovies {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    height: auto; 
+    width: auto; 
+    max-width: 300px; 
+    max-height: 300px;
+}
+
+.topMovie {
+    font-size: 0.5rem;
+    width: 300px;
 }
