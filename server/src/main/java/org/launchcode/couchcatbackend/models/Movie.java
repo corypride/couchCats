@@ -30,9 +30,9 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "movies")
-//    TODO: import User from Erin's files
+    @ManyToMany(mappedBy = "watchlist")
     private final List<User> users = new ArrayList<>();
+//    TODO: add watchlist field in User
 
     public Movie(int id, String title, int year, String description, String director, List<String> cast, float rating, String poster) {
         this.id = id;
