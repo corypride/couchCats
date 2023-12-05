@@ -22,6 +22,8 @@ public class User {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
+
     public User() {}
 
     public User(String username, String password) {
