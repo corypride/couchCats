@@ -16,6 +16,9 @@ public class User {
 
     @NotNull
     private String username;
+    //TO DO: Parameters for username
+
+    //TO DO: ADD EMAIL
 
     @NotNull
     private String pwHash;

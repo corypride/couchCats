@@ -1,6 +1,6 @@
 package org.launchcode.couchcatbackend.models.dto;
 
-public class RegisterFormDTO extends org.launchcode.codingevents.models.dto.LoginFormDTO {
+public class RegisterFormDTO extends org.launchcode.couchcatbackend.models.dto.LoginFormDTO {
 
     private String verifyPassword;
 
