@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background-image: linear-gradient(#642b6b, #f09f9c);
+    background-image: linear-gradient(#642b6b 70%, #f09f9c);
     background-size: cover;
     text-align: center;
   }
@@ -30,6 +30,7 @@ img {
     width: auto; 
     max-width: 300px; 
     max-height: 300px;
+    border: 5px solid black;
 }
 
 .topMovie {

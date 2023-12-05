@@ -8,7 +8,6 @@ const LandingPage = () => {
     //discover why this is fetching 6 times per page load
     const topMoviesRequest = useFetch("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1", process.env.REACT_APP_API_ACCESS_TOKEN);
     const topMovies = topMoviesRequest.data?.results;
-    console.log(topMovies)
 
     return(
         <>
@@ -27,7 +26,7 @@ const LandingPage = () => {
                 {topMovies && topMovies.length > 0 ? (
                     <>
                     {topMovies.slice(0, 3).map((movie) => (
-                        <div className="topMovie">
+                        <div key={movie.id} className="topMovie">
                             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="movie poster" />
                                 <h2>{movie.original_title}</h2>
                                 <h2>{movie.overview}</h2>
