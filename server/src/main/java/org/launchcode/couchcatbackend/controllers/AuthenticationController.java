@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AuthenticationController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @GetMapping("hello")
     @ResponseBody
