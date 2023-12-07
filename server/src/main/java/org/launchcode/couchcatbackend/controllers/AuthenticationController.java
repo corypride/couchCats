@@ -1,21 +1,25 @@
 package org.launchcode.couchcatbackend.controllers;
 
 import org.launchcode.couchcatbackend.data.UserRepository;
+import org.launchcode.couchcatbackend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@CrossOrigin
+@RequestMapping("user")
 public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("hello")
-    @ResponseBody
-    public String hello() {
-        return "Hello, Spring!";
+    //For adding a user - simply testing receiving user data
+    @PostMapping("/create")
+    public User addUser(@RequestBody User newUser){
+        return newUser;
+
+//        return (userService.saveUser(newUser));
     }
 
     //TO DO: Session handling methods that create the session ID and cookie which allows us to store and retrieve the login status of a user in a session / a logged-in user’s user ID will be stored in their session.

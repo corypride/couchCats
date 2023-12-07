@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
+@CrossOrigin
 @RequestMapping("test-api")
 public class TestController {
 
@@ -30,5 +30,11 @@ public class TestController {
     @PostMapping("/register")
     public ResponseEntity<String> testRegister(@RequestBody String requestBody){
         return new ResponseEntity<>("Yata", HttpStatus.OK);
+    }
+
+    @GetMapping("hello")
+    @ResponseBody
+    public String hello() {
+        return "Hello, Spring!";
     }
 }
