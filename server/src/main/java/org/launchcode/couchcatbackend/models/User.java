@@ -3,7 +3,8 @@ package org.launchcode.couchcatbackend.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Objects;
@@ -16,9 +17,8 @@ public class User {
 
     @NotNull
     private String username;
-    //TO DO: Parameters for username
-
-    //TO DO: ADD EMAIL
+    @Email
+    private String email;
 
     @NotNull
     private String pwHash;
@@ -29,8 +29,9 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password) {
+    public User(String username, String email, String password) {
         this.username = username;
+        this.email = email;
         this.pwHash = encoder.encode(password);
     }
 
@@ -41,6 +42,11 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
