@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import "../assets/css/NavBar.css";
-import { Autocomplete, TextField } from '@mui/material';
-import useFetch from "../hooks/useFetch";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
 
@@ -34,25 +32,17 @@ const NavBar = () => {
 
 
     return(
-        <div className="navBar">
+        <div className="container flex flex-rows justify-between">
             <div className="logo">
                 Cc
             </div>
-            <div>
-                <Autocomplete
-                    id="search"
-                    freeSolo
-                    options={searchResults}
-                    getOptionLabel={(option) => option.original_title}
-                    renderOption={(option) => (
-                        <li key={option.id} onClick={() => handleSelect}>
-                            {option.key}
-                            </li>
-                      )}
-                    renderInput={(params) => (
-                        <TextField {...params} label="Search Movies..." variant="outlined" fullWidth onChange={handleChange} />
-                    )}
-                />
+            <div id="linksContainer">
+                <Link to="/">Home</Link>
+                |
+                <Link to="/filtersearch">Filter Search</Link>
+            </div>
+            <div className="flex flex-row">
+                <div>Autocomplete</div>
                 <div>Log in</div>
             </div>
         </div>
