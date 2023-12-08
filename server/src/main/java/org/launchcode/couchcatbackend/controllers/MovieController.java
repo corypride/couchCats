@@ -35,25 +35,22 @@ public class MovieController {
         return movieRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-//    TODO: test if this works
-//    Return all movies on a user's watchlist
-    @GetMapping(value = "/{userid}/watchlist")
+//    Return all movies on a user's watchlist at /watchlist/{userid}
+    @GetMapping(value = "/watchlist/{userid}")
     public List<Movie> getWatchlist(@PathVariable int userid) {
         Optional<User> result = userRepository.findById(userid);
         User user = result.get();
         return user.getWatchlist();
     }
 
-
-//    TODO: test if this works
 //    Add movie to database
     @PostMapping
     public void saveMovie(@RequestBody Movie movie) {
         movieRepository.save(movie);
     }
 
-//    TODO: check if this works
-    @PostMapping
+//    TODO: check if this works (I'm not sure how)
+    @PostMapping(path = "save")
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         Movie movie = userMovieDTO.getMovie();
         User user = userMovieDTO.getUser();
@@ -62,11 +59,14 @@ public class MovieController {
         movieRepository.save(movie);
     }
 
-//    Delete one movie from database
-//    TODO: test if this works (I'm not sure how)
+//    Delete one movie from database at /delete/{id}
+//    TODO: this isn't working. permissions/authorization issue?
 //    TODO: do I need to check if a movie with that ID exists first?
-    @DeleteMapping(value = "/{id}")
-    public void deleteMovie(@PathVariable int id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public void deleteMovie(@PathVariable("id") int id) {
         movieRepository.deleteById(id);
     }
+
+//    Delete movie from watchlist
+//    TODO: write this
 }
