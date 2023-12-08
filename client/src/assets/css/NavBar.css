@@ -1,0 +1,16 @@
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.MuiAutocomplete-root {
+    background-color: white;
+    width: 10rem;
+    border-radius: 20px;
+    border: 0px;
+}
+
+.logo {
+    font-size: 4rem;
+}
