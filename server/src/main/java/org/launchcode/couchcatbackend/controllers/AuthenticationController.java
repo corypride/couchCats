@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/user")
@@ -13,6 +15,13 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping("/{id}")
+    public Optional<User> getUser(@PathVariable int id) {
+
+        return userRepository.findById(id);
+    }
+
 
     //For adding a user - simply testing receiving user data
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
