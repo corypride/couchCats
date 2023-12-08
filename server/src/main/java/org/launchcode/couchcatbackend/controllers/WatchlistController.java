@@ -2,6 +2,7 @@ package org.launchcode.couchcatbackend.controllers;
 
 import jakarta.validation.Valid;
 import org.launchcode.couchcatbackend.data.MovieRepository;
+import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,10 @@ public class WatchlistController {
     @Autowired
     private MovieRepository movieRepository;
 
-//    TODO: autowired userRepository
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping
 
 //    TODO: add to watchlist from home page = get mapping?
     public String addToWatchlistFromHome(@ModelAttribute @Valid Movie newMovie, Errors errors) {
