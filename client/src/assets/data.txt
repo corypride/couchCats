@@ -1,0 +1,19 @@
+*Theme Colors*
+DEEP DARK PURPLE #270F36
+AMETHYST #642B6B
+LILAC #C86B98
+ROSY PEACH #F09F9C
+ORANGE CREAMSICLE #FFC19F
+PEACH #FD9D7F
+
+*Provider ID*
+Netflix: 8
+Amazon Prime: 9
+HBO GO: 425
+Disney Plus: 337
+Hulu: 15
+Paramount Plus: 531
+Apple TV: 2
+Peacock: 386
+Starz: 630
+Showtime: 37

@@ -3,10 +3,14 @@ package org.launchcode.couchcatbackend.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +32,8 @@ public class User {
 
 //    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    @ManyToMany
+    private final List<Movie> watchlist = new ArrayList<>();
 
     public User() {}
 
@@ -60,6 +66,16 @@ public class User {
     //    public boolean isMatchingPassword(String password) {
 //        return encoder.matches(password, pwHash);
 //    }
+
+    public List<Movie> getWatchlist() {
+        return watchlist;
+    }
+
+    public void addToWatchlist(Movie movie) {
+        this.watchlist.add(movie);
+    }
+
+//    TODO: add functionality to delete from watchlist?
 
     @Override
     public boolean equals(Object o) {
