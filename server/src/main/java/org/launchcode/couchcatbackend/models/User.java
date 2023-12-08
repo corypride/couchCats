@@ -21,18 +21,21 @@ public class User {
     private String email;
 
     @NotNull
-    private String pwHash;
+    private String password; //commented out pwHash and using simple String for now for testing API
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//    @NotNull
+//    private String pwHash;
+//
+//    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
 
     public User() {}
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.pwHash = encoder.encode(password);
+        this.password = password;
+//        this.pwHash = encoder.encode(password);
     }
 
     public int getId() {
@@ -47,9 +50,14 @@ public class User {
         return email;
     }
 
-    public boolean isMatchingPassword(String password) {
-        return encoder.matches(password, pwHash);
+    public String getPassword() {
+        return password;
     }
+
+
+    //    public boolean isMatchingPassword(String password) {
+//        return encoder.matches(password, pwHash);
+//    }
 
     @Override
     public boolean equals(Object o) {
