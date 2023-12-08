@@ -3,6 +3,8 @@ package org.launchcode.couchcatbackend.controllers;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
+import org.launchcode.couchcatbackend.models.User;
+import org.launchcode.couchcatbackend.models.dto.UserMovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,21 +31,36 @@ public class MovieController {
 
 //    Return one movie by ID at /movies/{id}
     @GetMapping(value = "/{id}")
-    public Optional<Movie> getMovie(@PathVariable int id) {
-        return movieRepository.findById(id);
+    public Movie getMovie(@PathVariable int id) {
+        return movieRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-//    TODO: return all movies on a user's watchlist
+//    TODO: test if this works
+//    Return all movies on a user's watchlist
+    @GetMapping(value = "/{userid}/watchlist")
+    public List<Movie> getWatchlist(@PathVariable int userid) {
+        Optional<User> result = userRepository.findById(userid);
+        User user = result.get();
+        return user.getWatchlist();
+    }
 
 
-//    TODO: finish method. do you use a DTO for this?
+//    TODO: test if this works
 //    Add movie to database
-//    @PostMapping
-//    public Movie postMovie(@RequestBody MovieDTO movieDTO) {
-//        return movieRepository.save(movieDTO.getName(), movieDTO.getId());
-//    }
+    @PostMapping
+    public void saveMovie(@RequestBody Movie movie) {
+        movieRepository.save(movie);
+    }
 
-//    TODO: method that adds movie to user watchlist (and checks if that movie is already stored in the database and stores it if not)
+//    TODO: check if this works
+    @PostMapping
+    public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
+        Movie movie = userMovieDTO.getMovie();
+        User user = userMovieDTO.getUser();
+        user.addToWatchlist(movie);
+//        TODO: check if this movie ID already exists in the database
+        movieRepository.save(movie);
+    }
 
 //    Delete one movie from database
 //    TODO: test if this works (I'm not sure how)
