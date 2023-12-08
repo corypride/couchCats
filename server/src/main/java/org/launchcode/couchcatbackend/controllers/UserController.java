@@ -2,16 +2,20 @@ package org.launchcode.couchcatbackend.controllers;
 
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
+import org.launchcode.couchcatbackend.models.dto.RegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/user")
-public class AuthenticationController {
+public class UserController {
 
     @Autowired
     private UserRepository userRepository;
@@ -26,9 +30,9 @@ public class AuthenticationController {
     //For adding a user - simply testing receiving user data
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public User register(@RequestBody User newUser) {
-        return newUser; //not receiving the pw back from postman, need to figure that out
 
-//        return (userService.saveUser(newUser)); //keeping as reference in case I end up using a Service class
+        userRepository.save(newUser);
+        return newUser; //not receiving the pw back from postman, need to figure that out
     }
 
 

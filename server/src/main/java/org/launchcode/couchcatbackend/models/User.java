@@ -25,7 +25,7 @@ public class User {
 
 //    @NotNull
 //    private String pwHash;
-//
+
 //    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
@@ -54,7 +54,9 @@ public class User {
         return password;
     }
 
-
+    public void setPassword(String password) {
+        this.password = password;
+    }
     //    public boolean isMatchingPassword(String password) {
 //        return encoder.matches(password, pwHash);
 //    }
