@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
 import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
@@ -7,9 +7,11 @@ import streamingServices from "../assets/streamingServices";
 
 const FilterSearch = () => {
 
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedStreaming, setSelectedStreaming] = useState([]);
-  const [queryMovies, setQueryMovies] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState();
+  const [selectedStreaming, setSelectedStreaming] = useState();
+  const [selectedCrew, setSelectedCrew] = useState();
+  const [query, setQuery] = useState('')
+  const [queriedMovies, setQueriedMovies] = useState();
 
    // Use fetch is calling 6 times
    const genreRequest = useFetch('https://api.themoviedb.org/3/genre/movie/list?language=en', process.env.REACT_APP_API_ACCESS_TOKEN);
@@ -21,18 +23,36 @@ const FilterSearch = () => {
 
   const handleGenreChange = (event, newValue) => {
     setSelectedGenres(newValue);
-    console.log('Selected value:', newValue);
   };
 
   const handleStreamingChange = (event, newValue) => {
     setSelectedStreaming(newValue);
-    console.log('Selected value:', newValue);
   };
-    
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log("hi")
-    }
+
+
+  //make sure param is not in query when array is empty
+  const handleSubmit = () => {
+    let params = "";
+    if(!selectedGenres < 1 || !selectedGenres === undefined) params += `&with_genres=${selectedGenres.join(',')}`;
+    console.log(params)
+    if(!selectedStreaming < 1 || !selectedStreaming === undefined) params += `&with_watch_providers=${selectedStreaming.join(',')}`;
+    if(!selectedCrew < 1 || !selectedCrew === undefined) params += `&with_people=${selectedCrew.join(',')}`;
+    setQuery(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=us${params}`);
+    // &with_genres=56&with_people=6&with_watch_providers=8
+  }
+
+  useEffect(() => {
+    const submit = async () => {
+      console.log(query)
+        const response = await fetch(query);
+        const data = await response.json();
+        setQueriedMovies(data.results);
+        console.log(queriedMovies)
+    };
+    submit();
+  }, [query]);
+
+  //sideways transition to movie pages?
 
     return (
         <div>

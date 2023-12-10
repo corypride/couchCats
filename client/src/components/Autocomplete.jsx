@@ -1,4 +1,4 @@
-import { Input, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 //need to clear as delete, fix list items
@@ -16,8 +16,8 @@ const Autocomplete = () => {
         const handleSearch = async () => {
           if (searchTerm.length > 1) {
             const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
+            console.log(response)
             const data = await response.json();
-            console.log(data)
             setSearchResults(data.results);
           }
         };
