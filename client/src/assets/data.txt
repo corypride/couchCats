@@ -9,7 +9,7 @@ PEACH #FD9D7F
 *Provider ID*
 Netflix: 8
 Amazon Prime: 9
-HBO GO: 425
+HBO Max: 384
 Disney Plus: 337
 Hulu: 15
 Paramount Plus: 531
@@ -17,3 +17,4 @@ Apple TV: 2
 Peacock: 386
 Starz: 630
 Showtime: 37
+Max: 1899

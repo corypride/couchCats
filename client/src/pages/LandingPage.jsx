@@ -1,15 +1,20 @@
-
+import "../assets/css/LandingPage.css"
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
+import Button from '@mui/material/Button';
+import {useNavigate} from "react-router-dom";
+
 
 const LandingPage = () => {
+    //Allows button navigation
+    const navigate = useNavigate();
 
     //discover why this is fetching 6 times per page load
     const topMoviesRequest = useFetch("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1", process.env.REACT_APP_API_ACCESS_TOKEN);
     const topMovies = topMoviesRequest.data?.results;
 
     return(
-        <div className="bg-slate-900">
+        <>
             <NavBar />
             <div>
                 <h2 className="title">
@@ -18,7 +23,7 @@ const LandingPage = () => {
                 <h2 className="tagline">
                     Spend your time watching.
                 </h2>
-                <button variant="outlined">Find your Movie!</button>
+                <Button variant="outlined" onClick={() => navigate("/filtersearch")}>Find your Movie!</Button>
             </div>
             <div className="moviesOfDay">
                 <h1>Top Movies of the Day</h1>
@@ -38,7 +43,7 @@ const LandingPage = () => {
                     </div>
             </div>
 
-        </div>
+        </>
     )
 }
 
