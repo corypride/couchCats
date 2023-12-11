@@ -1,7 +1,6 @@
 
-import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-
+import '../assets/css/LandingPage.css';
 const LandingPage = () => {
 
     //discover why this is fetching 6 times per page load
@@ -10,7 +9,6 @@ const LandingPage = () => {
 
     return(
         <div className="bg-slate-900">
-            <NavBar />
             <div>
                 <h2 className="title">
                     CouchCat
