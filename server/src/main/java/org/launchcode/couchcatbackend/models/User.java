@@ -35,8 +35,8 @@ public class User {
     @ManyToMany
     private final List<Movie> watchlist = new ArrayList<>();
 
-    @Autowired
-    private MovieRepository movieRepository;
+//    @Autowired
+//    private MovieRepository movieRepository;
 
     public User() {}
 
@@ -64,21 +64,21 @@ public class User {
         this.watchlist.add(movie);
     }
 
-    public void addToWatchlistById(int id) {
-        Optional<Movie> result = movieRepository.findById(id);
-        Movie movie = result.get();
-        this.watchlist.add(movie);
-    }
+//    public void addToWatchlistById(int id) {
+//        Optional<Movie> result = movieRepository.findById(id);
+//        Movie movie = result.get();
+//        this.watchlist.add(movie);
+//    }
 
     public void removeFromWatchlist(Movie movie) {
         this.watchlist.remove(movie);
     }
 
-    public void removeFromWatchlistById(int id) {
-        Optional<Movie> result = movieRepository.findById(id);
-        Movie movie = result.get();
-        this.watchlist.remove(movie);
-    }
+//    public void removeFromWatchlistById(int id) {
+//        Optional<Movie> result = movieRepository.findById(id);
+//        Movie movie = result.get();
+//        this.watchlist.remove(movie);
+//    }
 
 //    TODO: add functionality to delete from watchlist?
 
