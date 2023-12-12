@@ -38,7 +38,7 @@ public class WatchlistController {
 
 //    TODO: check if this works
 //    Delete movie from watchlist
-//    @PostMapping(path = "/{userId}/delete/{movieId}")
+//    @DeleteMapping(path = "/{userId}/delete/{movieId}")
 //    public void deleteFromWatchlist(@PathVariable int userId, @PathVariable int movieId) {
 //        Optional<User> result = userRepository.findById(userId);
 //        User user = result.get();
