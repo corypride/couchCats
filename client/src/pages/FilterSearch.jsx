@@ -1,7 +1,4 @@
-
-import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-
 
 const FilterSearch = () => {
 
@@ -10,13 +7,12 @@ const FilterSearch = () => {
     const genres = genreRequest.data?.genres;
 
     const subscriptionRequest = useFetch('https://api.themoviedb.org/3/streaming_services', process.env.REACT_APP_API_ACCESS_TOKEN);
-    const subscriptions = subscriptionRequest.data?.request;
+   // const subscriptions = subscriptionRequest.data?.request;
     console.log(subscriptionRequest)
 
     return (
         <div>
-          <NavBar />
-          <form>
+          <form >
             <h1>Genre</h1>
             {genres ? genres.map((genre) => (
               <button>{genre.name}</button>

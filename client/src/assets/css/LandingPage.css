@@ -6,12 +6,12 @@ html {
 }
 
 body {
-    background-image: linear-gradient(#642b6b 90%, #f09f9c);
+    background-image: linear-gradient(#000000 90%, #420a08);
     background-size: cover;
     text-align: center;
     font-family: 'Exo 2', sans-serif;
     font-family: 'Poppins', sans-serif;
-    color: #FFB482;
+    color: #f8313b;
 }
 
 /* Headline */
@@ -41,7 +41,7 @@ img {
     width: auto; 
     max-width: 300px; 
     max-height: 300px;
-    border: 5px solid #F09F9C;
+    border: 5px solid #f8313b;
 }
 
 .topMovie {
