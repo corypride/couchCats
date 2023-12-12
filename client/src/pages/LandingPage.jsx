@@ -1,10 +1,7 @@
 import "../assets/css/LandingPage.css"
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-import Button from '@mui/material/Button';
-import {useNavigate} from "react-router-dom";
-
-
+import '../assets/css/LandingPage.css';
 const LandingPage = () => {
     //Allows button navigation
     const navigate = useNavigate();

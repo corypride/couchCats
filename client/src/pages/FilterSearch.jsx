@@ -56,8 +56,7 @@ const FilterSearch = () => {
 
     return (
         <div>
-          <NavBar />
-          <form>
+          <form >
             <h1>Genre</h1>
               <ToggleButtonGroup 
               id="genreContainer"

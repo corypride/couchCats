@@ -24,7 +24,7 @@ public class Movie {
 
     @Size(max = 100)
     private String director;
-    private List<String> cast;
+    private String cast;
     private float rating;
 
     @Size(max = 200)
@@ -32,9 +32,8 @@ public class Movie {
 
     @ManyToMany(mappedBy = "watchlist")
     private final List<User> users = new ArrayList<>();
-//    TODO: add watchlist field in User
 
-    public Movie(int id, String title, int year, String description, String director, List<String> cast, float rating, String poster) {
+    public Movie(int id, String title, int year, String description, String director, String cast, float rating, String poster) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -83,11 +82,11 @@ public class Movie {
         this.director = director;
     }
 
-    public List<String> getCast() {
+    public String getCast() {
         return cast;
     }
 
-    public void setCast(List<String> cast) {
+    public void setCast(String cast) {
         this.cast = cast;
     }
 
