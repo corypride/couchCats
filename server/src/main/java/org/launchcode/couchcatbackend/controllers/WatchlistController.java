@@ -5,6 +5,7 @@ import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
 import org.launchcode.couchcatbackend.models.User;
+import org.launchcode.couchcatbackend.models.dto.UserMovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,9 @@ public class WatchlistController {
 //    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
-    public void saveMovieToWatchlist(@RequestBody Movie movie, @RequestBody User user) {
+    public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
+        User user = userMovieDTO.getUser();
+        Movie movie = userMovieDTO.getMovie();
         user.addToWatchlist(movie);
 
 //      if movie is not already in database, add it
@@ -47,6 +50,7 @@ public class WatchlistController {
     @DeleteMapping
     @Transactional
     public void deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
+//        TODO: is it easier for front end if this takes a User object and a Movie object instead of IDs?
         int userId = requestBody.get("userId");
         int movieId = requestBody.get("movieId");
 
