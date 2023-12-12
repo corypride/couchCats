@@ -1,9 +1,6 @@
 package org.launchcode.couchcatbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +29,7 @@ public class User {
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private final List<Movie> watchlist = new ArrayList<>();
 
 //    @Autowired
@@ -75,12 +72,15 @@ public class User {
     }
 
     public void removeFromWatchlistById(int id) {
+        List<Movie> moviesToRemove = new ArrayList<>();
         for (Movie movie : watchlist) {
             if (movie.getId() == id) {
-                watchlist.remove(movie);
+                moviesToRemove.add(movie);
                 break;
             }
         }
+
+        watchlist.removeAll(moviesToRemove);
     }
 
     @Override

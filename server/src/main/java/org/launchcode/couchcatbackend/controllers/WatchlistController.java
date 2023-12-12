@@ -1,5 +1,6 @@
 package org.launchcode.couchcatbackend.controllers;
 
+import jakarta.transaction.Transactional;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -32,16 +34,29 @@ public class WatchlistController {
     @PostMapping(path = "/save")
     public void saveMovieToWatchlist(@RequestBody Movie movie, @RequestBody User user) {
         user.addToWatchlist(movie);
-//        TODO: check if this movie ID already exists in the database
-        movieRepository.save(movie);
+
+//      if movie is not already in database, add it
+        int movieId = movie.getId();
+        Optional<Movie> result = movieRepository.findById(movieId);
+        if (result.isEmpty()) {
+            movieRepository.save(movie);
+        }
     }
 
-//    TODO: check if this works
-//    Delete movie from watchlist
-//    @DeleteMapping(path = "/{userId}/delete/{movieId}")
-//    public void deleteFromWatchlist(@PathVariable int userId, @PathVariable int movieId) {
-//        Optional<User> result = userRepository.findById(userId);
-//        User user = result.get();
-//        user.removeFromWatchlistById(movieId);
-//    }
+//    Delete movie from watchlist at /watchlist
+    @DeleteMapping
+    @Transactional
+    public void deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
+        int userId = requestBody.get("userId");
+        int movieId = requestBody.get("movieId");
+
+        Optional<User> result = userRepository.findById(userId);
+
+        if (result.isPresent()) {
+            User user = result.get();
+            user.removeFromWatchlistById(movieId);
+        } else {
+            // return new ResponseEntity?
+        }
+    }
 }
