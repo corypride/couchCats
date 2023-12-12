@@ -4,12 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
+import org.launchcode.couchcatbackend.data.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class User {
@@ -31,6 +34,9 @@ public class User {
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany
     private final List<Movie> watchlist = new ArrayList<>();
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     public User() {}
 
@@ -56,6 +62,22 @@ public class User {
 
     public void addToWatchlist(Movie movie) {
         this.watchlist.add(movie);
+    }
+
+    public void addToWatchlistById(int id) {
+        Optional<Movie> result = movieRepository.findById(id);
+        Movie movie = result.get();
+        this.watchlist.add(movie);
+    }
+
+    public void removeFromWatchlist(Movie movie) {
+        this.watchlist.remove(movie);
+    }
+
+    public void removeFromWatchlistById(int id) {
+        Optional<Movie> result = movieRepository.findById(id);
+        Movie movie = result.get();
+        this.watchlist.remove(movie);
     }
 
 //    TODO: add functionality to delete from watchlist?

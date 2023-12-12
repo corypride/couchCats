@@ -35,10 +35,10 @@ public class MovieController {
         return movieRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-//    Return all movies on a user's watchlist at /movies/watchlist/{userid}
+//    Return all movies on a user's watchlist at /movies/watchlist/{userId}
     @GetMapping(value = "/watchlist/{userid}")
-    public List<Movie> getWatchlist(@PathVariable int userid) {
-        Optional<User> result = userRepository.findById(userid);
+    public List<Movie> getWatchlist(@PathVariable int userId) {
+        Optional<User> result = userRepository.findById(userId);
         User user = result.get();
         return user.getWatchlist();
     }
@@ -52,22 +52,26 @@ public class MovieController {
 //    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /movies/save
     @PostMapping(path = "save")
-    public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
-        Movie movie = userMovieDTO.getMovie();
-        User user = userMovieDTO.getUser();
+    public void saveMovieToWatchlist(@RequestBody Movie movie, @RequestBody User user) {
         user.addToWatchlist(movie);
 //        TODO: check if this movie ID already exists in the database
         movieRepository.save(movie);
     }
 
 //    Delete one movie from database at /movies/delete/{id}
-//    TODO: this isn't working. permissions/authorization issue?
+//    TODO: this isn't working. permissions/authorization issue? try in postman
 //    TODO: do I need to check if a movie with that ID exists first?
     @DeleteMapping(value = "/delete/{id}")
     public void deleteMovie(@PathVariable("id") int id) {
         movieRepository.deleteById(id);
     }
 
+//    TODO: check if this works
 //    Delete movie from watchlist
-//    TODO: write this
+    @PostMapping(path = "/watchlist/{userId}/delete/{movieId}")
+    public void deleteFromWatchlist(@PathVariable int userId, @PathVariable int movieId) {
+        Optional<User> result = userRepository.findById(userId);
+        User user = result.get();
+        user.removeFromWatchlistById(movieId);
+    }
 }
