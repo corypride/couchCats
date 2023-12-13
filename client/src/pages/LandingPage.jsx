@@ -20,7 +20,7 @@ const LandingPage = () => {
                 <h2 className="tagline">
                     Spend your time watching.
                 </h2>
-                <Button variant="outlined" onClick={() => navigate("/filtersearch")}>Find your Movie!</Button>
+                <Button variant="outlined" onClick={() => navigate("/search")}>Find your Movie!</Button>
             </div>
             <div className="moviesOfDay">
                 <h1>Top Movies of the Day</h1>

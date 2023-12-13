@@ -68,6 +68,11 @@ const FilterSearch = () => {
                   key={genre.name} 
                   id="genre" 
                   value={genre.id}
+                  sx={{
+                    bgcolor: "#642B6B",
+                    borderRadius: "16px",
+                    width: "75%"
+                  }}
                   >{genre.name}</ToggleButton>
                 )) : (
                   "Loading"
@@ -84,6 +89,11 @@ const FilterSearch = () => {
                   key={service.name} 
                   id="genre" 
                   value={service.id}
+                  sx={{
+                    bgcolor: "#642B6B",
+                    borderRadius: "10px",
+                    width: "75%"
+                  }}
                   >{service.name}</ToggleButton>
                 ))}
               </ToggleButtonGroup>
