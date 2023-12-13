@@ -12,12 +12,13 @@ import {
 import React, { useState } from "react";
 import DrawerComp from "./DrawerComp";
 import imgLogo from "../assets/img/logo-no-background.png"
+import Autocomplete from "./Autocomplete";
 
 const NavBar = () => {
   const [value, setvalue] = useState();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const PAGES = ["Home", "Search", "AutoComplete"];
+  const PAGES = ["Home", "Search"];
   return (
     <React.Fragment>
       <AppBar
@@ -53,7 +54,7 @@ const NavBar = () => {
                   <Tab key={index} label={page} href={`/${page.toLowerCase()}`} />
                 ))}
               </Tabs>
-
+              <Autocomplete />
               <Button sx={{ marginLeft: 2 }} variant="contained" href="/login">
                 Login
               </Button>

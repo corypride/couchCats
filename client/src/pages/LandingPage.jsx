@@ -1,7 +1,8 @@
 import "../assets/css/LandingPage.css"
-import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
 import '../assets/css/LandingPage.css';
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom"
 const LandingPage = () => {
     //Allows button navigation
     const navigate = useNavigate();
@@ -12,7 +13,6 @@ const LandingPage = () => {
 
     return(
         <>
-            <NavBar />
             <div>
                 <h2 className="title">
                     CouchCat
