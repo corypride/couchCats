@@ -8,6 +8,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import {Link} from "react-router-dom";
 
 const DrawerComp = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -17,7 +18,7 @@ const DrawerComp = () => {
       <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <List>
           {PAGES.map((page, index) => (
-            <ListItemButton key={index}>
+            <ListItemButton key={index} component={Link} to={`/${page.toLowerCase()}`}>
               <ListItemIcon>
                 <ListItemText>{page}</ListItemText>
               </ListItemIcon>
