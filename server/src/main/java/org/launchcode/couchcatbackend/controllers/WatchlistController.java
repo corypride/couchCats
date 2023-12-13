@@ -36,7 +36,6 @@ public class WatchlistController {
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
-        user.addToWatchlist(movie);
 
 //      if movie is not already in database, add it
         int movieId = movie.getId();
@@ -44,6 +43,10 @@ public class WatchlistController {
         if (result.isEmpty()) {
             movieRepository.save(movie);
         }
+
+//      add movie to user watchlist
+        user.addToWatchlist(movie);
+
     }
 
 //    Delete movie from watchlist at /watchlist
