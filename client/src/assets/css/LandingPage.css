@@ -1,13 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,900&family=Poppins&display=swap');
+
 /* General Page/Background */
 html {
     min-height: 100%;
 }
 
 body {
-    background-image: linear-gradient(#642b6b, #f09f9c);
+    background-image: linear-gradient(#000000 90%, #420a08);
     background-size: cover;
     text-align: center;
-  }
+    font-family: 'Exo 2', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    color: #f8313b;
+}
 
 /* Headline */
 .title {
@@ -16,10 +21,16 @@ body {
 }
 
 .tagline {
-    margin: 0.75rem;
+    margin-top: 0;
 }
 
 /* Movies of the Day*/
+
+.moviesOfDay {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
 .topMovies {
     display: flex;
     justify-content: center;
@@ -30,6 +41,7 @@ img {
     width: auto; 
     max-width: 300px; 
     max-height: 300px;
+    border: 5px solid #f8313b;
 }
 
 .topMovie {

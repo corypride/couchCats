@@ -2,10 +2,10 @@ package org.launchcode.couchcatbackend.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,14 +19,16 @@ public class User {
 
     @NotNull
     private String username;
-    //TO DO: Parameters for username
-
-    //TO DO: ADD EMAIL
+    @Email
+    private String email;
 
     @NotNull
-    private String pwHash;
+    private String password; //commented out pwHash and using simple String for now for testing API
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//    @NotNull
+//    private String pwHash;
+
+//    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany(cascade = CascadeType.ALL)
@@ -37,9 +39,11 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password) {
+    public User(String username, String email, String password) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.email = email;
+        this.password = password;
+//        this.pwHash = encoder.encode(password);
     }
 
     public int getId() {
@@ -49,9 +53,21 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public boolean isMatchingPassword(String password) {
-        return encoder.matches(password, pwHash);
+
+    public String getEmail() {
+        return email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    //    public boolean isMatchingPassword(String password) {
+//        return encoder.matches(password, pwHash);
+//    }
 
     public List<Movie> getWatchlist() {
         return watchlist;
