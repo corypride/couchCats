@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
 import "../assets/css/Search.css";
 import streamingServices from "../assets/streamingServices";
 
@@ -99,15 +99,24 @@ const FilterSearch = () => {
               </ToggleButtonGroup>
           </form>
           <Button variant="outlined" onClick={handleSubmit}>Find My Movie!</Button>
-          {queriedMovies.length > 0 && (
-            <ul>
-              {queriedMovies.map((item) => (
-                <li key={item.original_title}>{item.original_title}</li>
-              ))}
-            </ul>
-          )}
+          <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+          >
+            {queriedMovies.slice(0,3).map(item => (
+              <ListItem>
+                <img src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
+                <ListItemText primary={item.original_title}/>
+              </ListItem>
+            ))}
+          </List>
+
         </div>
       );
 }
 
 export default FilterSearch;
+
+// queriedMovies.length > 0 && 

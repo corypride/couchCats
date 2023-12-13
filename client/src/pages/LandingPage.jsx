@@ -1,7 +1,7 @@
 import "../assets/css/LandingPage.css"
 import useFetch from "../hooks/useFetch";
 import '../assets/css/LandingPage.css';
-import { Button } from "@mui/material";
+import { Button, List, ListItem, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom"
 const LandingPage = () => {
     //Allows button navigation
@@ -24,20 +24,32 @@ const LandingPage = () => {
             </div>
             <div className="moviesOfDay">
                 <h1>Top Movies of the Day</h1>
-                    <div className="topMovies">
+                    <List 
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center"
+                    }}>
                         {topMovies && topMovies.length > 0 ? (
                             <>
                             {topMovies.slice(0, 3).map((movie) => (
-                                <div key={movie.id} className="topMovie">
+                                <ListItem 
+                                key={movie.id} 
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    fontSize: "0.5rem",
+                                    width: "300px"
+                                }}>
                                     <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="movie poster" />
-                                        <h2>{movie.original_title}</h2>
-                                        <h2>{movie.overview}</h2>
-                                </div>
+                                    <ListItemText>{movie.original_title}</ListItemText>
+                                    <ListItemText>{movie.release_date}</ListItemText>
+                                    <ListItemText>{movie.vote_average}</ListItemText>
+                                </ListItem>
                             ))}
                             </>
                             ) : (<div>Loading top movies...</div> )
                                 }
-                    </div>
+                    </List>
             </div>
 
         </>
