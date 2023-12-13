@@ -8,17 +8,20 @@ import {
   Button,
   useMediaQuery,
   useTheme,
- } from "@mui/material";
+} from "@mui/material";
 import React, { useState } from "react";
 import DrawerComp from "./DrawerComp";
 import imgLogo from "../assets/img/logo-no-background.png"
-import Autocomplete from "./Autocomplete";
-
+import { Link } from "react-router-dom"
+import PetsIcon from '@mui/icons-material/Pets';
 const NavBar = () => {
-  const [value, setvalue] = useState();
+  const [value, setValue] = useState();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const PAGES = ["Home", "Search"];
+  const PAGES = ["Home", "Search", "AutoComplete"];
+  const handleChange = (_e, newValue) => {
+    setValue(newValue);
+  }
   return (
     <React.Fragment>
       <AppBar
@@ -28,6 +31,8 @@ const NavBar = () => {
         <Toolbar>
           {isMatch ? (
             <>
+
+              <PetsIcon color="primary" sx={{marginRight:1, paddingBottom:1}}/>
               <Typography color="primary">Couch Cats</Typography>
               <DrawerComp />
             </>
@@ -40,29 +45,34 @@ const NavBar = () => {
                 aria-label="logo"
                 href="/"
               >
-                <img src={imgLogo} alt="" style={{maxWidth: 200, border: 'none'}}/>
+                <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
               </IconButton>
 
               <Tabs
                 textColor="inherit"
                 sx={{ marginLeft: "auto" }}
                 value={value}
-                onChange={(e, value) => -setvalue(value)}
-                indicatorColor="none"
+                onChange={handleChange}
+
               >
                 {PAGES.map((page, index) => (
-                  <Tab key={index} label={page} href={`/${page.toLowerCase()}`} />
+                  <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
                 ))}
               </Tabs>
-              <Autocomplete />
-              <Button sx={{ marginLeft: 2 }} variant="contained" href="/login">
+
+              <Button sx={{ marginLeft: 2 }}
+                variant="contained"
+                component={Link} 
+                to="/login"
+                >
                 Login
               </Button>
               <Button
                 sx={{ marginLeft: 2 }}
                 color="secondary"
                 variant="contained"
-                href="/register"
+                component={Link}
+                to="/register"
               >
                 Register
               </Button>

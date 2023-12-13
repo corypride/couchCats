@@ -1,17 +1,17 @@
 package org.launchcode.couchcatbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.launchcode.couchcatbackend.data.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class User {
@@ -20,40 +20,62 @@ public class User {
     private int id;
 
     @NotNull
-    private String username;
-    @Email
+    @NotEmpty
+    private String firstName;
+
+    @NotNull
+    @NotEmpty
+    private String lastName;
+    @NotNull
+    @NotEmpty
     private String email;
 
     @NotNull
-    private String password; //commented out pwHash and using simple String for now for testing API
+    @NotEmpty
+    private String password;
 
-//    @NotNull
-//    private String pwHash;
-
-//    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    @ManyToMany
+    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
+    @ManyToMany(cascade = CascadeType.ALL)
     private final List<Movie> watchlist = new ArrayList<>();
+
+//    @Autowired
+//    private MovieRepository movieRepository;
 
     public User() {}
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-//        this.pwHash = encoder.encode(password);
     }
 
     public int getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -63,6 +85,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
     //    public boolean isMatchingPassword(String password) {
 //        return encoder.matches(password, pwHash);
 //    }
@@ -75,7 +98,27 @@ public class User {
         this.watchlist.add(movie);
     }
 
-//    TODO: add functionality to delete from watchlist?
+//    public void addToWatchlistById(int id) {
+//        Optional<Movie> result = movieRepository.findById(id);
+//        Movie movie = result.get();
+//        this.watchlist.add(movie);
+//    }
+
+    public void removeFromWatchlist(Movie movie) {
+        this.watchlist.remove(movie);
+    }
+
+    public void removeFromWatchlistById(int id) {
+        List<Movie> moviesToRemove = new ArrayList<>();
+        for (Movie movie : watchlist) {
+            if (movie.getId() == id) {
+                moviesToRemove.add(movie);
+                break;
+            }
+        }
+
+        watchlist.removeAll(moviesToRemove);
+    }
 
     @Override
     public boolean equals(Object o) {
