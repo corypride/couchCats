@@ -1,52 +1,86 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Tabs,
+  Tab,
+  Button,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
+import DrawerComp from "./DrawerComp";
+import imgLogo from "../assets/img/logo-no-background.png"
+import { Link } from "react-router-dom"
+import PetsIcon from '@mui/icons-material/Pets';
 const NavBar = () => {
+  const [value, setValue] = useState();
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const PAGES = ["Home", "Search", "AutoComplete"];
+  const handleChange = (_e, newValue) => {
+    setValue(newValue);
+  }
+  return (
+    <React.Fragment>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "transparent", borderBottom: "1px solid red" }}
+      >
+        <Toolbar>
+          {isMatch ? (
+            <>
 
-    // Fix the AutoComplete
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([])
+              <PetsIcon color="primary" sx={{marginRight:1, paddingBottom:1}}/>
+              <Typography color="primary">Couch Cats</Typography>
+              <DrawerComp />
+            </>
+          ) : (
+            <>
+              <IconButton
+                size="large"
+                edge="start"
+                color="primary"
+                aria-label="logo"
+                href="/"
+              >
+                <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
+              </IconButton>
 
-    useEffect(() => {
-        const handleSearch = async () => {
-          if (searchTerm.length > 0) {
-            const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
-            const data = await response.json();
-            setSearchResults(data.results);
-          }
-        };
-        handleSearch();
-      }, [searchTerm]);
+              <Tabs
+                textColor="inherit"
+                sx={{ marginLeft: "auto" }}
+                value={value}
+                onChange={handleChange}
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
-        console.log(searchTerm)
-    }
+              >
+                {PAGES.map((page, index) => (
+                  <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
+                ))}
+              </Tabs>
 
-    const handleSelect = (movie) => {
-        console.log(searchResults)
-        setSearchTerm(movie.original_title);
-        console.log(searchTerm)
-        setSearchResults([]);
-      };
-
-
-    return(
-        <div className="container flex flex-rows justify-between">
-            <div className="logo">
-                Cc
-            </div>
-            <div id="linksContainer">
-                <Link to="/">Home</Link>
-                |
-                <Link to="/filtersearch">Filter Search</Link>
-            </div>
-            <div className="flex flex-row">
-                <div>Autocomplete</div>
-                <div>Log in</div>
-            </div>
-        </div>
-    )
-}
-
+              <Button sx={{ marginLeft: 2 }}
+                variant="contained"
+                component={Link} 
+                to="/login"
+                >
+                Login
+              </Button>
+              <Button
+                sx={{ marginLeft: 2 }}
+                color="secondary"
+                variant="contained"
+                component={Link}
+                to="/register"
+              >
+                Register
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+    </React.Fragment>
+  );
+};
 export default NavBar;
