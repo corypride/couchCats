@@ -1,17 +1,15 @@
 package org.launchcode.couchcatbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.Email;
+import org.launchcode.couchcatbackend.data.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class User {
@@ -32,8 +30,12 @@ public class User {
 
 //    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @ManyToMany
+    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
+    @ManyToMany(cascade = CascadeType.ALL)
     private final List<Movie> watchlist = new ArrayList<>();
+
+//    @Autowired
+//    private MovieRepository movieRepository;
 
     public User() {}
 
@@ -75,7 +77,27 @@ public class User {
         this.watchlist.add(movie);
     }
 
-//    TODO: add functionality to delete from watchlist?
+//    public void addToWatchlistById(int id) {
+//        Optional<Movie> result = movieRepository.findById(id);
+//        Movie movie = result.get();
+//        this.watchlist.add(movie);
+//    }
+
+    public void removeFromWatchlist(Movie movie) {
+        this.watchlist.remove(movie);
+    }
+
+    public void removeFromWatchlistById(int id) {
+        List<Movie> moviesToRemove = new ArrayList<>();
+        for (Movie movie : watchlist) {
+            if (movie.getId() == id) {
+                moviesToRemove.add(movie);
+                break;
+            }
+        }
+
+        watchlist.removeAll(moviesToRemove);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -3,9 +3,9 @@ package org.launchcode.couchcatbackend.controllers;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
-import org.launchcode.couchcatbackend.models.User;
-import org.launchcode.couchcatbackend.models.dto.UserMovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,42 +32,26 @@ public class MovieController {
 //    Return one movie by ID at /movies/{id}
     @GetMapping(value = "/{id}")
     public Movie getMovie(@PathVariable int id) {
+//      TODO: is code for throwing an exception correct?
         return movieRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-//    Return all movies on a user's watchlist at /movies/watchlist/{userid}
-    @GetMapping(value = "/watchlist/{userid}")
-    public List<Movie> getWatchlist(@PathVariable int userid) {
-        Optional<User> result = userRepository.findById(userid);
-        User user = result.get();
-        return user.getWatchlist();
-    }
-
-//    Add movie to database at /movies
-    @PostMapping
+//    Add movie to database at /movies/save
+    @PostMapping(path = "/save")
     public void saveMovie(@RequestBody Movie movie) {
         movieRepository.save(movie);
     }
 
-//    TODO: check if this works (I'm not sure how)
-//    Save movie to watchlist at /movies/save
-    @PostMapping(path = "save")
-    public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
-        Movie movie = userMovieDTO.getMovie();
-        User user = userMovieDTO.getUser();
-        user.addToWatchlist(movie);
-//        TODO: check if this movie ID already exists in the database
-        movieRepository.save(movie);
+//    Delete one movie from database at /movies/{id}
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteMovie(@PathVariable int id) {
+        Optional<Movie> result = movieRepository.findById(id);
+        if (result.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            movieRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
     }
 
-//    Delete one movie from database at /movies/delete/{id}
-//    TODO: this isn't working. permissions/authorization issue?
-//    TODO: do I need to check if a movie with that ID exists first?
-    @DeleteMapping(value = "/delete/{id}")
-    public void deleteMovie(@PathVariable("id") int id) {
-        movieRepository.deleteById(id);
-    }
-
-//    Delete movie from watchlist
-//    TODO: write this
 }
