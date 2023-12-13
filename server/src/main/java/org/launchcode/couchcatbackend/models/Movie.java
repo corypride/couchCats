@@ -3,9 +3,12 @@ package org.launchcode.couchcatbackend.models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -30,7 +33,7 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "watchlist")
+    @ManyToMany(mappedBy = "watchlist", cascade = CascadeType.ALL)
     private final List<User> users = new ArrayList<>();
 
     public Movie(int id, String title, int year, String description, String director, String cast, float rating, String poster) {
@@ -104,6 +107,19 @@ public class Movie {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    @Transactional
+    public void addToUsers(User user) {
+        System.out.println("users: " + getUsers());
+        users.add(user);
+        System.out.println("users: " + getUsers());
+        System.out.println("addToUsers runs");
+//        user.getWatchlist().add(this);
     }
 
     @Override

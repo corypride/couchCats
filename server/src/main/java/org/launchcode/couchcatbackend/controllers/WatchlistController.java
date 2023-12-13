@@ -33,6 +33,7 @@ public class WatchlistController {
 //    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
+    @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();

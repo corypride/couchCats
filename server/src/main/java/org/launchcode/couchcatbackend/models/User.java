@@ -1,6 +1,7 @@
 package org.launchcode.couchcatbackend.models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue
     private int id;
@@ -94,8 +96,14 @@ public class User {
         return watchlist;
     }
 
+    @Transactional
     public void addToWatchlist(Movie movie) {
-        this.watchlist.add(movie);
+        System.out.println("watchlist: " + getWatchlist());
+        watchlist.add(movie);
+        System.out.println("watchlist.add runs");
+        System.out.println("watchlist: " + getWatchlist());
+        movie.addToUsers(this);
+        System.out.println("movie.addToUsers is called");
     }
 
 //    public void addToWatchlistById(int id) {
