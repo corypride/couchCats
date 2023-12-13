@@ -45,3 +45,28 @@ public class UserController {
     }
 }
 
+
+    // TODO: PostMapping Method to Receive Login Form Data (username, password)
+    //  check for username in database, throw exception if username is not found
+    //  also need to validate the username and password match what we have stored in the database for the user
+
+
+
+    //TODO: This is part of Security Implementation I believe: Session handling methods that create the session ID and cookie which allows us to store and retrieve the login status of a user in a session / a logged-in user’s user ID will be stored in their session.
+    //   We also need to receive the cookie from the front end as the user accesses restricted pages to validate the user against the information stored for the user's session to verify they are logged in/can access those pages.
+
+    // for displaying user details
+//    @GetMapping("/details/{id}")
+//    public User getUserDetailsById(@PathVariable int id) {
+//        //  TODO: Update so we are only returning the first name, last name, email and watchlist and not the password to display on the profile page
+//        Optional<User> result = userRepository.findById(id);
+//        if (result.isPresent()) {
+//            User user = result.get();
+//            return user;
+//        }
+//
+//        return null;
+//    }
+//    //  TODO: Add exception if id is not found
+
+
