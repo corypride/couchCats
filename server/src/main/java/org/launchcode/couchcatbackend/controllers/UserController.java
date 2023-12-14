@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.client.HttpClientErrorException;
 
 
 @RestController
@@ -23,6 +21,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**REGISTRATION**/
     //For adding a user: checks if a user with that email already exists and returns BAD REQUEST/400 error w/ custom body if so,
     // otherwise, the user is created, the password is encoded and a CREATED/201 HTTP response is returned
 
@@ -43,12 +42,48 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
 
     }
-}
 
 
-    // TODO: PostMapping Method to Receive Login Form Data (username, password)
-    //  check for username in database, throw exception if username is not found
-    //  also need to validate the username and password match what we have stored in the database for the user
+    /**LOGIN**/
+
+
+    // TODO: PostMapping Method to Receive Login Form Data (email, password)
+    //  check for email in database, return HTTP status and message if not found
+    //  if found, validate the email and password match what we have stored in the database for the user
+/*   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> register(@RequestBody User user) {
+//    User = new userLogin;
+//    User userLogin = (userRepository.findByEmail(user.getEmail()));
+//
+//    if (userLogin!= null) {
+//    String userLoginPassword = user.getPassword();
+//    String encodedPassword = userLogin.getPassword();
+//    Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+//      if (isPwdRight) {
+//      Optional<User> verifyUser = employeeRepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
+//          if (verifyUser.isPresent()) {
+//          return new LoginMesage("Login Success", true);
+//          } else {
+//          return new LoginMesage("Login Failed", false);
+//          }
+//      } else {
+//      return new LoginMesage("password Not Match", false);
+        }
+    }else {
+    return new LoginMesage("Email not exits", false);
+//
+//        if (isExist == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " does not exist. Please enter a valid email.");
+//        }
+//        return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
+//
+//    }
+//        if (isExist == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " does not exist. Please enter a valid email.");
+//        }
+//        return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
+//
+//    }
 
 
 
@@ -58,7 +93,7 @@ public class UserController {
     // for displaying user details
 //    @GetMapping("/details/{id}")
 //    public User getUserDetailsById(@PathVariable int id) {
-//        //  TODO: Update so we are only returning the first name, last name, email and watchlist and not the password to display on the profile page
+//        //  TODO: Update so we are only returning the first name, last name, email and watchlist?? and not the password to display on the profile page
 //        Optional<User> result = userRepository.findById(id);
 //        if (result.isPresent()) {
 //            User user = result.get();
@@ -69,4 +104,6 @@ public class UserController {
 //    }
 //    //  TODO: Add exception if id is not found
 
+
+}
 
