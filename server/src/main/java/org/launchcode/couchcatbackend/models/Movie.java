@@ -33,7 +33,7 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "watchlist")
+    @ManyToMany(mappedBy = "movies")
     private List<User> users;
 
     public Movie(){
@@ -117,10 +117,10 @@ public class Movie {
 
 //    @Transactional
     public void addToUsers(User user) {
-        System.out.println("users: " + getUsers());
+//        System.out.println("users: " + getUsers());
         users.add(user);
-        System.out.println("users: " + getUsers());
-        System.out.println("addToUsers runs");
+//        System.out.println("users: " + getUsers());
+//        System.out.println("addToUsers runs");
 //        user.getWatchlist().add(this);
     }
 

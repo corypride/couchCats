@@ -33,20 +33,40 @@ public class WatchlistController {
 //    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
-//    @Transactional
+    @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
 
-//      if movie is not already in database, add it
+        System.out.println("user: " + user);
+        System.out.println("movie: " + movie);
+
+        //      if movie is not already in database, add it
         int movieId = movie.getId();
         Optional<Movie> result = movieRepository.findById(movieId);
         if (result.isEmpty()) {
             movieRepository.save(movie);
         }
 
+        System.out.println("watchlist: " + user.getWatchlist());
+        System.out.println("user.addToWatchlist called");
+
 //      add movie to user watchlist
         user.addToWatchlist(movie);
+
+        System.out.println("user: " + user);
+        System.out.println("movie.addToUsers called");
+
+//        and vice versa
+        movie.addToUsers(user);
+//
+        System.out.println("movie: " + movie);
+        System.out.println("users: " + movie.getUsers());
+
+        userRepository.save(user);
+        System.out.println("User saved to userRepository");
+        System.out.println("user: " + user);
+        System.out.println("movie: " + movie);
 
     }
 
