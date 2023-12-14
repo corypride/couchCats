@@ -33,8 +33,12 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "watchlist", cascade = CascadeType.ALL)
-    private final List<User> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "watchlist")
+    private List<User> users;
+
+    public Movie(){
+        this.users = new ArrayList<>();
+    }
 
     public Movie(int id, String title, int year, String description, String director, String cast, float rating, String poster) {
         this.id = id;
@@ -46,8 +50,6 @@ public class Movie {
         this.rating = rating;
         this.poster = poster;
     }
-
-    public Movie(){}
 
     public int getId() {
         return id;
@@ -113,7 +115,7 @@ public class Movie {
         return users;
     }
 
-    @Transactional
+//    @Transactional
     public void addToUsers(User user) {
         System.out.println("users: " + getUsers());
         users.add(user);

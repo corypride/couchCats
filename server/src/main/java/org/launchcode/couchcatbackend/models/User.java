@@ -38,12 +38,14 @@ public class User {
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany(cascade = CascadeType.ALL)
-    private final List<Movie> watchlist = new ArrayList<>();
+    private List<Movie> watchlist;
 
 //    @Autowired
 //    private MovieRepository movieRepository;
 
-    public User() {}
+    public User() {
+        this.watchlist = new ArrayList<>();
+    }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -96,7 +98,7 @@ public class User {
         return watchlist;
     }
 
-    @Transactional
+//    @Transactional
     public void addToWatchlist(Movie movie) {
         System.out.println("watchlist: " + getWatchlist());
         watchlist.add(movie);
@@ -134,6 +136,17 @@ public class User {
         if (this == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", watchlist=" + watchlist +
+                '}';
     }
 
     @Override
