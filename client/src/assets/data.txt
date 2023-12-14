@@ -40,3 +40,8 @@ Max: 1899
       "vote_average": 7.7,
       "vote_count": 1322
     },
+
+*Get Director*
+fetch(`https://api.themoviedb.org/3/movie/<<movieID>>/credits?api_key=<<your_api_key>>`)
+            .then(response => response.json())
+            .then((jsonData)=>jsonData.crew.filter(({job})=> job ==='Director'))

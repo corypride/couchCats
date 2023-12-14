@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-import { Button, ToggleButton, ToggleButtonGroup, List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, List, ListItem, ListItemText, Box } from "@mui/material";
 import "../assets/css/Search.css";
 import streamingServices from "../assets/streamingServices";
 
@@ -40,6 +40,10 @@ const FilterSearch = () => {
     // &with_genres=56&with_people=6&with_watch_providers=8
     console.log(params)
   }
+  
+  const handleListAdd = () => {
+
+  }
 
   useEffect(() => {
     const submit = async () => {
@@ -57,6 +61,7 @@ const FilterSearch = () => {
     return (
         <div>
           <form >
+{/* Genre Filters */}
             <h1>Genre</h1>
               <ToggleButtonGroup 
               id="genreContainer"
@@ -78,9 +83,15 @@ const FilterSearch = () => {
                   "Loading"
                 )}
               </ToggleButtonGroup>
+{/* Streaming Service Filters */}
             <h1>Streaming Service</h1>
               <ToggleButtonGroup 
-              id="genreContainer"
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(5, 1fr)",
+                gridTemplateRows: "repeat(2, 1fr)", 
+                gap: "5px" 
+              }}
               value={selectedStreaming}
               onChange={handleStreamingChange}
               >
@@ -98,17 +109,44 @@ const FilterSearch = () => {
                 ))}
               </ToggleButtonGroup>
           </form>
-          <Button variant="outlined" onClick={handleSubmit}>Find My Movie!</Button>
+          <Button 
+          variant="outlined"
+          sx={{
+            margin: "3rem"
+          }}
+          onClick={handleSubmit}>Find My Movie!</Button>
+{/* Shows movie results */}
           <List
           sx={{
             display: "flex",
             flexDirection: "column",
+            margin: "1.5rem"
           }}
           >
             {queriedMovies.slice(0,3).map(item => (
-              <ListItem>
-                <img src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
-                <ListItemText primary={item.original_title}/>
+              <ListItem
+              sx={{
+                flexGrow: "2",
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap"
+              }}>
+                <Box component="img" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
+                <ListItemText 
+                primary={item.original_title}
+                sx={{
+
+                }}
+                />
+                <ListItemText primary={item.overview}/>
+                {/* <ListItemText primary={need id for services}/> */}
+                <Button
+                variant="cont"
+                onClick={handleListAdd}
+                sx={{
+                  bgcolor: "gold"
+                }}
+                >Add</Button>
               </ListItem>
             ))}
           </List>
