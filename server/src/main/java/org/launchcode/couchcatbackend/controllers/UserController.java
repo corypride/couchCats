@@ -23,21 +23,10 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
-    @GetMapping("/details/{id}")
-    public User getUserDetailsById(@PathVariable int id) {
-        //  TODO: Update so we are only returning the username, email and not the password to display on the profile page
-        //  TODO: Add exception if id is not found
-        Optional<User> result = userRepository.findById(id);
-//        TODO: optional check
-        User user = result.get();
-        return user;
-    }
-
-
     /**
      * REGISTRATION
      **/
-    /* For registering a new user:
+     /* For registering a new user:
         checks if a user with that email already exists:
             if yes: a BAD REQUEST/400 HTTP response is returned w/ a custom body;
             otherwise: the user is created, the password is encoded, they are saved to the database,
@@ -47,8 +36,9 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody User user) {
         User isExist = (userRepository.findByEmail(user.getEmail()));
         if (isExist != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " already exists. Either a new email to register.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
         }
+
         User newUser = new User();
 
         newUser.setFirstName(user.getFirstName());
@@ -57,8 +47,7 @@ public class UserController {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
-
+        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
     }
 
 
