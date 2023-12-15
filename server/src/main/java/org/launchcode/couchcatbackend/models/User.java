@@ -101,7 +101,12 @@ public class User {
 //        System.out.println("watchlist: " + getWatchlist());
 //        System.out.println("users: " + movie.getUsers());
         System.out.println("user.addToWatchlist runs");
-        movies.add(movie);
+//        movies.add(movie);
+
+        if (!movies.contains(movie)) {
+            movies.add(movie);
+            movie.addToUsers(this);
+        }
 //        System.out.println("watchlist.add runs");
 //        System.out.println("watchlist: " + getWatchlist());
 //        System.out.println("users: " + movie.getUsers());

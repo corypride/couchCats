@@ -22,10 +22,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/details/{id}")
-    public Optional<User> getUserDetailsById(@PathVariable int id) {
+    public User getUserDetailsById(@PathVariable int id) {
         //  TODO: Update so we are only returning the username, email and not the password to display on the profile page
         //  TODO: Add exception if id is not found
-        return userRepository.findById(id);
+        Optional<User> result = userRepository.findById(id);
+//        TODO: check Optional
+//        User user = result.get();
+        return result.get();
     }
 
 

@@ -41,12 +41,12 @@ public class WatchlistController {
         System.out.println("user: " + user);
         System.out.println("movie: " + movie);
 
-        //      if movie is not already in database, add it
-        int movieId = movie.getId();
-        Optional<Movie> result = movieRepository.findById(movieId);
-        if (result.isEmpty()) {
-            movieRepository.save(movie);
-        }
+//      if movie is not already in database, add it
+//        int movieId = movie.getId();
+//        Optional<Movie> result = movieRepository.findById(movieId);
+//        if (result.isEmpty()) {
+//            movieRepository.save(movie);
+//        }
 
         System.out.println("watchlist: " + user.getWatchlist());
         System.out.println("user.addToWatchlist called");
@@ -55,13 +55,13 @@ public class WatchlistController {
         user.addToWatchlist(movie);
 
         System.out.println("user: " + user);
-        System.out.println("movie.addToUsers called");
-
-//        and vice versa
-        movie.addToUsers(user);
+//        System.out.println("movie.addToUsers called");
 //
-        System.out.println("movie: " + movie);
-        System.out.println("users: " + movie.getUsers());
+////        and vice versa
+//        movie.addToUsers(user);
+////
+//        System.out.println("movie: " + movie);
+//        System.out.println("users: " + movie.getUsers());
 
         userRepository.save(user);
         System.out.println("User saved to userRepository");

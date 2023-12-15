@@ -117,11 +117,7 @@ public class Movie {
 
 //    @Transactional
     public void addToUsers(User user) {
-//        System.out.println("users: " + getUsers());
         users.add(user);
-//        System.out.println("users: " + getUsers());
-//        System.out.println("addToUsers runs");
-//        user.getWatchlist().add(this);
     }
 
     @Override
