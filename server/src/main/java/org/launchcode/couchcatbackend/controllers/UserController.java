@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -21,10 +23,11 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**REGISTRATION**/
+    /**
+     * REGISTRATION
+     **/
     //For adding a user: checks if a user with that email already exists and returns BAD REQUEST/400 error w/ custom body if so,
     // otherwise, the user is created, the password is encoded and a CREATED/201 HTTP response is returned
-
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
         User isExist = (userRepository.findByEmail(user.getEmail()));
@@ -44,46 +47,35 @@ public class UserController {
     }
 
 
-    /**LOGIN**/
+    /**
+     * LOGIN
+     **/
+    /*For logging a user in: looks for a user in the database with the email passed in from the login screen
+    verifies the data received is not null, if it is, we return an HTTP 401 status with a custom message that the email does not exist
+    otherwise, we encode the password that was passed in and compares it to the encoded password in the database for that user;
+    if the passwords match, we return a 200 HTTP status and a custom message indicating the login was successful
+    If they do not, we return a 401 HTTP status with a custom message indicating the email and password were note a match
+     */
 
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> userLogin(@RequestBody User user) {
+        User userLogin = (userRepository.findByEmail(user.getEmail()));
 
-    // TODO: PostMapping Method to Receive Login Form Data (email, password)
-    //  check for email in database, return HTTP status and message if not found
-    //  if found, validate the email and password match what we have stored in the database for the user
-/*   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> register(@RequestBody User user) {
-//    User = new userLogin;
-//    User userLogin = (userRepository.findByEmail(user.getEmail()));
-//
-//    if (userLogin!= null) {
-//    String userLoginPassword = user.getPassword();
-//    String encodedPassword = userLogin.getPassword();
-//    Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-//      if (isPwdRight) {
-//      Optional<User> verifyUser = employeeRepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
-//          if (verifyUser.isPresent()) {
-//          return new LoginMesage("Login Success", true);
-//          } else {
-//          return new LoginMesage("Login Failed", false);
-//          }
-//      } else {
-//      return new LoginMesage("password Not Match", false);
+        if (userLogin != null) {
+            String userLoginPassword = user.getPassword();
+            String encodedPassword = userLogin.getPassword();
+            boolean isPwdRight = passwordEncoder.matches(userLoginPassword, encodedPassword);
+            if (isPwdRight) {
+                User verifyUser = userRepository.findOneByEmailAndPassword(user.getEmail(), encodedPassword);
+                    return ResponseEntity.status(HttpStatus.OK).body("Login successful\n");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Email and password are not a match\n");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed: Email address does not exist\n");
         }
-    }else {
-    return new LoginMesage("Email not exits", false);
-//
-//        if (isExist == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " does not exist. Please enter a valid email.");
-//        }
-//        return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
-//
-//    }
-//        if (isExist == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " does not exist. Please enter a valid email.");
-//        }
-//        return ResponseEntity.status(HttpStatus.CREATED).body("HTTP Status will be CREATED (CODE 201)\n");
-//
-//    }
+    }
+}
 
 
 
@@ -105,5 +97,4 @@ public class UserController {
 //    //  TODO: Add exception if id is not found
 
 
-}
 
