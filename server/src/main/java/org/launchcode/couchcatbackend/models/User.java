@@ -2,11 +2,10 @@ package org.launchcode.couchcatbackend.models;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import org.launchcode.couchcatbackend.data.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +24,7 @@ public class User {
     @NotNull
     @NotEmpty
     private String lastName;
+    
     @NotNull
     @NotEmpty
     private String email;
