@@ -87,17 +87,17 @@ public class UserController {
     //   We also need to receive the cookie from the front end as the user accesses restricted pages to validate the user against the information stored for the user's session to verify they are logged in/can access those pages.
 
     // for displaying user details
-//    @GetMapping("/details/{id}")
-//    public User getUserDetailsById(@PathVariable int id) {
-//        //  TODO: Update so we are only returning the first name, last name, email and watchlist?? and not the password to display on the profile page
-//        Optional<User> result = userRepository.findById(id);
-//        if (result.isPresent()) {
-//            User user = result.get();
-//            return user;
-//        }
-//
-//        return null;
-//    }
+   @GetMapping("/details/{id}")
+   public User getUserDetailsById(@PathVariable int id) {
+       //  TODO: Update so we are only returning the first name, last name, email and watchlist?? and not the password to display on the profile page
+       Optional<User> result = userRepository.findById(id);
+       if (result.isPresent()) {
+           User user = result.get();
+           return user;
+       }
+
+       return null;
+   }
 //    //  TODO: Add exception if id is not found
 
 
