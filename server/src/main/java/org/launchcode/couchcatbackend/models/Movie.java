@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,6 +35,7 @@ public class Movie {
     private String poster;
 
     @ManyToMany(mappedBy = "movies")
+    @JsonIgnore
     private List<User> users;
 
     public Movie(){
