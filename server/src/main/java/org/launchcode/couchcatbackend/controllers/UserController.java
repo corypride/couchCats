@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody User user) {
         User isExist = (userRepository.findByEmail(user.getEmail()));
         if (isExist != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " already exists. Either a new email to register.\n");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
         }
 
         User newUser = new User();
