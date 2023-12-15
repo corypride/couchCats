@@ -1,6 +1,7 @@
 package org.launchcode.couchcatbackend.models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.launchcode.couchcatbackend.data.MovieRepository;
@@ -8,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue
     private int id;
@@ -23,6 +24,7 @@ public class User {
     @NotNull
     @NotEmpty
     private String lastName;
+    
     @NotNull
     @NotEmpty
     private String email;
@@ -34,9 +36,6 @@ public class User {
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany(cascade = CascadeType.ALL)
     private final List<Movie> watchlist = new ArrayList<>();
-
-//    @Autowired
-//    private MovieRepository movieRepository;
 
     public User() {}
 
@@ -92,7 +91,10 @@ public class User {
     }
 
     public void addToWatchlist(Movie movie) {
-        this.watchlist.add(movie);
+        if (!watchlist.contains(movie)) {
+            watchlist.add(movie);
+            movie.addToUsers(this);
+        }
     }
 
 //    public void addToWatchlistById(int id) {
@@ -123,6 +125,17 @@ public class User {
         if (this == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", watchlist=" + watchlist +
+                '}';
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Optional;
 
 
@@ -23,11 +22,27 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    @GetMapping("/details/{id}")
+    public User getUserDetailsById(@PathVariable int id) {
+        //  TODO: Update so we are only returning the username, email and not the password to display on the profile page
+        //  TODO: Add exception if id is not found
+        Optional<User> result = userRepository.findById(id);
+//        TODO: optional check
+        User user = result.get();
+        return user;
+    }
+
+
     /**
      * REGISTRATION
      **/
-    //For adding a user: checks if a user with that email already exists and returns BAD REQUEST/400 error w/ custom body if so,
-    // otherwise, the user is created, the password is encoded and a CREATED/201 HTTP response is returned
+    /* For registering a new user:
+        checks if a user with that email already exists:
+            if yes: a BAD REQUEST/400 HTTP response is returned w/ a custom body;
+            otherwise: the user is created, the password is encoded, they are saved to the database,
+                and a CREATED/201 HTTP response is returned w/ a custom body */
+
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
         User isExist = (userRepository.findByEmail(user.getEmail()));
