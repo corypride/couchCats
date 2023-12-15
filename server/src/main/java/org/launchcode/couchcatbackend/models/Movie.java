@@ -34,7 +34,7 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(mappedBy = "watchlist")
     @JsonIgnore
     private List<User> users;
 

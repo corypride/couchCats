@@ -23,13 +23,11 @@ public class UserController {
 
     @GetMapping("/details/{id}")
     public User getUserDetailsById(@PathVariable int id) {
-        System.out.println("getUserDetailsById runs");
         //  TODO: Update so we are only returning the username, email and not the password to display on the profile page
         //  TODO: Add exception if id is not found
         Optional<User> result = userRepository.findById(id);
-//        TODO: check Optional
+//        TODO: optional check
         User user = result.get();
-        System.out.println("user: " + user);
         return user;
     }
 

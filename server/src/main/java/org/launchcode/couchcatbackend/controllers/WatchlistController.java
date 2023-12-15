@@ -26,11 +26,11 @@ public class WatchlistController {
     @GetMapping(value = "/{userId}")
     public List<Movie> getWatchlist(@PathVariable int userId) {
         Optional<User> result = userRepository.findById(userId);
+//      TODO: optional check
         User user = result.get();
         return user.getWatchlist();
     }
 
-//    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
     @Transactional
@@ -38,8 +38,7 @@ public class WatchlistController {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
 
-        System.out.println("user: " + user);
-        System.out.println("movie: " + movie);
+//      NOTE: saving the movie to a uesr's watchlist seems to add it to the DB automatically, but leaving this here just in case
 
 //      if movie is not already in database, add it
 //        int movieId = movie.getId();
@@ -48,26 +47,11 @@ public class WatchlistController {
 //            movieRepository.save(movie);
 //        }
 
-        System.out.println("watchlist: " + user.getWatchlist());
-        System.out.println("user.addToWatchlist called");
-
 //      add movie to user watchlist
         user.addToWatchlist(movie);
 
-        System.out.println("user: " + user);
-//        System.out.println("movie.addToUsers called");
-//
-////        and vice versa
-//        movie.addToUsers(user);
-////
-//        System.out.println("movie: " + movie);
-//        System.out.println("users: " + movie.getUsers());
-
+//      save changes to user
         userRepository.save(user);
-        System.out.println("User saved to userRepository");
-        System.out.println("user: " + user);
-        System.out.println("movie: " + movie);
-
     }
 
 //    Delete movie from watchlist at /watchlist

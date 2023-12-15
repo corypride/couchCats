@@ -5,14 +5,11 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.launchcode.couchcatbackend.data.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 public class User {
@@ -38,10 +35,7 @@ public class User {
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany(cascade = CascadeType.ALL)
-    private final List<Movie> movies = new ArrayList<>();
-
-//    @Autowired
-//    private MovieRepository movieRepository;
+    private final List<Movie> watchlist = new ArrayList<>();
 
     public User() {}
 
@@ -93,27 +87,14 @@ public class User {
 //    }
 
     public List<Movie> getWatchlist() {
-        return movies;
+        return watchlist;
     }
 
-//    @Transactional
     public void addToWatchlist(Movie movie) {
-//        System.out.println("watchlist: " + getWatchlist());
-//        System.out.println("users: " + movie.getUsers());
-        System.out.println("user.addToWatchlist runs");
-//        movies.add(movie);
-
-        if (!movies.contains(movie)) {
-            movies.add(movie);
+        if (!watchlist.contains(movie)) {
+            watchlist.add(movie);
             movie.addToUsers(this);
         }
-//        System.out.println("watchlist.add runs");
-//        System.out.println("watchlist: " + getWatchlist());
-//        System.out.println("users: " + movie.getUsers());
-//        System.out.println("movie.addToUsers is called");
-//        movie.addToUsers(this);
-//        System.out.println("users: " + movie.getUsers());
-//        System.out.println("watchlist: " + getWatchlist());
     }
 
 //    public void addToWatchlistById(int id) {
@@ -123,19 +104,19 @@ public class User {
 //    }
 
     public void removeFromWatchlist(Movie movie) {
-        this.movies.remove(movie);
+        this.watchlist.remove(movie);
     }
 
     public void removeFromWatchlistById(int id) {
         List<Movie> moviesToRemove = new ArrayList<>();
-        for (Movie movie : movies) {
+        for (Movie movie : watchlist) {
             if (movie.getId() == id) {
                 moviesToRemove.add(movie);
                 break;
             }
         }
 
-        movies.removeAll(moviesToRemove);
+        watchlist.removeAll(moviesToRemove);
     }
 
     @Override
@@ -153,7 +134,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", movies=" + movies +
+                ", watchlist=" + watchlist +
                 '}';
     }
 
