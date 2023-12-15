@@ -38,7 +38,7 @@ public class WatchlistController {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
 
-//      NOTE: saving the movie to a uesr's watchlist seems to add it to the DB automatically, but leaving this here just in case
+//      NOTE: saving the movie to a user's watchlist seems to add it to the DB automatically, but leaving this here just in case
 
 //      if movie is not already in database, add it
 //        int movieId = movie.getId();
