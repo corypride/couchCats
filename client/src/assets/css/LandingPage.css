@@ -14,7 +14,27 @@ body {
     color: #642B6B;
 }
 
+/* Headline */
+.title {
+    font-size: 7rem;
+    margin: 0;
+}
+
+.tagline {
+    margin-top: 0;
+}
+
 /* Movies of the Day*/
+
+.moviesOfDay {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
+.topMovies {
+    display: flex;
+    justify-content: center;
+}
 
 img {
     height: auto; 
@@ -22,4 +42,9 @@ img {
     max-width: 300px; 
     max-height: 300px;
     border: 5px solid #642B6B;
+}
+
+.topMovie {
+    font-size: 0.5rem;
+    width: 300px;
 }

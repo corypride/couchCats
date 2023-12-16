@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
-import { Button, ToggleButton, ToggleButtonGroup, List, ListItem, ListItemText, Box } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, List, ListItem, ListItemText, Box, Typography } from "@mui/material";
 import "../assets/css/Search.css";
 import streamingServices from "../assets/streamingServices";
 
@@ -17,10 +17,10 @@ const FilterSearch = () => {
    const genreRequest = useFetch('https://api.themoviedb.org/3/genre/movie/list?language=en', process.env.REACT_APP_API_ACCESS_TOKEN);
    const genres = genreRequest.data?.genres;
 
-   //using for sub information. Will create indiviual JSON file.
-   const subscriptionRequest = useFetch('https://api.themoviedb.org/3/watch/providers/movie?language=en-US', process.env.REACT_APP_API_ACCESS_TOKEN);
-
-
+   const subscriptions = useFetch('https://api.themoviedb.org/3/watch/providers/movie?language=en-US&watch_region=us', process.env.REACT_APP_API_ACCESS_TOKEN)
+   console.log(subscriptions.data)
+  
+  //handle functions
   const handleGenreChange = (event, newValue) => {
     setSelectedGenres(newValue);
   };
@@ -29,8 +29,7 @@ const FilterSearch = () => {
     setSelectedStreaming(newValue);
   };
 
-
-  //make sure param is not in query when array is empty
+  //TODO: debug why multiple queries shows nothing.
   const handleSubmit = () => {
     let params = "";
     if(!selectedGenres.length < 1 || !selectedGenres === undefined) params += `&with_genres=${selectedGenres.join('|')}`;
@@ -59,10 +58,10 @@ const FilterSearch = () => {
   //sideways transition to movie pages?
 
     return (
-        <div>
+        <Box>
           <form >
 {/* Genre Filters */}
-            <h1>Genre</h1>
+            <Typography variant="h4">Genre</Typography>
               <ToggleButtonGroup 
               id="genreContainer"
               value={selectedGenres}
@@ -84,7 +83,7 @@ const FilterSearch = () => {
                 )}
               </ToggleButtonGroup>
 {/* Streaming Service Filters */}
-            <h1>Streaming Service</h1>
+            <Typography variant="h4">Streaming Service</Typography>
               <ToggleButtonGroup 
               sx={{
                 display: "grid",
@@ -125,6 +124,7 @@ const FilterSearch = () => {
           >
             {queriedMovies.slice(0,3).map(item => (
               <ListItem
+              key={item.original_title}
               sx={{
                 flexGrow: "2",
                 display: "flex",
@@ -151,7 +151,7 @@ const FilterSearch = () => {
             ))}
           </List>
 
-        </div>
+        </Box>
       );
 }
 
