@@ -9,7 +9,7 @@ const FilterSearch = () => {
 
   const url = "https://api.themoviedb.org/3/discover/movie"
   const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
-  //need in use Effect
+  //calls 4 times?
   const genres = getGenres();
 
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -25,10 +25,6 @@ const FilterSearch = () => {
     watch_region: 'US',
   })
   const [queriedMovies, setQueriedMovies] = useState([]);
-
-   // Use fetch is calling 6 times
-  //  const genreRequest = useFetch('https://api.themoviedb.org/3/genre/movie/list?language=en', process.env.REACT_APP_API_ACCESS_TOKEN);
-  //  const genres = 1
   
   //handle functions
   const handleGenreChange = (event, newValue) => {
@@ -59,7 +55,6 @@ const FilterSearch = () => {
 
   }
 
-
   useEffect(() => {
     const submit = async () => {
       try {
@@ -74,14 +69,13 @@ const FilterSearch = () => {
     submit();
   }, [params]);
 
-
   //sideways transition to movie pages?
 
     return (
         <Box>
           <form >
 {/* Genre Filters */}
-            {/* <Typography variant="h4">Genre</Typography>
+            <Typography variant="h4">Genre</Typography>
               <ToggleButtonGroup 
               id="genreContainer"
               value={selectedGenres}
@@ -101,7 +95,7 @@ const FilterSearch = () => {
                 )) : (
                   "Loading"
                 )}
-              </ToggleButtonGroup> */}
+              </ToggleButtonGroup>
 {/* Streaming Service Filters */}
             <Typography variant="h4">Streaming Service</Typography>
               <ToggleButtonGroup 

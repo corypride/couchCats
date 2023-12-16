@@ -17,7 +17,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import AutocompleteMovie from "./Autocomplete";
 
 const NavBar = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const PAGES = ["Home", "Search"];
