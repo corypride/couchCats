@@ -1,18 +1,39 @@
 import "../assets/css/LandingPage.css"
-import useFetch from "../hooks/useFetch";
-import '../assets/css/LandingPage.css';
 import axios from "axios"
 import { Box, Button, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
 
 
 const LandingPage = () => {
     //Allows button navigation
     const navigate = useNavigate();
 
+    //for top movie requests
+    const [topMovies, setTopMovies] = useState();
+
     //discover why this is fetching 6 times per page load
-    const topMoviesRequest = useFetch("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1", process.env.REACT_APP_API_ACCESS_TOKEN);
-    const topMovies = topMoviesRequest.data?.results;
+    const url = "https://api.themoviedb.org/3/movie/popular";
+    const params = {
+    language: 'en',
+    page: 1,
+    };
+    const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const response = await axios.get(url, { params, headers: { Authorization: `Bearer ${apiKey}` } });
+              setTopMovies(response.data?.results)
+            } catch (error) {
+              console.error(error);
+            }
+          };
+          fetchData();
+    }, [url, apiKey])
+
+
+
 
     return(
         <>
