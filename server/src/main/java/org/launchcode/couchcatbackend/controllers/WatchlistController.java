@@ -26,24 +26,32 @@ public class WatchlistController {
     @GetMapping(value = "/{userId}")
     public List<Movie> getWatchlist(@PathVariable int userId) {
         Optional<User> result = userRepository.findById(userId);
+//      TODO: optional check
         User user = result.get();
         return user.getWatchlist();
     }
 
-//    TODO: check if this works (I'm not sure how)
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
+    @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
-        user.addToWatchlist(movie);
+
+//      NOTE: saving the movie to a uesr's watchlist seems to add it to the DB automatically, but leaving this here just in case
 
 //      if movie is not already in database, add it
-        int movieId = movie.getId();
-        Optional<Movie> result = movieRepository.findById(movieId);
-        if (result.isEmpty()) {
-            movieRepository.save(movie);
-        }
+//        int movieId = movie.getId();
+//        Optional<Movie> result = movieRepository.findById(movieId);
+//        if (result.isEmpty()) {
+//            movieRepository.save(movie);
+//        }
+
+//      add movie to user watchlist
+        user.addToWatchlist(movie);
+
+//      save changes to user
+        userRepository.save(user);
     }
 
 //    Delete movie from watchlist at /watchlist
