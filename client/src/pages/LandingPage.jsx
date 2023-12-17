@@ -15,7 +15,7 @@ const LandingPage = () => {
         <>
             <div>
                 <h2 className="title">
-                    CouchCat
+                    CouchCats
                 </h2>
                 <h2 className="tagline">
                     Spend your time watching.

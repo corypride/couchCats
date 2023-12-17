@@ -15,7 +15,7 @@ import imgLogo from "../assets/img/logo-no-background.png"
 import { Link } from "react-router-dom"
 import PetsIcon from '@mui/icons-material/Pets';
 const NavBar = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const PAGES = ["Home", "Search", "AutoComplete"];
@@ -26,7 +26,7 @@ const NavBar = () => {
     <React.Fragment>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "transparent", borderBottom: "1px solid red" }}
+        sx={{ backgroundColor: "transparent", borderBottom: "1px solid purple" }}
       >
         <Toolbar>
           {isMatch ? (
@@ -69,7 +69,7 @@ const NavBar = () => {
               </Button>
               <Button
                 sx={{ marginLeft: 2 }}
-                color="secondary"
+                color="primary"
                 variant="contained"
                 component={Link}
                 to="/register"

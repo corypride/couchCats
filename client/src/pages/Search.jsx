@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
 import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import "../assets/css/Search.css";
