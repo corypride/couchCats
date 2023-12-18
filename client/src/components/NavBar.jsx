@@ -28,7 +28,7 @@ const NavBar = () => {
     <React.Fragment>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "transparent", borderBottom: "1px solid red" }}
+        sx={{ backgroundColor: "transparent", borderBottom: "1px solid purple" }}
       >
         <Toolbar>
           {isMatch ? (
@@ -71,7 +71,7 @@ const NavBar = () => {
               </Button>
               <Button
                 sx={{ marginLeft: 2 }}
-                color="secondary"
+                color="primary"
                 variant="contained"
                 component={Link}
                 to="/register"

@@ -23,7 +23,7 @@ function LoginComponent() {
             },
           }}
         >
-          <Typography variant="h3" padding={2} textAlign={"center"}>
+          <Typography variant="h3" color={"primary"} padding={2} textAlign={"center"}>
             Login!
           </Typography>
           <TextField
@@ -46,7 +46,8 @@ function LoginComponent() {
             Login
           </Button>
         </Box>
-      </form>
+        </form>
+     
     </div>
   );
 }
