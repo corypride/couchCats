@@ -146,7 +146,7 @@ const validationSchema = Yup.object().shape({
             <Button
               type="submit"
               variant="contained"
-              color="secondary"
+              color="primary"
               sx={{ marginTop: "1.5rem" }}
               disable={props.isSubmitting}
             >{props.isSubmitting?"Loading":"Register"}
