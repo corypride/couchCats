@@ -19,7 +19,7 @@ public class UserMovieLog {
     @MapsId("movieId")
     private Movie movie;
 
-    private int rating;
+    private int userRating;
 
     @CreationTimestamp
     private Date dateAdded;
@@ -28,7 +28,7 @@ public class UserMovieLog {
 
     public UserMovieLog(UserMovieLogId id, int rating) {
         this.id = id;
-        this.rating = rating;
+        this.userRating = userRating;
     }
 
     public UserMovieLogId getId() {
@@ -43,8 +43,8 @@ public class UserMovieLog {
         return movie;
     }
 
-    public int getRating() {
-        return rating;
+    public int getUserRating() {
+        return userRating;
     }
 
     public Date getDateAdded() {

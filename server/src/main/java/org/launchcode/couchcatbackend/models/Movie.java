@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,6 +34,11 @@ public class Movie {
     @ManyToMany(mappedBy = "watchlist")
     @JsonIgnore
     private List<User> users;
+
+    @OneToMany(mappedBy = "movie")
+    @JsonIgnore
+    private List<UserMovieLog> userLog;
+
 
     public Movie(){
         this.users = new ArrayList<>();

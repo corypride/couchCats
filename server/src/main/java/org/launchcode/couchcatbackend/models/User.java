@@ -1,5 +1,6 @@
 package org.launchcode.couchcatbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
@@ -35,7 +36,12 @@ public class User {
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<UserMovieLog> movieLog;
 
     public User() {}
 
@@ -117,6 +123,10 @@ public class User {
         }
 
         watchlist.removeAll(moviesToRemove);
+    }
+
+    public List<UserMovieLog> getMovieLog() {
+        return movieLog;
     }
 
     @Override
