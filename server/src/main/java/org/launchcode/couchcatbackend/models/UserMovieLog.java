@@ -15,7 +15,8 @@ public class UserMovieLog {
     @MapsId("userId")
     private User user;
 
-    @ManyToOne@MapsId("movieId")
+    @ManyToOne
+    @MapsId("movieId")
     private Movie movie;
 
     private int rating;
