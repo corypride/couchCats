@@ -1,5 +1,6 @@
 package org.launchcode.couchcatbackend.controllers;
 
+import jakarta.transaction.Transactional;
 import org.launchcode.couchcatbackend.data.MovieRepository;
 import org.launchcode.couchcatbackend.data.UserMovieLogRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
@@ -7,12 +8,10 @@ import org.launchcode.couchcatbackend.models.Movie;
 import org.launchcode.couchcatbackend.models.User;
 import org.launchcode.couchcatbackend.models.UserMovieLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -30,7 +29,6 @@ public class UserMovieLogController {
 //    Return all of a user's logged movies at /log/{userId}
     @GetMapping(value = "/{userId}")
     public List<UserMovieLog> getLog(@PathVariable int userId) {
-//        TODO: modify this to instead return a list of movie, ratings, and date added without user info?
         return userMovieLogRepository.findByIdUserId(userId);
     }
 
@@ -47,6 +45,25 @@ public class UserMovieLogController {
 //    Log a movie at /log/save
 
 //    Change star rating for a logged movie
+//    create a DTO that takes a UserMovie and an int newRating?
 
 //    Delete movie from log at /log
+    @DeleteMapping
+    @Transactional
+    public void deleteFromLog(@RequestBody Map<String, Integer> requestBody) {
+//        TODO: is it easier for front end if this takes a User object and a Movie object instead of IDs?
+        int userId = requestBody.get("userId");
+        int movieId = requestBody.get("movieId");
+
+        Optional<User> result = userRepository.findById(userId);
+
+        if (result.isPresent()) {
+            System.out.println("IF STATEMENT IN DELETEFROMLOG RUNS");
+            User user = result.get();
+            user.removeFromLogById(movieId);
+            userRepository.save(user);
+        } else {
+            // return new ResponseEntity?
+        }
+    }
 }

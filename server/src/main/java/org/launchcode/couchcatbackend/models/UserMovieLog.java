@@ -1,5 +1,6 @@
 package org.launchcode.couchcatbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +14,7 @@ public class UserMovieLog {
 
     @ManyToOne
     @MapsId("userId")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
