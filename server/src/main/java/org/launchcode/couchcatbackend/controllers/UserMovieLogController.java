@@ -50,20 +50,7 @@ public class UserMovieLogController {
 //    Delete movie from log at /log
     @DeleteMapping
     @Transactional
-    public void deleteFromLog(@RequestBody Map<String, Integer> requestBody) {
-//        TODO: is it easier for front end if this takes a User object and a Movie object instead of IDs?
-        int userId = requestBody.get("userId");
-        int movieId = requestBody.get("movieId");
-
-        Optional<User> result = userRepository.findById(userId);
-
-        if (result.isPresent()) {
-            System.out.println("IF STATEMENT IN DELETEFROMLOG RUNS");
-            User user = result.get();
-            user.removeFromLogById(movieId);
-            userRepository.save(user);
-        } else {
-            // return new ResponseEntity?
-        }
+    public void deleteFromLog(@RequestBody UserMovieLog entry) {
+        userMovieLogRepository.delete(entry);
     }
 }

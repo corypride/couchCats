@@ -129,7 +129,7 @@ public class User {
         return movieLog;
     }
 
-//    TODO: fix this - movieLog is a list of UserMovieLog objects, not Movie objects
+//    TODO: this is not working and may also be unnecessary - ok to just handle this in controller?
     public void removeFromLogById(int movieId) {
         System.out.println("REMOVEFROMLOG CALLED");
         List<UserMovieLog> entriesToRemove = new ArrayList<>();
