@@ -31,9 +31,9 @@ public class Movie {
     @Size(max = 200)
     private String poster;
 
-    @ManyToMany(mappedBy = "watchlist")
-    @JsonIgnore
-    private List<User> users;
+//    @ManyToMany(mappedBy = "watchlist")
+//    @JsonIgnore
+//    private List<User> users;
 
 //    @OneToMany(mappedBy = "movie")
 //    @JsonIgnore
@@ -113,14 +113,14 @@ public class Movie {
         this.poster = poster;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-//    @Transactional
-    public void addToUsers(User user) {
-        users.add(user);
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+////    @Transactional
+//    public void addToUsers(User user) {
+//        users.add(user);
+//    }
 
     @Override
     public boolean equals(Object o) {

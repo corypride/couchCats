@@ -57,16 +57,21 @@ public void logMovie(@RequestBody UserMovieDTO userMovieDTO) {
     User savedUser = userRepository.save(user);
     Movie savedMovie = movieRepository.save(movie);
 
-    System.out.println("user.getID: " + user.getId());
-    System.out.println("movie.getID: " + movie.getId());
+    System.out.println("savedUser: " + savedUser);
+    System.out.println("savedMovie: " + savedMovie);
+
+    System.out.println("savedUser.getID: " + savedUser.getId());
+    System.out.println("savedMovie.getID: " + savedMovie.getId());
 
     UserMovieLog.UserMovieLogId userMovieId = new UserMovieLogId(savedUser.getId(), savedMovie.getId());
     System.out.println("userMovieID: " + userMovieId);
     UserMovieLog userMovieLog = new UserMovieLog(userMovieId, 5);
-    System.out.println("userMovieLog" + userMovieLog);
-    userMovieLog.getId().setUserId(savedUser.getId());
-    userMovieLog.getId().setMovieId(savedMovie.getId());
-    System.out.println("userMovieLog" + userMovieLog);
+    System.out.println("userMovieLog: " + userMovieLog);
+    userMovieLog.setMovie(savedMovie);
+    userMovieLog.setUser(savedUser);
+//    userMovieLog.getId().setUserId(savedUser.getId());
+//    userMovieLog.getId().setMovieId(savedMovie.getId());
+//    System.out.println("userMovieLog: " + userMovieLog);
     userMovieLogRepository.save(userMovieLog);
 }
 

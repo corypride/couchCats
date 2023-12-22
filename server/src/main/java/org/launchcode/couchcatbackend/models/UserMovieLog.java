@@ -28,7 +28,7 @@ public class UserMovieLog {
 
     public UserMovieLog() {}
 
-    public UserMovieLog(UserMovieLogId id, int rating) {
+    public UserMovieLog(UserMovieLogId id, int userRating) {
         this.id = id;
         this.userRating = userRating;
     }
@@ -41,16 +41,39 @@ public class UserMovieLog {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Movie getMovie() {
         return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     public int getUserRating() {
         return userRating;
     }
 
+    public void setUserRating(int userRating) {
+        this.userRating = userRating;
+    }
+
     public Date getDateAdded() {
         return dateAdded;
+    }
+
+    @Override
+    public String toString() {
+        return "UserMovieLog{" +
+                "id=" + id +
+                ", user=" + user +
+                ", movie=" + movie +
+                ", userRating=" + userRating +
+                ", dateAdded=" + dateAdded +
+                '}';
     }
 
     @Embeddable
@@ -82,6 +105,14 @@ public class UserMovieLog {
 
         public void setMovieId(int movieId) {
             this.movieId = movieId;
+        }
+
+        @Override
+        public String toString() {
+            return "UserMovieLogId{" +
+                    "userId=" + userId +
+                    ", movieId=" + movieId +
+                    '}';
         }
     }
 }

@@ -35,9 +35,9 @@ public class User {
     private String password;
 
     //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private final List<Movie> watchlist = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private final List<Movie> watchlist = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    @JsonIgnore
@@ -92,16 +92,16 @@ public class User {
 //        return encoder.matches(password, pwHash);
 //    }
 
-    public List<Movie> getWatchlist() {
-        return watchlist;
-    }
-
-    public void addToWatchlist(Movie movie) {
-        if (!watchlist.contains(movie)) {
-            watchlist.add(movie);
-            movie.addToUsers(this);
-        }
-    }
+//    public List<Movie> getWatchlist() {
+//        return watchlist;
+//    }
+//
+//    public void addToWatchlist(Movie movie) {
+//        if (!watchlist.contains(movie)) {
+//            watchlist.add(movie);
+//            movie.addToUsers(this);
+//        }
+//    }
 
 //    public void addToWatchlistById(int id) {
 //        Optional<Movie> result = movieRepository.findById(id);
@@ -109,21 +109,21 @@ public class User {
 //        this.watchlist.add(movie);
 //    }
 
-    public void removeFromWatchlist(Movie movie) {
-        this.watchlist.remove(movie);
-    }
-
-    public void removeFromWatchlistById(int id) {
-        List<Movie> moviesToRemove = new ArrayList<>();
-        for (Movie movie : watchlist) {
-            if (movie.getId() == id) {
-                moviesToRemove.add(movie);
-                break;
-            }
-        }
-
-        watchlist.removeAll(moviesToRemove);
-    }
+//    public void removeFromWatchlist(Movie movie) {
+//        this.watchlist.remove(movie);
+//    }
+//
+//    public void removeFromWatchlistById(int id) {
+//        List<Movie> moviesToRemove = new ArrayList<>();
+//        for (Movie movie : watchlist) {
+//            if (movie.getId() == id) {
+//                moviesToRemove.add(movie);
+//                break;
+//            }
+//        }
+//
+//        watchlist.removeAll(moviesToRemove);
+//    }
 
 //    public List<UserMovieLog> getMovieLog() {
 //        return movieLog;
@@ -164,7 +164,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", watchlist=" + watchlist +
+//                ", watchlist=" + watchlist +
                 '}';
     }
 
