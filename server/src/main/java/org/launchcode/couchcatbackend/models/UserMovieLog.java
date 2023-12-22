@@ -12,12 +12,12 @@ public class UserMovieLog {
     @EmbeddedId
     private UserMovieLogId id = new UserMovieLogId();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId")
-    @JsonIgnore
+//    @JsonIgnore
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("movieId")
     private Movie movie;
 

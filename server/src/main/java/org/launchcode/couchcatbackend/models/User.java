@@ -39,9 +39,9 @@ public class User {
     @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<UserMovieLog> movieLog = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<UserMovieLog> movieLog = new ArrayList<>();
 
     public User() {}
 
@@ -125,25 +125,29 @@ public class User {
         watchlist.removeAll(moviesToRemove);
     }
 
-    public List<UserMovieLog> getMovieLog() {
-        return movieLog;
-    }
+//    public List<UserMovieLog> getMovieLog() {
+//        return movieLog;
+//    }
+//
+//    public void addToMovieLog(UserMovieLog userMovieLog) {
+//        movieLog.add(userMovieLog);
+//    }
 
 //    TODO: this is not working and may also be unnecessary - ok to just handle this in controller?
-    public void removeFromLogById(int movieId) {
-        System.out.println("REMOVEFROMLOG CALLED");
-        List<UserMovieLog> entriesToRemove = new ArrayList<>();
-        for (UserMovieLog entry : movieLog) {
-            Movie movie = entry.getMovie();
-            if (movie.getId() == movieId) {
-                System.out.println("IF STATEMENT IN REMOVEFROMLOG RUNS");
-                entriesToRemove.add(entry);
-                break;
-            }
-        }
-
-        movieLog.removeAll(entriesToRemove);
-    }
+//    public void removeFromLogById(int movieId) {
+//        System.out.println("REMOVEFROMLOG CALLED");
+//        List<UserMovieLog> entriesToRemove = new ArrayList<>();
+//        for (UserMovieLog entry : movieLog) {
+//            Movie movie = entry.getMovie();
+//            if (movie.getId() == movieId) {
+//                System.out.println("IF STATEMENT IN REMOVEFROMLOG RUNS");
+//                entriesToRemove.add(entry);
+//                break;
+//            }
+//        }
+//
+//        movieLog.removeAll(entriesToRemove);
+//    }
 
     @Override
     public boolean equals(Object o) {

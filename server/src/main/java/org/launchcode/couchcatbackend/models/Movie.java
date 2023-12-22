@@ -35,14 +35,12 @@ public class Movie {
     @JsonIgnore
     private List<User> users;
 
-    @OneToMany(mappedBy = "movie")
-    @JsonIgnore
-    private List<UserMovieLog> userLog;
+//    @OneToMany(mappedBy = "movie")
+//    @JsonIgnore
+//    private List<UserMovieLog> userLog = new ArrayList<>();
 
 
-    public Movie(){
-        this.users = new ArrayList<>();
-    }
+    public Movie(){}
 
     public Movie(int id, String title, int year, String description, String director, String cast, float rating, String poster) {
         this.id = id;
