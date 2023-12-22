@@ -1,8 +1,11 @@
 package org.launchcode.couchcatbackend.controllers;
 
+import jakarta.servlet.http.HttpSession;
+import org.launchcode.couchcatbackend.configuration.AuthenticationConfig;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,14 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private final AuthenticationConfig authenticationConfig;
+
+
+    @Autowired
+    public UserController(AuthenticationConfig authenticationConfig) {
+        this.authenticationConfig = authenticationConfig;
+    }
 
 
     /**
@@ -49,8 +60,8 @@ public class UserController {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
-//        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
-        return ResponseEntity.created((URI.create("/users/" + newUser.getId() + "/profile")) + ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");;
+        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
+//        return ResponseEntity.created((URI.create("/users/" + newUser.getId() + "/profile")) + ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");;
     }
 
 
@@ -67,6 +78,7 @@ public class UserController {
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> userLogin(@RequestBody User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
+        String sessionId;
 
         if (userLogin != null) {
             String userLoginPassword = user.getPassword();
@@ -74,7 +86,10 @@ public class UserController {
             boolean isPwdRight = passwordEncoder.matches(userLoginPassword, encodedPassword);
             if (isPwdRight) {
                 User verifyUser = userRepository.findOneByEmailAndPassword(user.getEmail(), encodedPassword);
-                    return ResponseEntity.status(HttpStatus.OK).body("Login successful\n");
+                sessionId = authenticationConfig.createSession(user.getEmail());
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + sessionId + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
+                return ResponseEntity.ok().headers(headers).body("Login successful\n");
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Email and password are not a match\n");
             }
@@ -83,9 +98,8 @@ public class UserController {
         }
     }
 
-    //TODO: This is part of Security Implementation I believe: Session handling methods that create the session ID and cookie which allows us to store and retrieve the login status of a user in a session / a logged-in user’s user ID will be stored in their session.
-    //   We also need to receive the cookie from the front end as the user accesses restricted pages to validate the user against the information stored for the user's session to verify they are logged in/can access those pages.
-    // for displaying user details
+   //TODO: LOGOUT AND WIPE SESSION COOKIE
+
     @GetMapping("/details/{id}")
     public User getUserDetailsById(@PathVariable int id) {
         //  TODO: Update so we are only returning the first name, last name, email and watchlist?? and not the password to display on the profile page
