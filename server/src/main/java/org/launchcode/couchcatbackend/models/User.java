@@ -34,14 +34,9 @@ public class User {
     @NotEmpty
     private String password;
 
-    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private final List<Movie> watchlist = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<UserMovieLog> movieLog = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private final List<Movie> watchlist = new ArrayList<>();
 
     public User() {}
 
@@ -92,62 +87,39 @@ public class User {
 //        return encoder.matches(password, pwHash);
 //    }
 
-//    public List<Movie> getWatchlist() {
-//        return watchlist;
-//    }
-//
-//    public void addToWatchlist(Movie movie) {
-//        if (!watchlist.contains(movie)) {
-//            watchlist.add(movie);
-//            movie.addToUsers(this);
-//        }
-//    }
+    public List<Movie> getWatchlist() {
+        return watchlist;
+    }
 
+    public void addToWatchlist(Movie movie) {
+        if (!watchlist.contains(movie)) {
+            watchlist.add(movie);
+            movie.addToUsers(this);
+        }
+    }
+
+//    TODO: fix or remove this (by adding to Service class?) - can't access movieRepository here
 //    public void addToWatchlistById(int id) {
 //        Optional<Movie> result = movieRepository.findById(id);
 //        Movie movie = result.get();
 //        this.watchlist.add(movie);
 //    }
 
-//    public void removeFromWatchlist(Movie movie) {
-//        this.watchlist.remove(movie);
-//    }
-//
-//    public void removeFromWatchlistById(int id) {
-//        List<Movie> moviesToRemove = new ArrayList<>();
-//        for (Movie movie : watchlist) {
-//            if (movie.getId() == id) {
-//                moviesToRemove.add(movie);
-//                break;
-//            }
-//        }
-//
-//        watchlist.removeAll(moviesToRemove);
-//    }
+    public void removeFromWatchlist(Movie movie) {
+        this.watchlist.remove(movie);
+    }
 
-//    public List<UserMovieLog> getMovieLog() {
-//        return movieLog;
-//    }
-//
-//    public void addToMovieLog(UserMovieLog userMovieLog) {
-//        movieLog.add(userMovieLog);
-//    }
+    public void removeFromWatchlistById(int id) {
+        List<Movie> moviesToRemove = new ArrayList<>();
+        for (Movie movie : watchlist) {
+            if (movie.getId() == id) {
+                moviesToRemove.add(movie);
+                break;
+            }
+        }
 
-//    TODO: this is not working and may also be unnecessary - ok to just handle this in controller?
-//    public void removeFromLogById(int movieId) {
-//        System.out.println("REMOVEFROMLOG CALLED");
-//        List<UserMovieLog> entriesToRemove = new ArrayList<>();
-//        for (UserMovieLog entry : movieLog) {
-//            Movie movie = entry.getMovie();
-//            if (movie.getId() == movieId) {
-//                System.out.println("IF STATEMENT IN REMOVEFROMLOG RUNS");
-//                entriesToRemove.add(entry);
-//                break;
-//            }
-//        }
-//
-//        movieLog.removeAll(entriesToRemove);
-//    }
+        watchlist.removeAll(moviesToRemove);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -164,7 +136,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-//                ", watchlist=" + watchlist +
+                ", watchlist=" + watchlist +
                 '}';
     }
 
