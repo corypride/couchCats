@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.net.URI;
 import java.util.Optional;
 
 
@@ -47,7 +49,8 @@ public class UserController {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
+//        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
+        return ResponseEntity.created((URI.create("/users/" + newUser.getId() + "/profile")) + ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");;
     }
 
 
@@ -60,7 +63,7 @@ public class UserController {
     if the passwords match, we return a 200 HTTP status and a custom message indicating the login was successful
     If they do not, we return a 401 HTTP status with a custom message indicating the email and password were note a match
      */
-
+//TODO: Fix HTTP to come back in the header
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> userLogin(@RequestBody User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
