@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/watchlist")
 public class WatchlistController {
     @Autowired
@@ -35,17 +36,9 @@ public class WatchlistController {
     @PostMapping(path = "/save")
     @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
+//        TODO: refactor to take userID instead of user?
         User user = userMovieDTO.getUser();
         Movie movie = userMovieDTO.getMovie();
-
-//      NOTE: saving the movie to a user's watchlist seems to add it to the DB automatically, but leaving this here just in case
-
-//      if movie is not already in database, add it
-//        int movieId = movie.getId();
-//        Optional<Movie> result = movieRepository.findById(movieId);
-//        if (result.isEmpty()) {
-//            movieRepository.save(movie);
-//        }
 
 //      add movie to user watchlist
         user.addToWatchlist(movie);
