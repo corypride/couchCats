@@ -47,15 +47,21 @@ public class LogController {
         User user = result.get();
 
         Movie movie = movieLogDTO.getMovie();
-
-    //    TODO: check if user has logged this movie already
-
     //    TODO: check if movie already exists?
         Movie savedMovie = movieRepository.save(movie);
 
-        int userRating = movieLogDTO.getUserRating();
-
+//        create an ID for new UserMovieLog object
         UserMovieLog.UserMovieLogId userMovieId = new UserMovieLogId(user.getId(), savedMovie.getId());
+
+//        before proceeding, check if user has already logged this movie
+        Optional<UserMovieLog> userMovieLogResult = userMovieLogRepository.findById(userMovieId);
+        if (userMovieLogResult.isPresent()) {
+//            throw error/return HTTPStatus?
+            return;
+        }
+
+//        create new UserMovieLog object using that ID
+        int userRating = movieLogDTO.getUserRating();
         UserMovieLog userMovieLog = new UserMovieLog(userMovieId, userRating);
         userMovieLog.setMovie(savedMovie);
         userMovieLog.setUser(user);
@@ -65,7 +71,10 @@ public class LogController {
 
 //    TODO: code this
 //    Change star rating for a logged movie
-//    create a DTO that takes a UserMovie and an int newRating?
+    @PostMapping
+    public void changeRating(@RequestBody UserMovieLog entry) {
+//      TODO: DTO that takes a UserMovie and an int newRating?
+    }
 
 //    Delete movie from log at /log
     @DeleteMapping

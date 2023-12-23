@@ -2,6 +2,8 @@ package org.launchcode.couchcatbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -21,6 +23,8 @@ public class UserMovieLog {
     @MapsId("movieId")
     private Movie movie;
 
+    @Min(value = 1, message = "Rating must be between 1 and 5 stars")
+    @Max(value = 5, message = "Rating must be between 1 and 5 stars")
     private int userRating;
 
     @CreationTimestamp
