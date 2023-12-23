@@ -6,19 +6,19 @@ import org.launchcode.couchcatbackend.models.User;
 
 public class UserMovieDTO {
     @NotNull
-    private User user;
+    private int userId;
 
     @NotNull
     private Movie movie;
 
     public UserMovieDTO() {}
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Movie getMovie() {

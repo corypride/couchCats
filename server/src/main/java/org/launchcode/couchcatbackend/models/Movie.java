@@ -117,6 +117,7 @@ public class Movie {
         users.add(user);
     }
 
+//    TODO: change how this is set up? Should it just check for ID? ID and other fields?
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -36,14 +36,20 @@ public class WatchlistController {
     @PostMapping(path = "/save")
     @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
-//        TODO: refactor to take userID instead of user?
-        User user = userMovieDTO.getUser();
+        int userId = userMovieDTO.getUserId();
+        Optional<User> result = userRepository.findById(userId);
+        if (result.isEmpty()) {
+            //        throw error
+        }
+
+        User user = result.get();
+
         Movie movie = userMovieDTO.getMovie();
 
 //      add movie to user watchlist
         user.addToWatchlist(movie);
 
-//      save changes to user
+//      save changes to user (this saves 'movie' implicitly)
         userRepository.save(user);
     }
 
@@ -51,7 +57,6 @@ public class WatchlistController {
     @DeleteMapping
     @Transactional
     public void deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
-//        TODO: is it easier for front end if this takes a User object and a Movie object instead of IDs?
         int userId = requestBody.get("userId");
         int movieId = requestBody.get("movieId");
 

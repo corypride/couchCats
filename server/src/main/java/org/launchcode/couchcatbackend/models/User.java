@@ -92,9 +92,11 @@ public class User {
     }
 
     public void addToWatchlist(Movie movie) {
+        System.out.println("addToWatchlist called");
         if (!watchlist.contains(movie)) {
             watchlist.add(movie);
-            movie.addToUsers(this);
+//            movie.addToUsers(this);
+            System.out.println("if statement in addToWatchlist runs");
         }
     }
 
