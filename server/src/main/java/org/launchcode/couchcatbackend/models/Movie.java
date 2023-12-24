@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -36,11 +33,9 @@ public class Movie {
 
     @ManyToMany(mappedBy = "watchlist")
     @JsonIgnore
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
-    public Movie(){
-        this.users = new ArrayList<>();
-    }
+    public Movie(){}
 
     public Movie(int id, String title, int year, String description, String director, String cast, float rating, String poster) {
         this.id = id;
@@ -122,6 +117,7 @@ public class Movie {
         users.add(user);
     }
 
+//    TODO: change how this is set up? Should it just check for ID? ID and other fields?
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
