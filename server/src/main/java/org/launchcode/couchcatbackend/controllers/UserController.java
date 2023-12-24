@@ -1,9 +1,9 @@
 package org.launchcode.couchcatbackend.controllers;
 
-import jakarta.servlet.http.HttpSession;
 import org.launchcode.couchcatbackend.configuration.AuthenticationConfig;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
+import org.launchcode.couchcatbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Optional;
 
 
@@ -27,11 +27,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final UserService userService;
+
     private final AuthenticationConfig authenticationConfig;
 
 
     @Autowired
-    public UserController(AuthenticationConfig authenticationConfig) {
+    public UserController(UserService userService, AuthenticationConfig authenticationConfig) {
+        this.userService = userService;
         this.authenticationConfig = authenticationConfig;
     }
 
@@ -60,8 +63,14 @@ public class UserController {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");
-//        return ResponseEntity.created((URI.create("/users/" + newUser.getId() + "/profile")) + ResponseEntity.status(HttpStatus.CREATED).body("User was successfully registered.\n");;
+        String uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/users/{id}")
+                .buildAndExpand(newUser.getId())
+                .toUriString();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, uri);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("User was successfully registered.");
     }
 
 
@@ -98,7 +107,15 @@ public class UserController {
         }
     }
 
-   //TODO: LOGOUT AND WIPE SESSION COOKIE
+   //TODO: LOGOUT AND WIPE SESSION COOKIE -- NOT WORKING IN POSTMAN, NEED TO TROUBLESHOOT
+   @PostMapping("/logout")
+   public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
+       if (sessionId != null && !sessionId.isEmpty()) {
+           return userService.logoutUser(sessionId);
+       } else {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid session ID");
+       }
+   }
 
     @GetMapping("/details/{id}")
     public User getUserDetailsById(@PathVariable int id) {

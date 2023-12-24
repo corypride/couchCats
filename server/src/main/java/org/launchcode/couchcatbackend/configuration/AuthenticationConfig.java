@@ -32,8 +32,19 @@ public class AuthenticationConfig {
         return null;
     }
 
-    public boolean isValidSession(String username, String sessionId) {
-        User user = userRepository.findByEmail(username);
+    public boolean isValidSession(String email, String sessionId) {
+        User user = userRepository.findByEmail(email);
         return user != null && sessionId.equals(user.getSessionId());
+    }
+
+    public boolean invalidateSession(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            // Invalidate the session by resetting the session ID
+            user.setSessionId(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }
