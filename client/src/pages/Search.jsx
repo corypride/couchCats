@@ -17,6 +17,40 @@ const FilterSearch = () => {
   const [selectedCrew, setSelectedCrew] = useState([]);
   const [params, setParams] = useState({})
   const [queriedMovies, setQueriedMovies] = useState([]);
+
+  //sx styles
+  const toggleButtonGroupSx = {
+    display: "grid",
+    justifySelf: "center",
+    gridTemplateColumns: "repeat(5, 1fr)",
+    gridTemplateRows: "repeat(2, 1fr)",
+    gap: "5px",
+    width: "75%",
+
+  }
+
+  const toggleButtonSx = {
+    bgcolor: "primary.main",
+    "&:hover": {
+      color: "accent.main",
+      bgcolor: "primary.main",
+      //connect to theme accent.main
+      border: "1px solid #ff9610"
+    },
+    "&.Mui-selected": {
+      color: "accent.main",
+      bgcolor: "primary.main"
+    }
+  }
+
+  const submitButtonSx = {
+      margin: "3rem",
+      "&:hover": {
+        color: "accent.main",
+        //connect to theme accent.main
+        border: "1px solid #ff9610"
+      },
+  }
   
   //handle functions
   const handleGenreChange = (event, newValue) => {
@@ -70,24 +104,14 @@ const FilterSearch = () => {
               id="genreContainer"
               value={selectedGenres}
               onChange={handleGenreChange}
-              sx={{
-                display: "grid",
-                justifySelf: "center",
-                gridTemplateColumns: "repeat(5, 1fr)",
-                gridTemplateRows: "repeat(2, 1fr)",
-                gap: "5px",
-                borderRadius: "16px",
-                width: "75%"
-              }}
+              sx={toggleButtonGroupSx}
               >
                 {genres ? genres.map((genre) => (
                   <ToggleButton variant="outlined" 
                   key={genre.name} 
                   id="genre" 
                   value={genre.id}
-                  sx={{
-                    bgcolor: "#642B6B"
-                  }}
+                  sx={toggleButtonSx}
                   >{genre.name}</ToggleButton>
                 )) : (
                   "Loading"
@@ -96,15 +120,7 @@ const FilterSearch = () => {
 {/* Streaming Service Filters */}
             <Typography variant="h4">Streaming Service</Typography>
               <ToggleButtonGroup 
-              sx={{
-                display: "grid",
-                justifySelf: "center",
-                gridTemplateColumns: "repeat(5, 1fr)",
-                gridTemplateRows: "repeat(2, 1fr)",
-                gap: "5px",
-                borderRadius: "16px",
-                width: "75%"
-              }}
+              sx={toggleButtonGroupSx}
               value={selectedStreaming}
               onChange={handleStreamingChange}
               >
@@ -113,18 +129,14 @@ const FilterSearch = () => {
                   key={service.name} 
                   id="genre" 
                   value={service.id}
-                  sx={{
-                    bgcolor: "#642B6B",
-                  }}
+                  sx={toggleButtonSx}
                   >{service.name}</ToggleButton>
                 ))}
               </ToggleButtonGroup>
           </form>
           <Button 
           variant="outlined"
-          sx={{
-            margin: "3rem"
-          }}
+          sx={submitButtonSx}
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
           <MovieList 

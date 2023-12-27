@@ -55,7 +55,7 @@ const MovieList = (props) => {
               onClick={() => handleListAdd(item)}
               sx={{
                 width: "10px",
-                bgcolor: "gold"
+                bgcolor: "accent.main"
               }}
               >Add</ListItemButton>
             </ListItem>
