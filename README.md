@@ -5,6 +5,49 @@ Project for LaunchCodes' Liftoff Program
 
 ## API documentation
 
+### UserController - receive/input information about users
+
+#### Register a new user and add to database at /user/register (POST)
+
+Example JSON request: 
+```
+{
+    "firstName": "erin",
+    "lastName": "muzughi",
+    "email": "erinmuzughi@gmail.com",
+    "password": "testing321*"
+}
+```
+
+#### Login a user at /user/login (POST)
+(Note that for this application email = username)
+
+Example JSON request: 
+```
+{
+    "email": "erinmuzughi@gmail.com",
+    "password": "testing321*"
+}
+```
+Response will include header, with Set-Cookie and the sessionId
+
+Example response:
+```
+Key: Set-Cookie; Value: sessionId=9461a81a-0771-4cd1-99a9-bf31cae30c51; Path=/; Secure; HttpOnly;
+
+```
+
+
+#### Logout a user using the sessionId set when they login at /user/logout (POST)
+Request (includes header with Cookie and the sessionId= + the sessionId as the value)
+
+Example request
+```
+Headers:
+Key: Cookie, Value: sessionId=a9f9ccab-0e62-492c-ae71-5c76c0f70632;
+
+```
+
 ### MovieController - receive/input information about movies
 
 #### Return all movies in database at /movies (GET)
