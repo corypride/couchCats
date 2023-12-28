@@ -83,7 +83,6 @@ public class UserController {
     if the passwords match, we return a 200 HTTP status and a custom message indicating the login was successful
     If they do not, we return a 401 HTTP status with a custom message indicating the email and password were note a match
      */
-//TODO: Fix HTTP to come back in the header
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> userLogin(@RequestBody User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
@@ -107,7 +106,11 @@ public class UserController {
         }
     }
 
-   //TODO: LOGOUT AND WIPE SESSION COOKIE -- NOT WORKING IN POSTMAN, NEED TO TROUBLESHOOT
+    /**
+     * LOGOUT
+     **/
+    /*For logging a user out: receives the Cookie + sessionId value with the request; calls the logoutUser method in UserService;
+     */
    @PostMapping("/logout")
    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
        if (sessionId != null && !sessionId.isEmpty()) {

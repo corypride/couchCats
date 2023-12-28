@@ -37,8 +37,10 @@ public class AuthenticationConfig {
         return user != null && sessionId.equals(user.getSessionId());
     }
 
-    public boolean invalidateSession(String email) {
-        User user = userRepository.findByEmail(email);
+    /* finds a user by their sessionId, if the user exists, method changes the sessionId to null,
+    updates the user and returns this boolean as true, otherwise it returns false*/
+    public boolean invalidateSession(String sessionId) {
+        User user = userRepository.findBySessionId(sessionId);
         if (user != null) {
             // Invalidate the session by resetting the session ID
             user.setSessionId(null);
