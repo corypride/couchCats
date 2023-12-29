@@ -34,6 +34,8 @@ public class User {
     @NotEmpty
     private String password;
 
+    private String sessionId;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
@@ -83,9 +85,13 @@ public class User {
         this.password = password;
     }
 
-    //    public boolean isMatchingPassword(String password) {
-//        return encoder.matches(password, pwHash);
-//    }
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 
     public List<Movie> getWatchlist() {
         return watchlist;
