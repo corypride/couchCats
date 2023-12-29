@@ -7,19 +7,23 @@ const MovieList = (props) => {
 
   const [services, setServices] = useState();
 
-  async function handleListAdd(item) {
+  async function handleListAdd(movie) {
     try {
 
       const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
 
       const movieData = {
-        id: 492008,
-        title: '검객',
-        description: 'After being blinded in a coup against the king, Joseon\'s greatest swordsman goes into hiding, far removed from his city\'s anguish. But when traffickers kidnap his daughter, he has no choice but to unsheathe his sword once more.',
-        poster: '/r08U3dwiOeStXcjYmfnRyumgKyq.jpg',
-        year: '2021-02-16',
-        title: 'The Swordsman',
-        rating: 7.5,
+        userId: 1,
+        movie: {
+          id: movie.id,
+          description: movie.overview,
+          poster: movie.poster_path,
+          year: parseInt(movie.release_date.slice(0,4)),
+          title: movie.title,
+          director: 'placeholder',
+          cast: 'placeholder',
+          rating: movie.vote_average
+        }
       };
   
       const response = await axios.post(url, movieData);
@@ -51,7 +55,8 @@ const MovieList = (props) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        margin: "1.5rem"
+        margin: "1.5rem",
+        justifyContent: "center"
       }}
       >
         {props.queriedMovies.slice(0,3).map((item, index) => (
@@ -59,7 +64,8 @@ const MovieList = (props) => {
           key={item.original_title}
           sx={{
             display: "flex",
-
+            justifyContent: "center",
+            width: "50%"
           }}>
             <Box>
               <Box component="img" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
@@ -72,7 +78,12 @@ const MovieList = (props) => {
                 }}
                 >Add</ListItemButton>
             </Box>
-            <Box>
+            <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyConent: "center"
+            }}>
               <ListItemText 
                 primary={item.original_title}
                 sx={{
@@ -81,7 +92,11 @@ const MovieList = (props) => {
                   }
                 }}
                 />
-                <ListItemText primary={item.overview}/>
+                <ListItemText
+                sx={{
+                  width: "50%",
+                }} 
+                primary={item.overview}/>
 
                 {/* {getServices(item.id) ? "Loading..." : getServices(item.id).map((service) => (
                   <ListItem>{service.provider_id}</ListItem>
