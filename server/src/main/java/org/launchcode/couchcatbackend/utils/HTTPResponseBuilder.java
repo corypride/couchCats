@@ -9,11 +9,15 @@ public class HTTPResponseBuilder {
         return ResponseEntity.ok().headers(headers).body(body);
     }
     public static ResponseEntity<String> created(String body, HttpHeaders headers) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(body);
     }
 
     public static ResponseEntity<String> unauthorized(String body) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
+
+    public static ResponseEntity<String> badRequest(String body) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
     // Add more methods as needed for different HTTP status codes
