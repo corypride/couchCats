@@ -2,16 +2,18 @@ package org.launchcode.couchcatbackend.models.dto;
 
 import jakarta.validation.constraints.NotNull;
 import org.launchcode.couchcatbackend.models.Movie;
-import org.launchcode.couchcatbackend.models.User;
 
-public class UserMovieDTO {
+public class MovieLogDTO {
     @NotNull
     private int userId;
 
     @NotNull
     private Movie movie;
 
-    public UserMovieDTO() {}
+    @NotNull
+    private int userRating;
+
+    public MovieLogDTO(){}
 
     public int getUserId() {
         return userId;
@@ -27,5 +29,13 @@ public class UserMovieDTO {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public int getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(int userRating) {
+        this.userRating = userRating;
     }
 }
