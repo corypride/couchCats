@@ -36,6 +36,10 @@ const Autocomplete = () => {
             variant="outlined"
             type="text"
             placeholder="Search Movies..."
+            sx={{
+              border: "5px solid white",
+              bgcolor: "#642B6B"
+            }}
             value={searchTerm}
             onChange={handleChange}
         />
