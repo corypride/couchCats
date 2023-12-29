@@ -1,9 +1,0 @@
-#genreContainer {
-    display: grid;
-    /* // 5 columns with equal width */
-    grid-template-columns: repeat(5, 1fr);
-    /* 4 rows with equal height */
-    grid-template-rows: repeat(2, 1fr);  
-    /* spacing between grid items */
-    gap: 5px; 
-}

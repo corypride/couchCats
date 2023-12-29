@@ -5,14 +5,18 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#f8313b',
+      main: '#642B6B',
     },
     secondary: {
-      main: "#00897b",
+      main: '#d993ab',
+    },
+    accent: {
+      main: '#ff9610',
+      secondary: '#d993ab'
     },
     box: {
         main: '#d3d3d3',
-    }
+    },
   },
 });
 

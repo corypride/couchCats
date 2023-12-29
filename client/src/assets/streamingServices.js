@@ -1,5 +1,3 @@
-
-
 const streamingServices = [
     {
         name: "Netflix",
