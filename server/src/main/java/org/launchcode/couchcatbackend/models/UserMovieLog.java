@@ -16,7 +16,7 @@ public class UserMovieLog {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId")
-//    @JsonIgnore
+    @JsonIgnore
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
