@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 function RegisterComponent() {
   const initialValues = {
@@ -21,6 +22,18 @@ function RegisterComponent() {
       props.resetForm()
       props.setSubmitting(false)
     },2000)
+
+    const registerUrl = "http://localhost:8080/register";
+    const {emailConfirmation, passwordConfirmation, ...user} = initialValues
+    
+    const headers = {
+    "Content-Type": "application/json"
+    }
+    axios.post(registerUrl, user, {headers}).than((response) => {
+      console.log("response from backend=> ", response)
+    }).catch((error) => {
+      console.error("error while bacnkend calling ", error)
+    })
   };
 
 
