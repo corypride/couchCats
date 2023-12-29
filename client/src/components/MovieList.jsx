@@ -1,10 +1,17 @@
 import axios from 'axios';
 import { List, ListItem, ListItemText, Box, ListItemButton } from "@mui/material";
+import getServices from "../utils/getServices"
+import { useEffect, useState } from 'react';
 
 const MovieList = (props) => {
 
+  const [services, setServices] = useState();
+
   async function handleListAdd(item) {
     try {
+
+      const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
+
       const movieData = {
         id: 492008,
         title: '검객',
@@ -15,8 +22,6 @@ const MovieList = (props) => {
         rating: 7.5,
       };
   
-      const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
-  
       const response = await axios.post(url, movieData);
       console.log('Response:', response.data);
     } catch (error) {
@@ -24,43 +29,67 @@ const MovieList = (props) => {
     }
   }
 
-    return (
-        <List
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          margin: "1.5rem"
-        }}
-        >
-          {props.queriedMovies.slice(0,3).map((item, index) => (
-            <ListItem
-            key={item.original_title}
-            sx={{
-              flexGrow: "2",
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap"
-            }}>
-              <Box component="img" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
-              <ListItemText 
-              primary={item.original_title}
-              sx={{
+  const test = getServices(976573)
+  console.log(test)
 
-              }}
-              />
-              <ListItemText primary={item.overview}/>
-              {/* <ListItemText primary={need id for services}/> */}
+  // Array to get services?
+
+  // useEffect(() => {
+  //   const serviceArray = [];
+  //   const movieServiceList = () => {
+  //     props.queriedMovies.map((movie) => {
+  //       const list = getServices(movie.id);
+  //       serviceArray.push(list);
+  //       console.log(serviceArray)
+  //     })
+  //   }
+  //   movieServiceList();
+  // }, [props.queriedMovies])
+
+  return (
+      <List
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        margin: "1.5rem"
+      }}
+      >
+        {props.queriedMovies.slice(0,3).map((item, index) => (
+          <ListItem
+          key={item.original_title}
+          sx={{
+            display: "flex",
+
+          }}>
+            <Box>
+              <Box component="img" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
               <ListItemButton
-              variant="cont"
-              onClick={() => handleListAdd(item)}
-              sx={{
-                width: "10px",
-                bgcolor: "accent.main"
-              }}
-              >Add</ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+                variant="cont"
+                onClick={() => handleListAdd(item)}
+                sx={{
+                  flexGrow: "0",
+                  bgcolor: "accent.main"
+                }}
+                >Add</ListItemButton>
+            </Box>
+            <Box>
+              <ListItemText 
+                primary={item.original_title}
+                sx={{
+                  "& .MuiTypography-root" : {
+                    fontSize: "2rem"
+                  }
+                }}
+                />
+                <ListItemText primary={item.overview}/>
+
+                {/* {getServices(item.id) ? "Loading..." : getServices(item.id).map((service) => (
+                  <ListItem>{service.provider_id}</ListItem>
+                ))} */}
+            </Box>
+          </ListItem>
+        ))}
+      </List>
     )
 }
 

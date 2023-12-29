@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
-import getGenres from "../utils/getGenres"
 import MovieList from "../components/MovieList";
+import getGenres from "../utils/getGenres"
+
+
 
 const FilterSearch = () => {
 
@@ -17,6 +19,7 @@ const FilterSearch = () => {
   const [selectedCrew, setSelectedCrew] = useState([]);
   const [params, setParams] = useState({})
   const [queriedMovies, setQueriedMovies] = useState([]);
+
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -51,6 +54,8 @@ const FilterSearch = () => {
         border: "1px solid #ff9610"
       },
   }
+
+  console.log(queriedMovies)
   
   //handle functions
   const handleGenreChange = (event, newValue) => {
@@ -82,16 +87,18 @@ const FilterSearch = () => {
   useEffect(() => {
     const submit = async () => {
       try {
-        const response = await axios.get(url, { params, headers: { Authorization: `Bearer ${apiKey}` } });
+        const response = await axios.get(url, { params, 
+          headers: { Authorization: `Bearer ${apiKey}` } 
+        });
         const data = await response.data;
         setQueriedMovies(data.results);
       } catch (error) {
-        console.log(params)
         console.error(error);
       }
     };
     submit();
   }, [params]);
+
 
   //sideways transition to movie pages?
 
