@@ -43,5 +43,10 @@ const getServices = async (id) => {
       return null;
     }
   };
+
+  //get Director
+  // fetch(`https://api.themoviedb.org/3/movie/<<movieID>>/credits?api_key=<<your_api_key>>`)
+  //           .then(response => response.json())
+  //           .then((jsonData)=>jsonData.crew.filter(({job})=> job ==='Director'))
   
   export default getServices;

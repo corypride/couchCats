@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { List, ListItem, ListItemText, Box, ListItemButton } from "@mui/material";
+import { List, ListItem, ListItemText, Box, ListItemButton, Typography } from "@mui/material";
 import getServices from "../utils/getServices"
 import { useEffect, useState } from 'react';
 
 const MovieList = (props) => {
-
-  const [services, setServices] = useState();
 
   async function handleListAdd(item) {
     try {
@@ -29,68 +27,79 @@ const MovieList = (props) => {
     }
   }
 
-  // const test = getServices(976573)
-  // console.log(test)
+    // getServices(props.movie.id)
+    // .then((services) => {
+    //   services.map((service) => (
+    //     <ListItem></ListItem>
+    //   ))
+    // })
 
-  // Array to get services?
-
-  // useEffect(() => {
-  //   const serviceArray = [];
-  //   const movieServiceList = () => {
-  //     props.queriedMovies.map((movie) => {
-  //       const list = getServices(movie.id);
-  //       serviceArray.push(list);
-  //       console.log(serviceArray)
-  //     })
-  //   }
-  //   movieServiceList();
-  // }, [props.queriedMovies])
+    getServices(976573)
+  .then(service => {
+  console.log(service)
+  })
 
   return (
       <List
       sx={{
         display: "flex",
         flexDirection: "column",
-        margin: "1.5rem"
+        margin: "1.5rem",
+        width: "60%"
       }}
       >
-        {props.queriedMovies.slice(0,3).map((item, index) => (
           <ListItem
-          key={item.original_title}
+          key={props.movie.original_title}
           sx={{
-            display: "flex",
-
+            display: "flex"
           }}>
-            <Box>
-              <Box component="img" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} alt="movie poster" />
+            <Box component="div">
+              <Box component="img" src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} alt="movie poster" />
               <ListItemButton
                 variant="cont"
-                onClick={() => handleListAdd(item)}
+                onClick={() => handleListAdd(props.movie)}
                 sx={{
                   flexGrow: "0",
                   bgcolor: "accent.main"
                 }}
                 >Add</ListItemButton>
             </Box>
-            <Box>
-              <ListItemText 
-                primary={item.original_title}
+            <Box 
+            component="div"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              height: "50%",
+              alignSelf: "flex-start",
+            }}>
+              <Box component="div"
+              sx={{
+                display: "flex",
+                gap: "1rem"
+              }}>
+                <Typography
+                  sx={{
+                    alignSelf: "flex-start",
+                    fontSize: "2.5rem",
+                    fontWeight: "bold"
+                  }}
+                  >{props.movie.original_title}</Typography>
+                <Typography
                 sx={{
-                  "& .MuiTypography-root" : {
-                    fontSize: "2rem"
-                  }
-                }}
-                />
-                <ListItemText primary={item.overview}/>
+                  alignSelf: "center"
+                }}>{props.movie.release_date.slice(0,4)}</Typography>
+              </Box>
 
-                {/* {getServices(item.id) ? "Loading..." : getServices(item.id).map((service) => (
-                  <ListItem>{service.provider_id}</ListItem>
-                ))} */}
+                <Typography
+                sx={{
+                  width: "70%"
+                }}>{props.movie.overview}</Typography>
+
+                  {/* service */}
             </Box>
           </ListItem>
-        ))}
       </List>
     )
-}
+  }
 
 export default MovieList;
