@@ -1,23 +1,33 @@
 import axios from 'axios';
 import { List, ListItem, ListItemText, Box, ListItemButton, Typography } from "@mui/material";
+import getCast from "../utils/getCast"
 import getServices from "../utils/getServices"
 import { useEffect, useState } from 'react';
+import streamingServices from '../assets/streamingServices';
 
 const MovieList = (props) => {
 
-  async function handleListAdd(item) {
+  const [services, setServices] = useState();
+  const [cast, setCast] = useState();
+
+  // adds movie to watchlist
+  async function handleListAdd(movie) {
     try {
 
       const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
 
       const movieData = {
-        id: 492008,
-        title: '검객',
-        description: 'After being blinded in a coup against the king, Joseon\'s greatest swordsman goes into hiding, far removed from his city\'s anguish. But when traffickers kidnap his daughter, he has no choice but to unsheathe his sword once more.',
-        poster: '/r08U3dwiOeStXcjYmfnRyumgKyq.jpg',
-        year: '2021-02-16',
-        title: 'The Swordsman',
-        rating: 7.5,
+        userId: 1,
+        movie: {
+          id: movie.id,
+          description: movie.overview,
+          poster: movie.poster_path,
+          year: parseInt(movie.release_date.slice(0,4)),
+          title: movie.title,
+          director: 'placeholder',
+          cast: 'placeholder',
+          rating: movie.vote_average
+        }
       };
   
       const response = await axios.post(url, movieData);
@@ -27,17 +37,19 @@ const MovieList = (props) => {
     }
   }
 
-    // getServices(props.movie.id)
-    // .then((services) => {
-    //   services.map((service) => (
-    //     <ListItem></ListItem>
-    //   ))
-    // })
-
-    getServices(976573)
-  .then(service => {
-  console.log(service)
-  })
+  //grabs cast and service from TMDB
+  useEffect(() => {
+    getServices(props.movie.id)
+    .then(servicesResult => {
+      console.log(servicesResult)
+      setServices(servicesResult);
+      })
+    getCast(props.movie.id)
+    .then(castResult => {
+      console.log(castResult)
+      setCast(castResult)
+      })
+  }, [props.movie])
 
   return (
       <List
@@ -48,56 +60,62 @@ const MovieList = (props) => {
         width: "60%"
       }}
       >
-          <ListItem
-          key={props.movie.original_title}
+        <ListItem
+        key={props.movie.original_title}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+
+        }}>
+          <Box component="div">
+            <Box component="img" src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} alt="movie poster" />
+            <ListItemButton
+              variant="cont"
+              onClick={() => handleListAdd(props.movie)}
+              sx={{
+                flexGrow: "0",
+                bgcolor: "accent.main"
+              }}
+              >Add</ListItemButton>
+          </Box>
+          <Box 
+          component="div"
           sx={{
-            display: "flex"
+            display: "flex",
+            flexDirection: "column",
+            height: "50%",
+            alignSelf: "flex-start",
           }}>
-            <Box component="div">
-              <Box component="img" src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} alt="movie poster" />
-              <ListItemButton
-                variant="cont"
-                onClick={() => handleListAdd(props.movie)}
-                sx={{
-                  flexGrow: "0",
-                  bgcolor: "accent.main"
-                }}
-                >Add</ListItemButton>
-            </Box>
-            <Box 
-            component="div"
+            <Box component="div"
             sx={{
               display: "flex",
-              flexDirection: "column",
-              height: "50%",
-              alignSelf: "flex-start",
+              gap: "1rem"
             }}>
-              <Box component="div"
-              sx={{
-                display: "flex",
-                gap: "1rem"
-              }}>
-                <Typography
-                  sx={{
-                    alignSelf: "flex-start",
-                    fontSize: "2.5rem",
-                    fontWeight: "bold"
-                  }}
-                  >{props.movie.original_title}</Typography>
-                <Typography
+              <Typography
                 sx={{
-                  alignSelf: "center"
-                }}>{props.movie.release_date.slice(0,4)}</Typography>
+                  alignSelf: "flex-start",
+                  fontSize: "2.5rem",
+                  fontWeight: "bold"
+                }}
+                >{props.movie.original_title}</Typography>
+              <Typography
+              sx={{
+                alignSelf: "center"
+              }}>{props.movie.release_date.slice(0,4)}</Typography>
+            </Box>
+              <Typography
+              sx={{
+              }}>{props.movie.overview}</Typography>
+              {services ? 
+              <Box>
+                <ListItemText>{services[0].provider_name}</ListItemText>
+                <Box component="img" src={`https://image.tmdb.org/t/p/original/${services[0].logo_path}`} alt="stream logo" /> 
               </Box>
 
-                <Typography
-                sx={{
-                  width: "70%"
-                }}>{props.movie.overview}</Typography>
-
-                  {/* service */}
-            </Box>
-          </ListItem>
+              : "Loading"}
+                {/* service */}
+          </Box>
+        </ListItem>
       </List>
     )
   }

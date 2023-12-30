@@ -152,9 +152,9 @@ const FilterSearch = () => {
           sx={submitButtonSx}
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
-
         {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                  <MovieList 
+                  <MovieList
+                  key={index}
                   movie={queriedMovie}
                   />
         ))}

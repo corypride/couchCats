@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/watchlist")
 public class WatchlistController {
     @Autowired
@@ -35,22 +36,20 @@ public class WatchlistController {
     @PostMapping(path = "/save")
     @Transactional
     public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
-        User user = userMovieDTO.getUser();
+        int userId = userMovieDTO.getUserId();
+        Optional<User> result = userRepository.findById(userId);
+        if (result.isEmpty()) {
+            //        throw error
+        }
+
+        User user = result.get();
+
         Movie movie = userMovieDTO.getMovie();
-
-//      NOTE: saving the movie to a uesr's watchlist seems to add it to the DB automatically, but leaving this here just in case
-
-//      if movie is not already in database, add it
-//        int movieId = movie.getId();
-//        Optional<Movie> result = movieRepository.findById(movieId);
-//        if (result.isEmpty()) {
-//            movieRepository.save(movie);
-//        }
 
 //      add movie to user watchlist
         user.addToWatchlist(movie);
 
-//      save changes to user
+//      save changes to user (this saves 'movie' implicitly)
         userRepository.save(user);
     }
 
@@ -58,7 +57,6 @@ public class WatchlistController {
     @DeleteMapping
     @Transactional
     public void deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
-//        TODO: is it easier for front end if this takes a User object and a Movie object instead of IDs?
         int userId = requestBody.get("userId");
         int movieId = requestBody.get("movieId");
 
