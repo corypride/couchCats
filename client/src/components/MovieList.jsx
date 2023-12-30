@@ -29,8 +29,8 @@ const MovieList = (props) => {
     }
   }
 
-  const test = getServices(976573)
-  console.log(test)
+  // const test = getServices(976573)
+  // console.log(test)
 
   // Array to get services?
 
