@@ -11,6 +11,7 @@ const MovieDisplay = (props) => {
   const [services, setServices] = useState();
   const [castCrew, setCastCrew] = useState();
   const [director, setDirector] = useState();
+  const [topCast, setTopCast] = useState();
 
   // adds movie to watchlist
   async function handleListAdd(movie) {
@@ -26,7 +27,7 @@ const MovieDisplay = (props) => {
           poster: movie.poster_path,
           year: parseInt(movie.release_date.slice(0,4)),
           title: movie.title,
-          director: 'placeholder',
+          director: director.name,
           cast: 'placeholder',
           rating: movie.vote_average
         }
@@ -53,7 +54,11 @@ const MovieDisplay = (props) => {
 
   useEffect(() => {
     // console.log(castCrew.crew.filter(({job})=> job ==='Director'))
-    if(castCrew) setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
+    if(castCrew) {
+      setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
+      setTopCast(castCrew.cast.slice(0,3))
+      console.log(topCast)
+    } 
   }, [castCrew])
 
 
@@ -106,6 +111,7 @@ const MovieDisplay = (props) => {
               display: "flex",
               gap: "1rem"
             }}>
+{/* movie title and release year*/}
               <Typography
                 sx={{
                   alignSelf: "flex-start",
@@ -122,8 +128,11 @@ const MovieDisplay = (props) => {
               <Typography
               sx={{
               }}>{props.movie.overview}</Typography>
-              <Typography>Director</Typography>
 {/* director */}
+              <Typography
+              sx={{
+                fontSize: "3rem"
+              }}>Director</Typography>
               {director ? 
                 <>
                   {director.map((item) => (
@@ -132,6 +141,19 @@ const MovieDisplay = (props) => {
                 ))}
                 </> 
                 : "No Director"}
+{/* Top Billed Cast */}
+              <Typography
+              sx={{
+                fontSize: "3rem"
+              }}>Top Billed</Typography>
+              {director ? 
+                <>
+                  {topCast.map((item) => (
+                  <Typography
+                  key={item.name}>{item.name}</Typography>
+                ))}
+                </> 
+                : "No Top Billed"}
 {/* streaming services */}
               {services ? 
               <Box> 
