@@ -1,14 +1,16 @@
 import axios from 'axios';
-import { List, ListItem, ListItemText, Box, ListItemButton, Typography } from "@mui/material";
-import getCast from "../utils/getCast"
+import { List, ListItem, Box, ListItemButton, Typography } from "@mui/material";
+import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import { useEffect, useState } from 'react';
 import streamingServices from '../assets/streamingServices';
+import { ContentCutOutlined } from '@mui/icons-material';
 
-const MovieList = (props) => {
+const MovieDisplay = (props) => {
 
   const [services, setServices] = useState();
-  const [cast, setCast] = useState();
+  const [castCrew, setCastCrew] = useState();
+  const [director, setDirector] = useState();
 
   // adds movie to watchlist
   async function handleListAdd(movie) {
@@ -41,15 +43,19 @@ const MovieList = (props) => {
   useEffect(() => {
     getServices(props.movie.id)
     .then(servicesResult => {
-      console.log(servicesResult)
       setServices(servicesResult);
       })
-    getCast(props.movie.id)
-    .then(castResult => {
-      console.log(castResult)
-      setCast(castResult)
+    getCastCrew(props.movie.id)
+    .then(castCrewResult => {
+      setCastCrew(castCrewResult)
       })
   }, [props.movie])
+
+  useEffect(() => {
+    // console.log(castCrew.crew.filter(({job})=> job ==='Director'))
+    if(castCrew) setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
+  }, [castCrew])
+
 
   return (
       <List
@@ -60,6 +66,7 @@ const MovieList = (props) => {
         width: "60%"
       }}
       >
+{/* title */}
         <ListItem
         key={props.movie.original_title}
         sx={{
@@ -68,7 +75,15 @@ const MovieList = (props) => {
 
         }}>
           <Box component="div">
-            <Box component="img" src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} alt="movie poster" />
+{/* movie poster */}
+            <Box 
+              sx={{
+                height: "35rem",
+                width: "25rem",
+              }}
+              component="img" 
+              src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
+              alt="movie poster" />
             <ListItemButton
               variant="cont"
               onClick={() => handleListAdd(props.movie)}
@@ -103,21 +118,40 @@ const MovieList = (props) => {
                 alignSelf: "center"
               }}>{props.movie.release_date.slice(0,4)}</Typography>
             </Box>
+{/* overview */}
               <Typography
               sx={{
               }}>{props.movie.overview}</Typography>
+              <Typography>Director</Typography>
+{/* director */}
+              {director ? 
+                <>
+                  {director.map((item) => (
+                  <Typography
+                  key={item.name}>{item.name}</Typography>
+                ))}
+                </> 
+                : "No Director"}
+{/* streaming services */}
               {services ? 
-              <Box>
-                <ListItemText>{services[0].provider_name}</ListItemText>
-                <Box component="img" src={`https://image.tmdb.org/t/p/original/${services[0].logo_path}`} alt="stream logo" /> 
+              <Box> 
+                {services.map((service) => (
+                  <Box 
+                    key={service.provider_name}
+                    sx={{
+                      height: "4rem",
+                      width: "4rem",
+                      borderRadius: "5rem"
+                    }}
+                    component="img" 
+                    src={`https://image.tmdb.org/t/p/original/${service.logo_path}`} alt="stream logo" />
+                ))}
               </Box>
-
-              : "Loading"}
-                {/* service */}
+              : "Not on Streaming...."}
           </Box>
         </ListItem>
       </List>
     )
   }
 
-export default MovieList;
+export default MovieDisplay;

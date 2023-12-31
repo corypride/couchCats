@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const getCast = async (id) => {
+const getCastCrew = async (id) => {
     const url = `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`;
     const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
     
@@ -19,4 +19,4 @@ const getCast = async (id) => {
     }
 };
 
-export default getCast;
+export default getCastCrew;

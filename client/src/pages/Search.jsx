@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
-import MovieList from "../components/MovieList";
+import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres"
 
 
@@ -153,7 +153,7 @@ const FilterSearch = () => {
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
         {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                  <MovieList
+                  <MovieDisplay
                   key={index}
                   movie={queriedMovie}
                   />
