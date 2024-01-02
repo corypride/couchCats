@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, Link } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, SvgIcon,  } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres"
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 
 
@@ -14,7 +15,6 @@ const FilterSearch = () => {
 
   //scroll references
   const results = useRef(null);
-  const filters = useRef(null);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedStreaming, setSelectedStreaming] = useState([]);
@@ -120,7 +120,6 @@ const FilterSearch = () => {
 
     return (
         <Box 
-        ref={filters}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -180,14 +179,29 @@ const FilterSearch = () => {
               justifyContent: "center"
             }}
             ref={results}>
-              <Button 
-              onClick={handleScrollTop}>LINK</Button>
+              {params ? 
+                <Button 
+                  onClick={handleScrollTop}
+                  sx={{
+                    alignSelf: "flex-end",
+                    display: "flex",
+                    flexDirection: "column",
+                    position: "sticky",
+                    top: "0"
+                  }}>
+                    <SvgIcon
+                      sx={{
+                        fontSize: "6rem"
+                      }} component={KeyboardDoubleArrowUpIcon}/>
+                      <Typography>Back</Typography>
+                  </Button> : ""}
+
               {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                  <MovieDisplay
-                    key={index}
-                    movie={queriedMovie}
-                    />
-              ))}
+                <MovieDisplay
+                  key={index}
+                  movie={queriedMovie}
+                  />
+                ))}
           </Box>
         
         </Box> 
