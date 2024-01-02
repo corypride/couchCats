@@ -82,9 +82,9 @@ const FilterSearch = () => {
       region: 'US',
       sort_by: 'popularity.desc',
       watch_region: 'US',
-      with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join(",") : undefined,
-      with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join(",") : undefined,
-      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join(",") : undefined,
+      with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join("|") : undefined,
+      with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
+      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
     });
   }
 
