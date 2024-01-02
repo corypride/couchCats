@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, Link } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres"
@@ -19,9 +19,8 @@ const FilterSearch = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedStreaming, setSelectedStreaming] = useState([]);
   const [selectedCrew, setSelectedCrew] = useState([]);
-  const [params, setParams] = useState()
+  const [params, setParams] = useState();
   const [queriedMovies, setQueriedMovies] = useState([]);
-
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -66,12 +65,6 @@ const FilterSearch = () => {
     setSelectedStreaming(newValue);
   };
 
-  // const handleScroll = (targetRef) => {
-  //   if (targetRef.current) {
-  //     targetRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling
-  //   }
-  // }
-
   const handleSubmit = () => {
     setParams({
       api_key: process.env.REACT_APP_API_KEY,
@@ -88,6 +81,7 @@ const FilterSearch = () => {
     });
   }
 
+  // handles scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (results.current) {
@@ -96,10 +90,12 @@ const FilterSearch = () => {
     };
     handleScroll();
   }, [results, queriedMovies]);
-  
-  
 
-  //TODO: this is running before submit
+  const handleScrollTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // handles submission of API query
   useEffect(() => {
     const submit = async () => {
       const url = "https://api.themoviedb.org/3/discover/movie";
@@ -121,15 +117,16 @@ const FilterSearch = () => {
 
   //sideways transition to movie pages?
   // FIXME: outline of buttons not full
-  // FIXME: Buttons complete request as "AND" and not "OR"
 
     return (
-        <Box sx={{
+        <Box 
+        ref={filters}
+        sx={{
           display: "flex",
           flexDirection: "column",
           width: "100%",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}>
           <form style={{display: "grid"}}>
 {/* Genre Filters */}
@@ -183,12 +180,14 @@ const FilterSearch = () => {
               justifyContent: "center"
             }}
             ref={results}>
-            {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-            <MovieDisplay
-            key={index}
-            movie={queriedMovie}
-            />
-            ))}
+              <Button 
+              onClick={handleScrollTop}>LINK</Button>
+              {queriedMovies.slice(0,3).map((queriedMovie, index) => (
+                  <MovieDisplay
+                    key={index}
+                    movie={queriedMovie}
+                    />
+              ))}
           </Box>
         
         </Box> 
