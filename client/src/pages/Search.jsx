@@ -2,22 +2,21 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
-import MovieList from "../components/MovieList";
+import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres"
 
 
 
 const FilterSearch = () => {
 
-  const url = "https://api.themoviedb.org/3/discover/movie";
-  const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+
   //calls 4 times?
   const genres = getGenres();
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedStreaming, setSelectedStreaming] = useState([]);
   const [selectedCrew, setSelectedCrew] = useState([]);
-  const [params, setParams] = useState({})
+  const [params, setParams] = useState()
   const [queriedMovies, setQueriedMovies] = useState([]);
 
 
@@ -54,8 +53,6 @@ const FilterSearch = () => {
         border: "1px solid #ff9610"
       },
   }
-
-  console.log(queriedMovies)
   
   //handle functions
   const handleGenreChange = (event, newValue) => {
@@ -86,6 +83,8 @@ const FilterSearch = () => {
   //TODO: this is running before submit
   useEffect(() => {
     const submit = async () => {
+      const url = "https://api.themoviedb.org/3/discover/movie";
+      const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
       try {
         const response = await axios.get(url, { params, 
           headers: { Authorization: `Bearer ${apiKey}` } 
@@ -96,14 +95,21 @@ const FilterSearch = () => {
         console.error(error);
       }
     };
-    submit();
+    if(!params) return;
+    else submit();
   }, [params]);
 
 
   //sideways transition to movie pages?
 
     return (
-        <Box>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center"
+        }}>
           <form style={{display: "grid"}}>
 {/* Genre Filters */}
             <Typography variant="h4">Genre</Typography>
@@ -146,9 +152,12 @@ const FilterSearch = () => {
           sx={submitButtonSx}
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
-          <MovieList 
-          queriedMovies={queriedMovies}
-          />
+        {queriedMovies.slice(0,3).map((queriedMovie, index) => (
+                  <MovieDisplay
+                  key={index}
+                  movie={queriedMovie}
+                  />
+        ))}
         </Box> 
       );
 }

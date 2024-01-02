@@ -37,12 +37,16 @@ const getServices = async (id) => {
         },
       });
       const data = await response.data;
-      console.log(data)
       return data.results.US.flatrate; // flatrate is movies on subscription streaming
     } catch (error) {
       console.error(error);
       return null;
     }
   };
+
+  //get Director
+  // fetch(`https://api.themoviedb.org/3/movie/<<movieID>>/credits?api_key=<<your_api_key>>`)
+  //           .then(response => response.json())
+  //           .then((jsonData)=>jsonData.crew.filter(({job})=> job ==='Director'))
   
   export default getServices;
