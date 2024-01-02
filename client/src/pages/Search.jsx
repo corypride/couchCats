@@ -101,6 +101,7 @@ const FilterSearch = () => {
 
 
   //sideways transition to movie pages?
+  // FIXME: outline of buttons not full
 
     return (
         <Box sx={{
@@ -146,6 +147,7 @@ const FilterSearch = () => {
                   >{service.name}</ToggleButton>
                 ))}
               </ToggleButtonGroup>
+              {/* TODO: get crew suggestions */}
           </form>
           <Button 
           variant="outlined"
