@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
@@ -9,9 +9,12 @@ import getGenres from "../utils/getGenres"
 
 const FilterSearch = () => {
 
-
-  //calls 4 times?
+  //FIXME:calls 4 times?
   const genres = getGenres();
+
+  //scroll references
+  const results = useRef(null);
+  const filters = useRef(null);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedStreaming, setSelectedStreaming] = useState([]);
@@ -63,6 +66,12 @@ const FilterSearch = () => {
     setSelectedStreaming(newValue);
   };
 
+  // const handleScroll = (targetRef) => {
+  //   if (targetRef.current) {
+  //     targetRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling
+  //   }
+  // }
+
   const handleSubmit = () => {
     setParams({
       api_key: process.env.REACT_APP_API_KEY,
@@ -76,8 +85,18 @@ const FilterSearch = () => {
       with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join(",") : undefined,
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join(",") : undefined,
       with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join(",") : undefined,
-    })
+    });
   }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (results.current) {
+        results.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    handleScroll();
+  }, [results, queriedMovies]);
+  
   
 
   //TODO: this is running before submit
@@ -155,12 +174,23 @@ const FilterSearch = () => {
           sx={submitButtonSx}
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
-        {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                  <MovieDisplay
-                  key={index}
-                  movie={queriedMovie}
-                  />
-        ))}
+          <Box 
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            ref={results}>
+            {queriedMovies.slice(0,3).map((queriedMovie, index) => (
+            <MovieDisplay
+            key={index}
+            movie={queriedMovie}
+            />
+            ))}
+          </Box>
+        
         </Box> 
       );
 }
