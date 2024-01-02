@@ -102,6 +102,7 @@ const FilterSearch = () => {
 
   //sideways transition to movie pages?
   // FIXME: outline of buttons not full
+  // FIXME: Buttons complete request as "AND" and not "OR"
 
     return (
         <Box sx={{

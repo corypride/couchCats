@@ -38,6 +38,7 @@ const LandingPage = () => {
     return(
         <>
             <Box>
+                {/* Hero */}
                 <Typography component="h2" 
                 sx={{
                     fontSize: "7rem",
@@ -61,7 +62,7 @@ const LandingPage = () => {
                     hover: ""
                 }}>Find your Movie!</Button>
             </Box>
-
+            {/* Top Movie List */}
             <Box
             sx={{
                 marginTop: "10rem",
