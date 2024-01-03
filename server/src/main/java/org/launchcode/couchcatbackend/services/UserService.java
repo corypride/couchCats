@@ -72,15 +72,15 @@ public class UserService {
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
 
+    //TODO: Determine if I need to update and create a User Credentials DTO?
     public ResponseEntity<String> authenticateUser(@RequestBody User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
-        String sessionId;
 
         if (userLogin != null) {
             if (isPasswordCorrect(user, userLogin)) {
-                sessionId = authenticationConfig.createSession(user.getEmail());
+                String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + sessionId + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
                 return HTTPResponseBuilder.ok("Login successful\n", headers);
             } else {
                 return HTTPResponseBuilder.unauthorized("Login failed: Email and password are not a match\n");
@@ -108,4 +108,5 @@ public class UserService {
         return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
     }
 }
+
 }

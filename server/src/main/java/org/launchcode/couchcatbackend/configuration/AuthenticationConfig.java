@@ -27,17 +27,20 @@ public class AuthenticationConfig {
             String sessionId = UUID.randomUUID().toString();
             user.setSessionId(sessionId);
             // Regenerate session ID upon login to protect against session fixation
-            user.setSessionId(UUID.randomUUID().toString());
             userRepository.save(user);
             return sessionId;
         }
         return null;
     }
 
+
     public boolean isValidSession(String email, String sessionId) {
         User user = userRepository.findByEmail(email);
         return user != null && sessionId.equals(user.getSessionId());
     }
+
+    //TODO: Fix to find a user by email and then get session Id -- this is pulling the wrong sessionId currently
+    // -- was using a Get to get user details and pulled sessionId from a totally different user
 
     /* finds a user by their sessionId, if the user exists, method changes the sessionId to null,
     updates the user and returns this boolean as true, otherwise it returns false*/
@@ -52,3 +55,4 @@ public class AuthenticationConfig {
         return false;
     }
 }
+

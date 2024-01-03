@@ -42,7 +42,8 @@ public class UserController {
     }
 
 
-   @PostMapping("/logout")
+    //TODO: Implement features such as session expiration, secure storage of session IDs, and mechanisms for session revocation.
+    @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
        if (sessionId != null && !sessionId.isEmpty()) {
            return userService.logoutUser(sessionId);
