@@ -1,8 +1,8 @@
-import { TextField} from "@mui/material";
+import { TextField, Autocomplete, Stack, ListItem, Typography,Paper, Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 //need to clear as delete, fix list items
-const Autocomplete = () => {
+const AutocompleteMUI = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -29,35 +29,62 @@ const Autocomplete = () => {
       setMovieId(result.id);
       setSearchResults([]); // Clear suggestions after selection
     };
+
+    // TODO: styling
   
     return (
-      <div>
-        <TextField
-            variant="outlined"
-            type="text"
-            placeholder="Search Movies..."
+      <>
+        <Stack 
+          spacing={2} 
+          sx={{
+            width: "15vw"
+            }}>
+          <Autocomplete
+          open
             sx={{
-              border: "5px solid white",
-              bgcolor: "#642B6B"
+              backgroundColor: "primary.main",
+              color: "white",
+              ".MuiAutocompleteListbox-option": {
+                justifyContent: "space-between"
+              }
             }}
-            value={searchTerm}
-            onChange={handleChange}
-        />
-        {searchTerm.length > 0 && (
-          <ul>
-            {searchResults.slice(0, 10).map((result) => (
-              <ul 
-              key={result.id}
-              styles="position: absolute; width: 120px; display: block; padding: 0;"
-              onClick={() => handleClick(result)}>
-                {result.title}
-              </ul>
-            ))}
-          </ul>
-        )}
-      </div>
+            freeSolo
+            options={searchResults}
+            getOptionLabel={(option) => option.original_title}
+            noOptionsText="No movies fit that criteria..."
+            renderOption={(props, option) => {
+              return (
+                  <Box
+                    {...props} 
+                    key={option.id}
+                    sx={{
+                      width: "100%"
+                    }}>
+                        <Typography>{option.original_title}</Typography>
+                        <Typography>{option.release_date.slice(0,4)}</Typography>
+                  </Box>
+              );
+            }}
+            renderInput={(params) => 
+              <TextField
+                sx={{
+                  input: {
+                    color: "accent.main"
+                  },
+                  "& .MuiFormLabel-root": {
+                    color: "accent.main"
+                  },
+                  "& .Mui-focused": {
+                    color: "accent.main"
+                  }
+                }}
+                onChange={handleChange}
+                {...params} label="Seach Movies..." />}
+            />
+        </Stack>
+      </>
     );
   };
 
 
-export default Autocomplete;
+export default AutocompleteMUI;

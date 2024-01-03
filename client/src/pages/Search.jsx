@@ -176,7 +176,8 @@ const FilterSearch = () => {
               flexDirection: "column",
               width: "100%",
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+              marginBottom: "5rem"
             }}
             ref={results}>
               {params ? 

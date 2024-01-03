@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Box, Button, List, ListItem, ListItemText, Typography, SvgIcon } from "@mui/material";
+import { Box, Button, List, ListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import tmdb_main from "../assets/tmdb_main.svg";
@@ -30,7 +30,7 @@ const LandingPage = () => {
             }
           };
           fetchData();
-    }, [url, apiKey])
+    }, [url, apiKey, params])
 
 
 
@@ -88,7 +88,8 @@ const LandingPage = () => {
                                     display: "flex",
                                     flexDirection: "column",
                                     fontSize: "0.5rem",
-                                    width: "300px"
+                                    width: "20rem",
+                                    gap: "0.25rem"
                                 }}>
                                     <Box 
                                     component="img" 
@@ -104,10 +105,7 @@ const LandingPage = () => {
                                         fontWeight: "900",
                                         textAlign: "center"
                                     }}>{movie.original_title}</Typography>
-                                    <Typography
-                                    sx={{
-                                        fontSize: "1.25rem"
-                                    }}>Released: {movie.release_date.slice(0,4)}</Typography>
+                                    <Typography>Released: {movie.release_date.slice(0,4)}</Typography>
                                     <Box
                                     sx={{
                                         display: "flex",

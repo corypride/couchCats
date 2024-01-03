@@ -14,7 +14,7 @@ import DrawerComp from "./DrawerComp";
 import imgLogo from "../assets/img/logo-no-background.png"
 import { Link } from "react-router-dom"
 import PetsIcon from '@mui/icons-material/Pets';
-import AutocompleteMovie from "./Autocomplete";
+import Autocomplete from "./Autocomplete";
 
 const NavBar = () => {
   const [value, setValue] = useState(0);
@@ -61,7 +61,7 @@ const NavBar = () => {
                   <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
                 ))}
               </Tabs>
-              <AutocompleteMovie />
+              <Autocomplete />
               <Button sx={{ marginLeft: 2 }}
                 variant="contained"
                 component={Link} 
