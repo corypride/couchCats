@@ -36,6 +36,7 @@ public class User {
 
     private String sessionId;
 
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
