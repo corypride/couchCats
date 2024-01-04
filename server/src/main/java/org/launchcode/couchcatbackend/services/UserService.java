@@ -72,7 +72,6 @@ public class UserService {
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
 
-    //TODO: Determine if I need to update and create a User Credentials DTO?
     public ResponseEntity<String> authenticateUser(@RequestBody User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
 
@@ -87,6 +86,17 @@ public class UserService {
             }
         } else {
             return HTTPResponseBuilder.unauthorized("Login Failed: Email address does not exist\n");
+        }
+    }
+
+    public ResponseEntity<String> authenticateSecureEndpoint(String sessionId) {
+        if (authenticationConfig.isValidSession(sessionId)) {
+            //update last activity
+            AuthenticationConfig.updateLastActivityTime(sessionId);
+            // Process the request for the authenticated user
+            return HTTPResponseBuilder.ok("Authorized access");
+        } else {
+            return HTTPResponseBuilder.unauthorized("Session expired or invalid");
         }
     }
 
