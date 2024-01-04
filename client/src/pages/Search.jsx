@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { Button, ToggleButton, ToggleButtonGroup, Box, Typography } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, SvgIcon,  } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres"
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 
 
 const FilterSearch = () => {
 
-
-  //calls 4 times?
+  //FIXME:calls 4 times?
   const genres = getGenres();
+
+  //scroll references
+  const results = useRef(null);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedStreaming, setSelectedStreaming] = useState([]);
   const [selectedCrew, setSelectedCrew] = useState([]);
-  const [params, setParams] = useState()
+  const [params, setParams] = useState();
   const [queriedMovies, setQueriedMovies] = useState([]);
-
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -73,14 +75,27 @@ const FilterSearch = () => {
       region: 'US',
       sort_by: 'popularity.desc',
       watch_region: 'US',
-      with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join(",") : undefined,
-      with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join(",") : undefined,
-      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join(",") : undefined,
-    })
+      with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join("|") : undefined,
+      with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
+      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
+    });
   }
-  
 
-  //TODO: this is running before submit
+  // handles scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (results.current) {
+        results.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    handleScroll();
+  }, [results, queriedMovies]);
+
+  const handleScrollTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // handles submission of API query
   useEffect(() => {
     const submit = async () => {
       const url = "https://api.themoviedb.org/3/discover/movie";
@@ -101,14 +116,16 @@ const FilterSearch = () => {
 
 
   //sideways transition to movie pages?
+  // FIXME: outline of buttons not full
 
     return (
-        <Box sx={{
+        <Box 
+        sx={{
           display: "flex",
           flexDirection: "column",
           width: "100%",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}>
           <form style={{display: "grid"}}>
 {/* Genre Filters */}
@@ -146,22 +163,87 @@ const FilterSearch = () => {
                   >{service.name}</ToggleButton>
                 ))}
               </ToggleButtonGroup>
+              {/* TODO: get crew suggestions */}
           </form>
           <Button 
           variant="outlined"
           sx={submitButtonSx}
           onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
-        {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                  <MovieDisplay
+          <Box 
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "5rem"
+            }}
+            ref={results}>
+              {params ? 
+                <Button 
+                  onClick={handleScrollTop}
+                  sx={{
+                    alignSelf: "flex-end",
+                    display: "flex",
+                    flexDirection: "column",
+                    position: "sticky",
+                    top: "0"
+                  }}>
+                    <SvgIcon
+                      sx={{
+                        fontSize: "6rem"
+                      }} component={KeyboardDoubleArrowUpIcon}/>
+                      <Typography>Back</Typography>
+                  </Button> : ""}
+
+              {queriedMovies.slice(0,3).map((queriedMovie, index) => (
+                <MovieDisplay
                   key={index}
                   movie={queriedMovie}
                   />
-        ))}
+                ))}
+          </Box>
+        
         </Box> 
       );
 }
 
 export default FilterSearch;
 
-// queriedMovies.length > 0 && 
+ // useEffect(() => {
+  //   const url = "https://api.themoviedb.org/3/discover/movie";
+  //   const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+  //   const randomizePage = async () => {
+  //     try {
+  //       const response = await axios.get(url, { params, 
+  //         headers: { Authorization: `Bearer ${apiKey}` } 
+  //       });
+  //       const data = await response.data;
+  //       const totalPages = data.total_pages;
+  //       // console.log(Math.floor(Math.random() * totalPages))
+  //       // Random page between 1 and total pages returned
+  //       setPage(Math.floor(Math.random() * (totalPages) - 1) + 1)
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }; 
+  //   const submit = async () => {
+  //     //API call with randomized page number
+  //     try {
+  //       // setParams(baseParameters);
+  //       const response = await axios.get(url, { params, 
+  //         headers: { Authorization: `Bearer ${apiKey}` } 
+  //       });
+  //       const data = await response.data;
+  //       setQueriedMovies(data.results);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   if(!params) return;
+  //   else {
+  //     randomizePage();
+  //     submit();
+  //   } 
+  // }, [randomize]);

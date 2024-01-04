@@ -1,7 +1,8 @@
-import axios from "axios"
-import { Box, Button, List, ListItem, ListItemText, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom"
+import axios from "axios";
+import { Box, Button, List, ListItem, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import tmdb_main from "../assets/tmdb_main.svg";
 
 
 const LandingPage = () => {
@@ -19,6 +20,7 @@ const LandingPage = () => {
     };
     const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
 
+    // fetch top movies
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -29,14 +31,12 @@ const LandingPage = () => {
             }
           };
           fetchData();
-    }, [url, apiKey])
-
-
-
+    }, [url, apiKey, params])
 
     return(
         <>
             <Box>
+                {/* Hero */}
                 <Typography component="h2" 
                 sx={{
                     fontSize: "7rem",
@@ -54,13 +54,17 @@ const LandingPage = () => {
                 >Spend your time watching.</Typography>
 
                 <Button 
-                variant="outlined" 
-                onClick={() => navigate("/search")}
-                sx={{
-                    hover: ""
-                }}>Find your Movie!</Button>
+                    variant="outlined" 
+                    onClick={() => navigate("/search")}
+                    sx={{
+                        "&:hover": {
+                            color: "accent.main",
+                            //connect to theme accent.main
+                            border: "1px solid #ff9610"
+                            }
+                    }}>Find your Movie!</Button>
             </Box>
-
+            {/* Top Movie List */}
             <Box
             sx={{
                 marginTop: "10rem",
@@ -86,17 +90,41 @@ const LandingPage = () => {
                                     display: "flex",
                                     flexDirection: "column",
                                     fontSize: "0.5rem",
-                                    width: "300px"
+                                    width: "20rem",
+                                    gap: "0.25rem"
                                 }}>
-                                    <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="movie poster" />
-                                    <ListItemText
+                                    <Box 
+                                    component="img" 
+                                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                                    alt="movie poster"
                                     sx={{
-                                        fontSize: "3rem",
-                                        fontWeight: "900"
-                                    }}>{movie.original_title}</ListItemText>
-                                    <ListItemText>Released: {movie.release_date.slice(0,4)}</ListItemText>
-                                    <ListItemText>{movie.vote_average}</ListItemText>
-                                    {/* get streaming services */}
+                                        width: "100%",
+
+                                    }} />
+                                    <Typography
+                                    sx={{
+                                        fontSize: "1rem",
+                                        fontWeight: "900",
+                                        textAlign: "center"
+                                    }}>{movie.original_title}</Typography>
+                                    <Typography>Released: {movie.release_date.slice(0,4)}</Typography>
+                                    <Box
+                                    sx={{
+                                        display: "flex",
+                                        gap: "1rem"
+                                    }}>
+                                        <Box 
+                                        component="img" 
+                                        src={tmdb_main}
+                                        sx={{
+                                            width: "2rem"
+                                        }} />
+                                        <Typography
+                                        sx={{
+                                            fontSize: "1.5rem"
+                                        }}>{String(movie.vote_average).slice(0,3)}</Typography>
+                                    </Box>
+                                    {/* TODO: get streaming services? */}
                                 </ListItem>
                             ))}
                             </>

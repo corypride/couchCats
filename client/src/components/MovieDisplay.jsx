@@ -3,6 +3,7 @@ import { List, ListItem, Box, ListItemButton, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import { useEffect, useState } from 'react';
+import tmdb_main from "../assets/tmdb_main.svg";
 import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -146,6 +147,22 @@ const MovieDisplay = (props) => {
                   marginBottom: "1rem",
                   color: "accent.main"
                 }}>{props.movie.overview}</Typography>
+                <Box
+                  sx={{
+                      display: "flex",
+                      gap: "1rem"
+                  }}>
+                      <Box 
+                      component="img" 
+                      src={tmdb_main}
+                      sx={{
+                          width: "2rem"
+                      }} />
+                      <Typography
+                      sx={{
+                          fontSize: "1.5rem"
+                      }}>{String(props.movie.vote_average).slice(0,3)}</Typography>
+                  </Box>
                 {/* director and top billed cast-middle */}
                 <Box sx={{
                   display: "flex",

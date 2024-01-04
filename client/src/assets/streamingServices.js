@@ -28,8 +28,8 @@ const streamingServices = [
         id: 386
     },
     {
-        name: "Stars",
-        id: 630
+        name: "Starz",
+        id: 43
     },
     {
         name: "Showtime",
@@ -42,3 +42,4 @@ const streamingServices = [
 ]
 
 export default streamingServices;
+
