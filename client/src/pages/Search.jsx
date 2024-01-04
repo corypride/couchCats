@@ -211,4 +211,39 @@ const FilterSearch = () => {
 
 export default FilterSearch;
 
-// queriedMovies.length > 0 && 
+ // useEffect(() => {
+  //   const url = "https://api.themoviedb.org/3/discover/movie";
+  //   const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+  //   const randomizePage = async () => {
+  //     try {
+  //       const response = await axios.get(url, { params, 
+  //         headers: { Authorization: `Bearer ${apiKey}` } 
+  //       });
+  //       const data = await response.data;
+  //       const totalPages = data.total_pages;
+  //       // console.log(Math.floor(Math.random() * totalPages))
+  //       // Random page between 1 and total pages returned
+  //       setPage(Math.floor(Math.random() * (totalPages) - 1) + 1)
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }; 
+  //   const submit = async () => {
+  //     //API call with randomized page number
+  //     try {
+  //       // setParams(baseParameters);
+  //       const response = await axios.get(url, { params, 
+  //         headers: { Authorization: `Bearer ${apiKey}` } 
+  //       });
+  //       const data = await response.data;
+  //       setQueriedMovies(data.results);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   if(!params) return;
+  //   else {
+  //     randomizePage();
+  //     submit();
+  //   } 
+  // }, [randomize]);
