@@ -71,8 +71,15 @@ const AutocompleteMUI = () => {
             }}
             freeSolo
             onChange={
-              (event, value) => 
-              navigate('/movie', { state: { value } })
+              (event, value) => {
+                if(!value) {
+                  return
+                } else {
+                  navigate('/movie', { state: { value } })
+                }
+
+              } 
+
               // console.log(value)
             }
             options={searchResults}
