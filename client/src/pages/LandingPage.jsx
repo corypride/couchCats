@@ -32,9 +32,6 @@ const LandingPage = () => {
           fetchData();
     }, [url, apiKey, params])
 
-
-
-
     return(
         <>
             <Box>
@@ -56,11 +53,15 @@ const LandingPage = () => {
                 >Spend your time watching.</Typography>
 
                 <Button 
-                variant="outlined" 
-                onClick={() => navigate("/search")}
-                sx={{
-                    hover: ""
-                }}>Find your Movie!</Button>
+                    variant="outlined" 
+                    onClick={() => navigate("/search")}
+                    sx={{
+                        "&:hover": {
+                            color: "accent.main",
+                            //connect to theme accent.main
+                            border: "1px solid #ff9610"
+                            }
+                    }}>Find your Movie!</Button>
             </Box>
             {/* Top Movie List */}
             <Box
