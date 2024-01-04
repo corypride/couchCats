@@ -1,12 +1,14 @@
 import { TextField, Autocomplete, Stack, ListItem, Typography,Paper, Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //need to clear as delete, fix list items
 const AutocompleteMUI = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [movieId, setMovieId] = useState(0);
+
+    const navigate = useNavigate();
   
     const handleChange = (event) => {
       setSearchTerm(event.target.value);
@@ -16,7 +18,7 @@ const AutocompleteMUI = () => {
         const handleSearch = async () => {
           if (searchTerm.length > 0) {
             const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
-            console.log(response)
+            // console.log(response)
             const data = await response.json();
             setSearchResults(data.results);
           }
@@ -24,23 +26,42 @@ const AutocompleteMUI = () => {
         handleSearch();
       }, [searchTerm]);
   
-    const handleClick = (result) => {
-      setSearchTerm(result.title);
-      setMovieId(result.id);
-      setSearchResults([]); // Clear suggestions after selection
-    };
+    // const handleClick = (result) => {
+    //   setSearchTerm(result.title);
+    //   setMovieId(result.id);
+    //   setSearchResults([]); // Clear suggestions after selection
+    // };
+
+
+
+    // const handleNavigate = (value) => {
+    //   console.log(value)
+    //   const data = value;
+    //   navigate('/movie', { state: data });
+    // };
+
+    // const handleSubmit = (event, value) => {
+    //   setSelectedOption(value);
+    //   setNavigatePage(true);
+    // };
+    
+    // useEffect(() => {
+    //   if (navigatePage) {
+    //     navigate('/movie', { state: { selectedOption } }); // Pass data if needed
+    //     setNavigatePage(false); // Reset flag
+    //   }
+    // }, [navigatePage, selectedOption, navigate]);
 
     // TODO: styling
   
     return (
-      <>
         <Stack 
           spacing={2} 
           sx={{
             width: "15vw"
             }}>
           <Autocomplete
-          open
+          // open
             sx={{
               backgroundColor: "primary.main",
               color: "white",
@@ -49,6 +70,11 @@ const AutocompleteMUI = () => {
               }
             }}
             freeSolo
+            onChange={
+              (event, value) => 
+              navigate('/movie', { state: { value } })
+              // console.log(value)
+            }
             options={searchResults}
             getOptionLabel={(option) => option.original_title}
             noOptionsText="No movies fit that criteria..."
@@ -80,9 +106,8 @@ const AutocompleteMUI = () => {
                 }}
                 onChange={handleChange}
                 {...params} label="Seach Movies..." />}
-            />
+               />
         </Stack>
-      </>
     );
   };
 

@@ -20,6 +20,7 @@ const LandingPage = () => {
     };
     const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
 
+    // fetch top movies
     useEffect(() => {
         const fetchData = async () => {
             try {
