@@ -6,7 +6,9 @@ import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.Movie;
 import org.launchcode.couchcatbackend.models.User;
 import org.launchcode.couchcatbackend.models.dto.UserMovieDTO;
+import org.launchcode.couchcatbackend.utils.HTTPResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,48 +27,50 @@ public class WatchlistController {
 
 //    Return all movies on a user's watchlist at /watchlist/{userId}
     @GetMapping(value = "/{userId}")
-    public List<Movie> getWatchlist(@PathVariable int userId) {
+    public ResponseEntity<List<Movie>> getWatchlist(@PathVariable int userId) {
         Optional<User> result = userRepository.findById(userId);
-//      TODO: optional check
-        User user = result.get();
-        return user.getWatchlist();
+        if (result.isPresent()) {
+            User user = result.get();
+            return ResponseEntity.ok().body(user.getWatchlist());
+        }
+        return ResponseEntity.notFound().build();
     }
 
 //    Save movie to watchlist at /watchlist/save
     @PostMapping(path = "/save")
     @Transactional
-    public void saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
+    public ResponseEntity<String> saveMovieToWatchlist(@RequestBody UserMovieDTO userMovieDTO) {
         int userId = userMovieDTO.getUserId();
         Optional<User> result = userRepository.findById(userId);
         if (result.isEmpty()) {
-            //        throw error
+            return HTTPResponseBuilder.badRequest("Could not access user data");
         }
 
         User user = result.get();
-
         Movie movie = userMovieDTO.getMovie();
 
-//      add movie to user watchlist
         user.addToWatchlist(movie);
-
-//      save changes to user (this saves 'movie' implicitly)
         userRepository.save(user);
+        return ResponseEntity.ok().body(movie.getTitle() + " was saved to your watchlist");
     }
 
 //    Delete movie from watchlist at /watchlist
     @DeleteMapping
     @Transactional
-    public void deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
+    public ResponseEntity<String> deleteFromWatchlist(@RequestBody Map<String, Integer> requestBody) {
         int userId = requestBody.get("userId");
         int movieId = requestBody.get("movieId");
 
-        Optional<User> result = userRepository.findById(userId);
+        Optional<User> userResult = userRepository.findById(userId);
+        Optional<Movie> movieResult = movieRepository.findById(movieId);
 
-        if (result.isPresent()) {
-            User user = result.get();
+        if (userResult.isPresent() && movieResult.isPresent()) {
+            User user = userResult.get();
+            Movie movie = movieResult.get();
             user.removeFromWatchlistById(movieId);
+            return ResponseEntity.ok().body(movie.getTitle() + " was removed from your watchlist");
         } else {
-            // return new ResponseEntity?
+            return HTTPResponseBuilder.badRequest("Invalid user or movie data");
         }
     }
 }
