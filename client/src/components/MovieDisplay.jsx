@@ -28,9 +28,9 @@ const MovieDisplay = (props) => {
           year: parseInt(movie.release_date.slice(0,4)),
           description: movie.overview,
           //TODO: need to change directors into string if there are multiple
-          director: director.name,
+          director: director[0].name,
           //TODO: need to change cast names into string
-          cast: 'placeholder', 
+          cast: topCast[0].name, 
           rating: movie.vote_average,
           poster: movie.poster_path
         }
