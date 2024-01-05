@@ -35,7 +35,9 @@ public class UserService {
     public ResponseEntity<String> registerUser(User user) {
         // If a User with the email passed does not exist in the database, null is assigned as the value of isExist,
         //otherwise, the user details are assigned to isExist, so it bypasses the if statement
+        System.out.println("User being passed in: " + user);
         User isExist = (userRepository.findByEmail(user.getEmail()));
+        System.out.println("isExist value: " + user);
         if (isExist != null) {
             return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
         }

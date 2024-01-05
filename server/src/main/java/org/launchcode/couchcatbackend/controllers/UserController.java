@@ -31,11 +31,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*TODO: Test: 1. New user is able to register via hard coded data upon form submit;
-       2. Second user is able to register via hardcoded data and resolve the suspected cache issue;
-       3. New user is able to register via an actual form submit;
-       4. Re-register same email to validate logic is working and we don't allow the same user to register twice;
-       5. A second new user is able to register via an actual form submit;
+    /*TODO: Test: 1. New user is able to register via hard coded data upon form submit;  - SUCCESS!
+       2. Second user is able to register via hardcoded data and resolve the suspected cache issue; - SUCCESS!
+       3. Form fill: New user is able to register via an actual form submit; - SUCCESS!
+       4. Hardcoded: Re-register same email to validate logic is working and we don't allow the same user to register twice; - SUCCESS!
+       5. Form fill: Re-register same email to validate logic is working and we don't allow the same user to register twice; - SUCCESS!
+       6. Form fill: A second new user is able to register via an actual form submit;  - SUCCESS!
     */
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
