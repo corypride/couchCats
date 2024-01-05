@@ -15,7 +15,7 @@ const MovieDisplay = (props) => {
   const [selected, setSelected] = useState(false);
 
   // adds movie to watchlist
-  async function handleListAdd(movie, index) {
+  async function handleListAdd(movie) {
     try {
 
       const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
@@ -36,10 +36,11 @@ const MovieDisplay = (props) => {
         }
       };
       const response = await axios.post(url, movieData);
+      setSelected(!selected);
       console.log('Response:', response.data);
       // setSelected(!selected); Actual place of selected
     } catch (error) {
-      setSelected(!selected);
+
       console.error('Error:', error);
     }
   }
@@ -109,7 +110,7 @@ const MovieDisplay = (props) => {
                       color: "white" // Hover styles override selected background
                     },
                   }}
-                  >{selected ? "Added" : "Add"}</ListItemButton>
+                  >{selected ? "on WatchList" : "Add to WatchList"}</ListItemButton>
           </Box>
           {/* right side */}
           <Box 
