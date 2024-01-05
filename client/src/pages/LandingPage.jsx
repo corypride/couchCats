@@ -13,16 +13,17 @@ const LandingPage = () => {
     const [topMovies, setTopMovies] = useState();
 
     //discover why this is fetching 6 times per page load
-    const url = "https://api.themoviedb.org/3/movie/popular";
-    const params = {
-    language: 'en',
-    page: 1,
-    };
-    const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+
 
     // fetch top movies
     useEffect(() => {
         const fetchData = async () => {
+            const url = "https://api.themoviedb.org/3/movie/popular";
+            const params = {
+            language: 'en',
+            page: 1,
+            };
+            const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
             try {
               const response = await axios.get(url, { params, headers: { Authorization: `Bearer ${apiKey}` } });
               setTopMovies(response.data?.results)
@@ -31,7 +32,7 @@ const LandingPage = () => {
             }
           };
           fetchData();
-    }, [url, apiKey, params])
+    }, [])
 
     return(
         <>

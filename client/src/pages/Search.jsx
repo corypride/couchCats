@@ -83,7 +83,6 @@ const FilterSearch = () => {
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
       with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
     });
-    setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
   }
 
   // handles scroll effect
@@ -110,6 +109,7 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
+        setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
         setQueriedMovies(data.results);
       } catch (error) {
         console.error(error);

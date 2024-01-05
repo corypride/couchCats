@@ -23,7 +23,7 @@ function RegisterComponent() {
       props.setSubmitting(false)
     },2000)
 
-    const registerUrl = "http://localhost:8080/user/register";
+    const registerUrl = "http://localhost:8081/user/register";
     const {emailConfirmation, passwordConfirmation, ...user} = initialValues
     
     const headersObj = {
