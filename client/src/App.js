@@ -6,20 +6,20 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/RegisterPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
-import useWatchList from "./utils/getWatchList.js";
+import getWatchList from "./utils/getWatchList.js";
 
 
 function App() {
 
-  // const [userWatchList, setUserWatchList] = useState();
-  // const [userId, setUserId] = useState(1);
+  const [userWatchList, setUserWatchList] = useState();
+  const [userId, setUserId] = useState(1);
 
   // setUserWatchList(useWatchList(1));
 
-  // useEffect(() => {
-  //   setUserWatchList(getWatchList(userId));
-  //   console.log(userWatchList)
-  // }, [userId] )
+  useEffect(() => {
+    setUserWatchList(getWatchList(userId));
+    console.log(userWatchList)
+  }, [userId] )
 
   return (
     <div className="App">
