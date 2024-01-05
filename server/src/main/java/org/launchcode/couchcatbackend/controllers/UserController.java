@@ -43,6 +43,7 @@ public class UserController {
 
     @GetMapping("/secure")
     public ResponseEntity<String> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
+        //TODO: Add in method for getting a user's id using their sessionId and update logic and return to include that along with an authorized response.
         if (sessionId != null && !sessionId.isEmpty()) {
             return userService.authenticateSecureEndpoint(sessionId);
         } else {
