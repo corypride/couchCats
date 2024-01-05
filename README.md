@@ -9,7 +9,7 @@ Project for LaunchCodes' Liftoff Program
 
 #### Register a new user and add to database at /user/register (POST)
 
-Example JSON request: 
+Example JSON request:
 ```
 {
     "firstName": "erin",
@@ -22,7 +22,7 @@ Example JSON request:
 #### Login a user at /user/login (POST)
 (Note that for this application email = username)
 
-Example JSON request: 
+Example JSON request:
 ```
 {
     "email": "erinmuzughi@gmail.com",
@@ -94,7 +94,7 @@ Example output:
 ```
 #### Add movie to database at /movies/save (POST)
 
-Example JSON request: 
+Example JSON request:
 ```
 {
     "id": 3,
@@ -162,13 +162,6 @@ Example output:
             "userId": 1,
             "movieId": 2
         },
-        "user": {
-            "id": 1,
-            "firstName": "Yumi",
-            "lastName": "Shiroma",
-            "email": "ydshiroma@email.com",
-            "password": "12345"
-        },
         "movie": {
             "id": 2,
             "title": "The Boy and the Heron",
@@ -186,13 +179,6 @@ Example output:
         "id": {
             "userId": 1,
             "movieId": 21
-        },
-        "user": {
-            "id": 1,
-            "firstName": "Yumi",
-            "lastName": "Shiroma",
-            "email": "ydshiroma@email.com",
-            "password": "12345"
         },
         "movie": {
             "id": 21,
@@ -231,40 +217,29 @@ Example JSON request (takes a user ID and a movie ID):
 }
 ```
 
-#### Change star rating for a logged movie (POST)
+#### Change star rating for a logged movie at /log/rate (POST)
 
-Coming soon to a theater near you
-
-#### Delete movie from log at /log (DELETE)
-
-**NOTE: Not currently working, will try to fix this soon!**
-
-Would like to simplify this soon, but for now, pass in full UserMovieLog object to be deleted, for example:
+Example JSON request: takes
++ a userMovieLogId made up of userId and movieId
++ a new rating for the movie
 
 ```
 {
-        "id": {
-            "userId": 1,
-            "movieId": 2
-        },
-        "user": {
-            "id": 1,
-            "firstName": "Yumi",
-            "lastName": "Shiroma",
-            "email": "ydshiroma@email.com",
-            "password": "12345"
-        },
-        "movie": {
-            "id": 2,
-            "title": "The Boy and the Heron",
-            "year": 2023,
-            "description": "animation",
-            "director": "Hayao Miyazaki",
-            "cast": "Robert Pattinson",
-            "rating": 4.0,
-            "poster": "placeholder string"
-        },
-        "userRating": 4,
-        "dateAdded": "2023-12-22T19:59:26.111+00:00"
-    }
+  "userMovieLogId": {
+    "userId": 102,
+    "movieId": 1
+  },
+  "newRating": 3
+}
+```
+
+#### Delete movie from log at /log (DELETE)
+
+Pass in a userId and movieId to delete that user's log for that movie. Note: this does NOT delete the movie from the database.
+
+```
+{
+  "userId": 102,
+  "movieId": 1
+}
 ```
