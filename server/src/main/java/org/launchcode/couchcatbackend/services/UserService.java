@@ -32,7 +32,8 @@ public class UserService {
             if yes: a BAD REQUEST/400 HTTP response is returned w/ a custom body;
             otherwise: the user is created, the password is encoded, they are saved to the database,
                 and a CREATED/201 HTTP response is returned w/ a custom body */
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<String> registerUser(User user) {
+        // If a User with the email passed does not exist in the database, null is assigned as the value of isExist
         User isExist = (userRepository.findByEmail(user.getEmail()));
         if (isExist != null) {
             return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
@@ -72,8 +73,7 @@ public class UserService {
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
 
-    //TODO: Determine if I need to update and create a User Credentials DTO?
-    public ResponseEntity<String> authenticateUser(@RequestBody User user) {
+    public ResponseEntity<String> authenticateUser(User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
 
         if (userLogin != null) {
@@ -87,6 +87,17 @@ public class UserService {
             }
         } else {
             return HTTPResponseBuilder.unauthorized("Login Failed: Email address does not exist\n");
+        }
+    }
+
+    public ResponseEntity<String> authenticateSecureEndpoint(String sessionId) {
+        if (authenticationConfig.isValidSession(sessionId)) {
+            //update last activity
+            AuthenticationConfig.updateLastActivityTime(sessionId);
+            // Process the request for the authenticated user
+            return HTTPResponseBuilder.ok("Authorized access");
+        } else {
+            return HTTPResponseBuilder.unauthorized("Session expired or invalid");
         }
     }
 
