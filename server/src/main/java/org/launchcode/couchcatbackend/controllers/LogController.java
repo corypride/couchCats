@@ -76,12 +76,16 @@ public class LogController {
 //      TODO: DTO that takes a UserMovie and an int newRating?
     }
 
-//    TODO: I think this used to work but now it doesn't anymore
-//    "could not execute statement [Cannot delete or update a parent row: a foreign key constraint fails (`couchcats`.`user_movie_log`, CONSTRAINT `FKfod2rvb4kk1eeolt74sbpbq9s` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`))] [delete from user where id=?]; SQL [delete from user where id=?]; constraint [null]"
 //    Delete movie from log at /log
     @DeleteMapping
-    @Transactional
-    public void deleteFromLog(@RequestBody UserMovieLog entry) {
-        userMovieLogRepository.delete(entry);
+//    @Transactional
+    public void deleteFromLog(@RequestBody UserMovieLogId id) {
+        System.out.println("id: " + id);
+        Optional result = userMovieLogRepository.findById(id);
+        if (result.isPresent()) {
+            UserMovieLog entry = (UserMovieLog) result.get();
+            System.out.println("entry: " + entry);
+            userMovieLogRepository.delete(entry);
+        }
     }
 }
