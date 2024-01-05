@@ -15,7 +15,7 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
@@ -41,14 +41,14 @@ public class User {
     @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
 
-    public User() {}
-
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
+
+    public User() {}
 
     public int getId() {
         return id;
