@@ -1,5 +1,6 @@
 package org.launchcode.couchcatbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,8 +34,11 @@ public class User {
     @NotEmpty
     private String password;
 
-    //TO DO: CREATE RELATIONSHIP TO MOVIES TO ENABLE WATCHLIST
+    private String sessionId;
+
+
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private final List<Movie> watchlist = new ArrayList<>();
 
     public User() {}
@@ -82,21 +86,28 @@ public class User {
         this.password = password;
     }
 
-    //    public boolean isMatchingPassword(String password) {
-//        return encoder.matches(password, pwHash);
-//    }
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 
     public List<Movie> getWatchlist() {
         return watchlist;
     }
 
     public void addToWatchlist(Movie movie) {
+        System.out.println("addToWatchlist called");
         if (!watchlist.contains(movie)) {
             watchlist.add(movie);
-            movie.addToUsers(this);
+//            movie.addToUsers(this);
+            System.out.println("if statement in addToWatchlist runs");
         }
     }
 
+//    TODO: fix or remove this (by adding to Service class?) - can't access movieRepository here
 //    public void addToWatchlistById(int id) {
 //        Optional<Movie> result = movieRepository.findById(id);
 //        Movie movie = result.get();
