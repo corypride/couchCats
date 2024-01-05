@@ -9,6 +9,7 @@ import org.launchcode.couchcatbackend.models.User;
 import org.launchcode.couchcatbackend.models.UserMovieLog;
 import org.launchcode.couchcatbackend.models.UserMovieLog.UserMovieLogId;
 import org.launchcode.couchcatbackend.models.dto.MovieLogDTO;
+import org.launchcode.couchcatbackend.models.dto.RatingChangeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class LogController {
     }
 
 //    Log a movie at /log/save
-    @PostMapping(path = "/save")
+    @PostMapping(value = "/save")
     @Transactional
     public void logMovie(@RequestBody MovieLogDTO movieLogDTO) {
         int userId = movieLogDTO.getUserId();
@@ -69,11 +70,17 @@ public class LogController {
         userMovieLogRepository.save(userMovieLog);
     }
 
-//    TODO: code this
-//    Change star rating for a logged movie
-    @PostMapping
-    public void changeRating(@RequestBody UserMovieLog entry) {
-//      TODO: DTO that takes a UserMovie and an int newRating?
+//    Change star rating for a logged movie at /log/rate
+    @PostMapping(value = "/rate")
+    public void changeRating(@RequestBody RatingChangeDTO ratingChangeDTO) {
+        UserMovieLogId id = ratingChangeDTO.getUserMovieLogId();
+        int newRating = ratingChangeDTO.getNewRating();
+        Optional result = userMovieLogRepository.findById(id);
+        if (result.isPresent()) {
+            UserMovieLog entry = (UserMovieLog) result.get();
+            entry.setUserRating(newRating);
+            userMovieLogRepository.save(entry);
+        }
     }
 
 //    Delete movie from log at /log
