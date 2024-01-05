@@ -23,16 +23,21 @@ function RegisterComponent() {
       props.setSubmitting(false)
     },2000)
 
-    const registerUrl = "http://localhost:8080/register";
+    const registerUrl = "http://localhost:8080/user/register";
     const {emailConfirmation, passwordConfirmation, ...user} = initialValues
     
-    const headers = {
+    const headersObj = {
     "Content-Type": "application/json"
     }
-    axios.post(registerUrl, user, {headers}).than((response) => {
+    
+    axios.post("http://localhost:8080/user/register",
+    { firstName: "testing",
+    lastName: "somemore",
+    email: "test12@gmail.com",
+    password: "testing54321*"},{headers:headersObj}).then((response) => {
       console.log("response from backend=> ", response)
     }).catch((error) => {
-      console.error("error while bacnkend calling ", error)
+      console.error("error while backend calling ", error)
     })
   };
 
