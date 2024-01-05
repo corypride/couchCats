@@ -162,13 +162,6 @@ Example output:
             "userId": 1,
             "movieId": 2
         },
-        "user": {
-            "id": 1,
-            "firstName": "Yumi",
-            "lastName": "Shiroma",
-            "email": "ydshiroma@email.com",
-            "password": "12345"
-        },
         "movie": {
             "id": 2,
             "title": "The Boy and the Heron",
@@ -186,13 +179,6 @@ Example output:
         "id": {
             "userId": 1,
             "movieId": 21
-        },
-        "user": {
-            "id": 1,
-            "firstName": "Yumi",
-            "lastName": "Shiroma",
-            "email": "ydshiroma@email.com",
-            "password": "12345"
         },
         "movie": {
             "id": 21,
@@ -231,7 +217,7 @@ Example JSON request (takes a user ID and a movie ID):
 }
 ```
 
-#### Change star rating for a logged movie (POST)
+#### Change star rating for a logged movie at /log/rate (POST)
 
 Example JSON request: takes
 + a userMovieLogId made up of userId and movieId
