@@ -18,7 +18,7 @@ const MovieDisplay = (props) => {
   async function handleListAdd(movie) {
     try {
 
-      const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
+      const url = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
 
       const movieData = {
         userId: 1,
