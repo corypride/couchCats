@@ -11,8 +11,12 @@ import userContext from "./utils/userContext.js"
 
 function App() {
 
-  const [userWatchList, setUserWatchList] = useState();
+  const [userWatchList, setUserWatchList] = useState([]);
   const [userId, setUserId] = useState(1);
+
+  // const list = useWatchList(userId)
+  // setUserWatchList(list)
+  // console.log(list)
 
   useEffect(() => {
     getWatchList(userId)
@@ -37,7 +41,6 @@ function App() {
           <Route path="movie" element={<SingleMovie />} />
         </Routes>
       </userContext.Provider>
-
     </div>
   );
 }

@@ -15,34 +15,66 @@ const MovieDisplay = (props) => {
   const [topCast, setTopCast] = useState();
   const [selected, setSelected] = useState(false);
 
-  const { userWatchList } = useContext(userContext)
+  const movie = props.movie
+  const { userWatchList, userId } = useContext(userContext)
+
 
   // adds movie to watchlist
-  async function handleWatchList(movie) {
-    try {
-      const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
+  async function handleWatchList() {
 
-      const movieData = {
-        userId: 1,
-        movie: {
-          id: movie.id,
-          title: movie.title,
-          year: parseInt(movie.release_date.slice(0,4)),
-          description: movie.overview,
-          //TODO: need to change directors into string if there are multiple
-          director: director[0].name,
-          //TODO: need to change cast names into string
-          cast: topCast[0].name, 
-          rating: movie.vote_average,
-          poster: movie.poster_path
-        }
-      };
-      const response = await axios.post(url, movieData);
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error:', error);
+    const urlPOST = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
+    const urlDELETE = 'http://localhost:8080/watchlist';
+
+    const movieDataPOST = {
+      userId: userId,
+      movie: {
+        id: movie.id,
+        title: movie.title,
+        year: parseInt(movie.release_date.slice(0,4)),
+        description: movie.overview,
+        //TODO: need to change directors into string if there are multiple
+        director: director[0].name,
+        //TODO: need to change cast names into string
+        cast: topCast[0].name, 
+        rating: movie.vote_average,
+        poster: movie.poster_path
+      }
+    };
+
+    const dataDelete = {
+      userId: userId,
+      movieId: movie.id
+    }
+
+    // if movie is selected(in userWatchList), POST. Else, Delete.
+    if(!selected) {
+      try {
+
+        const response = await axios.post(urlPOST, movieDataPOST);
+        console.log('Response:', response.data);
+        setSelected(true);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    } else {
+      try {
+          const response = await axios.delete(urlDELETE, {
+            data: dataDelete
+          });
+          console.log('Response:', response.data);
+          setSelected(false);
+        } catch (error) {
+          console.error('Error:', error);
+      }
     }
   }
+
+  useEffect(() => {
+    console.log(userWatchList)
+    if(userWatchList.some((item)=> item.id === movie.id)) {
+      setSelected(true);
+    }
+  }, [userWatchList])
 
   //grabs cast and service from TMDB
   useEffect(() => {
