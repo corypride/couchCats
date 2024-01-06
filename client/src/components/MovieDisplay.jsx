@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { useEffect, useState, useContext } from 'react';
 import { List, ListItem, Box, ListItemButton, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
-import { useEffect, useState } from 'react';
 import tmdb_main from "../assets/tmdb_main.svg";
-import streamingServices from '../assets/streamingServices';
+import userContext from "../utils/userContext"
+// import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
 
@@ -14,11 +15,12 @@ const MovieDisplay = (props) => {
   const [topCast, setTopCast] = useState();
   const [selected, setSelected] = useState(false);
 
-  // adds movie to watchlist
-  async function handleListAdd(movie, index) {
-    try {
+  const { userWatchList } = useContext(userContext)
 
-      const url = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
+  // adds movie to watchlist
+  async function handleWatchList(movie) {
+    try {
+      const url = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
 
       const movieData = {
         userId: 1,
@@ -37,9 +39,7 @@ const MovieDisplay = (props) => {
       };
       const response = await axios.post(url, movieData);
       console.log('Response:', response.data);
-      // setSelected(!selected); Actual place of selected
     } catch (error) {
-      setSelected(!selected);
       console.error('Error:', error);
     }
   }
@@ -62,7 +62,6 @@ const MovieDisplay = (props) => {
       setTopCast(castCrew.cast.slice(0,3))
     } 
   }, [castCrew])
-
 
   return (
       <List
@@ -93,7 +92,7 @@ const MovieDisplay = (props) => {
                   alt="movie poster" />
                 <ListItemButton
                   variant="cont"
-                  onClick={() => handleListAdd(props.movie)}
+                  onClick={() => handleWatchList(props.movie)}
                   selected={selected}
                   sx={{
                     display: "flex",

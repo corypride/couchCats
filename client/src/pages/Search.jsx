@@ -119,7 +119,7 @@ const FilterSearch = () => {
     };
     if(!params) return;
     else submit();
-  }, [params]);
+  }, [params, queriedMovies.length]); //TODO: check for validation
 
 
   //sideways transition to movie pages?
