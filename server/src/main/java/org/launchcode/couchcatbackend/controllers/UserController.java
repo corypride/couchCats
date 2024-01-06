@@ -31,6 +31,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    /*TODO: Test: 1. New user is able to register via hard coded data upon form submit;  - SUCCESS!
+       2. Second user is able to register via hardcoded data and resolve the suspected cache issue; - SUCCESS!
+       3. Form fill: New user is able to register via an actual form submit; - SUCCESS!
+       4. Hardcoded: Re-register same email to validate logic is working and we don't allow the same user to register twice; - SUCCESS!
+       5. Form fill: Re-register same email to validate logic is working and we don't allow the same user to register twice; - SUCCESS!
+       6. Form fill: A second new user is able to register via an actual form submit;  - SUCCESS!
+    */
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody User user) {
         return userService.registerUser(user);
@@ -41,8 +48,17 @@ public class UserController {
         return userService.authenticateUser(user);
     }
 
+    @GetMapping("/secure")
+    public ResponseEntity<String> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
+        //TODO: Add in method for getting a user's id using their sessionId and update logic and return to include that along with an authorized response.
+        if (sessionId != null && !sessionId.isEmpty()) {
+            return userService.authenticateSecureEndpoint(sessionId);
+        } else {
+            return HTTPResponseBuilder.badRequest("Invalid session ID");
+        }
+    }
 
-    //TODO: Implement features such as session expiration, secure storage of session IDs, and mechanisms for session revocation.
+
     @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
        if (sessionId != null && !sessionId.isEmpty()) {

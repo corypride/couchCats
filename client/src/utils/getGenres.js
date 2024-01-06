@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const useGenres = () => {
   const [genres, setGenres] = useState([]); // Store fetched genres here
-
+  const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN; 
+  
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -12,7 +13,7 @@ const useGenres = () => {
           {
             headers: {
               accept: 'application/json',
-              Authorization: `Bearer ${process.env.REACT_APP_API_ACCESS_TOKEN}`,
+              Authorization: `Bearer ${apiKey}`,
             },
           }
         );
