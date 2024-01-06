@@ -93,18 +93,6 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> authenticateSecureEndpoint(String sessionId) {
-        if (authenticationConfig.isValidSession(sessionId)) {
-            //update last activity
-            AuthenticationConfig.updateLastActivityTime(sessionId);
-            // Process the request for the authenticated user
-            return HTTPResponseBuilder.ok("Authorized access");
-        } else {
-            return HTTPResponseBuilder.unauthorized("Session expired or invalid");
-        }
-    }
-
-
     /**
      * LOGOUT
      **/

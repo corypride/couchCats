@@ -1,6 +1,5 @@
 package org.launchcode.couchcatbackend.configuration;
 
-import jakarta.servlet.http.HttpSession;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
