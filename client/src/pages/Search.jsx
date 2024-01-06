@@ -67,7 +67,7 @@ const FilterSearch = () => {
 
   const handleSubmit = () => {
     setParams({
-      api_key: 'e00fd0c8a3ef42228c66298337f435ed',
+      api_key: process.env.REACT_APP_API_KEY,
       include_adult: "false",
       include_video: "false",
       language: "en",
@@ -99,8 +99,8 @@ const FilterSearch = () => {
   useEffect(() => {
     const submit = async () => {
       const url = "https://api.themoviedb.org/3/discover/movie";
-      //const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN; - is this the token or the key? if token, should we update variable name?
-      const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMDBmZDBjOGEzZWY0MjIyOGM2NjI5ODMzN2Y0MzVlZCIsInN1YiI6IjY1OTQzZDNjMDNiZjg0NDMxMzJiZDU2NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vF0FZBaNt7rjxYHHFl0rWvr2YwJZU1ST5IaKvwNC4F4';
+      const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN; 
+
       try {
         const response = await axios.get(url, { params, 
           headers: { Authorization: `Bearer ${apiKey}` } 
