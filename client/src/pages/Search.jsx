@@ -20,10 +20,7 @@ const FilterSearch = () => {
   const [selectedStreaming, setSelectedStreaming] = useState([]);
   const [selectedCrew, setSelectedCrew] = useState([]);
   const [params, setParams] = useState();
-
   const [queriedMovies, setQueriedMovies] = useState([]);
-  const [singleResult, setSingleResult] = useState(false);
-  const [singleRandom, setSingleRandom] = useState(0);
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -51,8 +48,7 @@ const FilterSearch = () => {
   }
 
   const submitButtonSx = {
-      marginTop: "3rem",
-      marginBottom: "3rem",
+      margin: "3rem",
       "&:hover": {
         color: "accent.main",
         //connect to theme accent.main
@@ -83,7 +79,6 @@ const FilterSearch = () => {
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
       with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
     });
-    setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
   }
 
   // handles scroll effect
@@ -171,30 +166,10 @@ const FilterSearch = () => {
               </ToggleButtonGroup>
               {/* TODO: get crew suggestions */}
           </form>
-          <Box
-          sx={{
-            display: "flex",
-            gap: "1rem"
-          }}>
-{/* submit buttons */}
-            <Button 
-              variant="outlined"
-              sx={submitButtonSx}
-              onClick={() => {
-                handleSubmit();
-                setSingleResult(true);
-              }}
-              >Find My Movie!</Button>
-            <Button 
-              variant="outlined"
-              sx={submitButtonSx}
-              onClick={() => {
-                handleSubmit();
-                setSingleResult(false);
-              }}
-              >Give Me Options!</Button>
-          </Box>
-
+          <Button 
+          variant="outlined"
+          sx={submitButtonSx}
+          onClick={handleSubmit}>Find My Movie!</Button>
 {/* Shows movie results */}
           <Box 
             sx={{
@@ -222,21 +197,13 @@ const FilterSearch = () => {
                       }} component={KeyboardDoubleArrowUpIcon}/>
                       <Typography>Back</Typography>
                   </Button> : ""}
-             
-              {(queriedMovies.length === 0) ?
-                null :
-                  singleResult ?
-                    <MovieDisplay
-                    movie={queriedMovies[singleRandom]}
-                    />
-                    : 
-                    queriedMovies.map((queriedMovie, index) => (
-                      <MovieDisplay
-                        key={index}
-                        movie={queriedMovie}
-                        />
-                  ))
-                }
+
+              {queriedMovies.slice(0,3).map((queriedMovie, index) => (
+                <MovieDisplay
+                  key={index}
+                  movie={queriedMovie}
+                  />
+                ))}
           </Box>
         
         </Box> 
