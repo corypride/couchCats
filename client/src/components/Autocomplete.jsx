@@ -17,8 +17,7 @@ const AutocompleteMUI = () => {
     useEffect(() => {
         const handleSearch = async () => {
           if (searchTerm.length > 0) {
-            //const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
-            const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${'e00fd0c8a3ef42228c66298337f435ed'}&query=${searchTerm}`);
+            const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
             // console.log(response)
             const data = await response.json();
             setSearchResults(data.results);
