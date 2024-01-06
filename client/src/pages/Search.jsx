@@ -22,6 +22,9 @@ const FilterSearch = () => {
   const [params, setParams] = useState();
   const [queriedMovies, setQueriedMovies] = useState([]);
 
+  const [singleResult, setSingleResult] = useState(false);
+  const [singleRandom, setSingleRandom] = useState(0);
+
   //sx styles
   const toggleButtonGroupSx = {
     display: "grid",
@@ -48,7 +51,8 @@ const FilterSearch = () => {
   }
 
   const submitButtonSx = {
-      margin: "3rem",
+      marginTop: "3rem",
+      marginBottom: "3rem",
       "&:hover": {
         color: "accent.main",
         //connect to theme accent.main
@@ -79,6 +83,7 @@ const FilterSearch = () => {
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
       with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
     });
+
   }
 
   // handles scroll effect
@@ -106,6 +111,7 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
+        setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
         setQueriedMovies(data.results);
       } catch (error) {
         console.error(error);
@@ -113,7 +119,7 @@ const FilterSearch = () => {
     };
     if(!params) return;
     else submit();
-  }, [params]);
+  }, [params, queriedMovies.length]); //TODO: check for validation
 
 
   //sideways transition to movie pages?
@@ -166,10 +172,29 @@ const FilterSearch = () => {
               </ToggleButtonGroup>
               {/* TODO: get crew suggestions */}
           </form>
-          <Button 
-          variant="outlined"
-          sx={submitButtonSx}
-          onClick={handleSubmit}>Find My Movie!</Button>
+{/* submit buttons */}
+          <Box
+          sx={{
+            display: "flex",
+            gap: "1rem"
+          }}>
+            <Button 
+              variant="outlined"
+              sx={submitButtonSx}
+              onClick={() => {
+                handleSubmit();
+                setSingleResult(true);
+              }}
+              >Find My Movie!</Button>
+            <Button 
+              variant="outlined"
+              sx={submitButtonSx}
+              onClick={() => {
+                handleSubmit();
+                setSingleResult(false);
+              }}
+              >Give Me Options!</Button>
+          </Box>
 {/* Shows movie results */}
           <Box 
             sx={{
@@ -198,12 +223,20 @@ const FilterSearch = () => {
                       <Typography>Back</Typography>
                   </Button> : ""}
 
-              {queriedMovies.slice(0,3).map((queriedMovie, index) => (
-                <MovieDisplay
-                  key={index}
-                  movie={queriedMovie}
-                  />
-                ))}
+              {(queriedMovies.length ===0) ?
+                null :
+                  singleResult ?
+                    <MovieDisplay
+                      movie={queriedMovies[singleRandom]}
+                      />
+                    :
+                    queriedMovies.map((queriedMovie, index) => (
+                      <MovieDisplay
+                        key={index}
+                        movie={queriedMovie}
+                        />
+                  ))
+                }
           </Box>
         
         </Box> 
