@@ -16,14 +16,14 @@ const MovieDisplay = (props) => {
   const [selected, setSelected] = useState(false);
 
   const movie = props.movie
-  const { userWatchList, userId } = useContext(userContext)
+  const { userWatchList, userId, refetchDb, setRefetchDb } = useContext(userContext)
 
 
   // adds movie to watchlist
   async function handleWatchList() {
 
-    const urlPOST = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
-    const urlDELETE = 'http://localhost:8080/watchlist';
+    const urlPOST = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
+    const urlDELETE = 'http://localhost:8081/watchlist';
 
     const movieDataPOST = {
       userId: userId,
@@ -53,6 +53,7 @@ const MovieDisplay = (props) => {
         const response = await axios.post(urlPOST, movieDataPOST);
         console.log('Response:', response.data);
         setSelected(true);
+        setRefetchDb(!refetchDb)
       } catch (error) {
         console.error('Error:', error);
       }
@@ -63,6 +64,7 @@ const MovieDisplay = (props) => {
           });
           console.log('Response:', response.data);
           setSelected(false);
+          setRefetchDb(!refetchDb)
         } catch (error) {
           console.error('Error:', error);
       }
@@ -74,7 +76,7 @@ const MovieDisplay = (props) => {
     if(userWatchList.some((item)=> item.id === movie.id)) {
       setSelected(true);
     }
-  }, [userWatchList])
+  }, [userWatchList, movie.id])
 
   //grabs cast and service from TMDB
   useEffect(() => {
