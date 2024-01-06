@@ -20,8 +20,8 @@ const FilterSearch = () => {
   const [selectedStreaming, setSelectedStreaming] = useState([]);
   const [selectedCrew, setSelectedCrew] = useState([]);
   const [params, setParams] = useState();
-
   const [queriedMovies, setQueriedMovies] = useState([]);
+
   const [singleResult, setSingleResult] = useState(false);
   const [singleRandom, setSingleRandom] = useState(0);
 
@@ -103,7 +103,8 @@ const FilterSearch = () => {
   useEffect(() => {
     const submit = async () => {
       const url = "https://api.themoviedb.org/3/discover/movie";
-      const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN;
+      const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN; 
+
       try {
         const response = await axios.get(url, { params, 
           headers: { Authorization: `Bearer ${apiKey}` } 
@@ -117,7 +118,7 @@ const FilterSearch = () => {
     };
     if(!params) return;
     else submit();
-  }, [params]);
+  }, [params, queriedMovies.length]); //TODO: check for validation
 
 
   //sideways transition to movie pages?
@@ -170,12 +171,12 @@ const FilterSearch = () => {
               </ToggleButtonGroup>
               {/* TODO: get crew suggestions */}
           </form>
+{/* submit buttons */}
           <Box
           sx={{
             display: "flex",
             gap: "1rem"
           }}>
-{/* submit buttons */}
             <Button 
               variant="outlined"
               sx={submitButtonSx}
@@ -193,7 +194,6 @@ const FilterSearch = () => {
               }}
               >Give Me Options!</Button>
           </Box>
-
 {/* Shows movie results */}
           <Box 
             sx={{
@@ -221,14 +221,14 @@ const FilterSearch = () => {
                       }} component={KeyboardDoubleArrowUpIcon}/>
                       <Typography>Back</Typography>
                   </Button> : ""}
-             
-              {(queriedMovies.length === 0) ?
+
+              {(queriedMovies.length ===0) ?
                 null :
                   singleResult ?
                     <MovieDisplay
-                    movie={queriedMovies[singleRandom]}
-                    />
-                    : 
+                      movie={queriedMovies[singleRandom]}
+                      />
+                    :
                     queriedMovies.map((queriedMovie, index) => (
                       <MovieDisplay
                         key={index}
