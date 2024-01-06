@@ -65,6 +65,8 @@ function RegisterComponent() {
 });
 
 
+
+
   //  axios.post("http://localhost:8080/user/register",
   //   { firstName: "testing",
   //   lastName: "somemore",
@@ -207,7 +209,7 @@ const validationSchema = Yup.object().shape({
 
             {/* FROM ERIN: Displays success message if/when it exists */}
           {successMessage && (
-            <Typography variant="body1" color="success" sx={{ marginTop: "1rem" }}>
+            <Typography variant="body1" sx={{ marginTop: "1rem" }}>
               {successMessage}
             </Typography>
           )}
