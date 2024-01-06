@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
+//TODO: update login to handle post so I can test to make sure front end/back end API works
 function LoginComponent() {
   return (
     <div>
