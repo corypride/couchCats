@@ -1,65 +1,77 @@
 import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
 
 function RegisterComponent() {
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    emailConfirmation: "",
-    password: "",
-    passwordConfirmation: "",
-  };
+  return (
+    <div>
+      <form>
+        <Box
+          display="flex"
+          flexDirection={"column"}
+          maxWidth={400}
+          alignItems="center"
+          justifyContent={"center"}
+          margin="auto"
+          marginTop={5}
+          padding={3}
+          borderRadius={5}
+          boxShadow={"5px 5px 10px #d3d3d3"}
+          bgcolor="box.main"
+          sx={{
+            hover: {
+              boxShadow: "10px 10px 20px #d3d3d3",
+            },
+          }}
+        >
+          <Typography variant="h3" color='secondary' padding={2} textAlign={"center"}>
+            Register!
+          </Typography>
+          <TextField
+            margin="normal"
+            type={"text"}
+            variant="standard"
+            placeholder="Full Name"
+            color='secondary'
+          />
+          <TextField
+            margin="normal"
+            type={"email"}
+            variant="standard"
+            placeholder="Email"
+            color='secondary'
+          />
+          <TextField
+            margin="normal"
+            type={"email"}
+            variant="standard"
+            placeholder="Email Confirmation"
+            color='secondary'
+          />
+          <TextField
+            margin="normal"
+            type={"password"}
+            variant="standard"
+            placeholder="Password"
+            color='secondary'
+          />
+          <TextField
+            margin="normal"
+            type={"password"}
+            variant="standard"
+            placeholder="Password Confirmation"
+            color='secondary'
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ marginTop: "1.5rem" }}
+          >
+            Register
+          </Button>
+        </Box>
+      </form>
+    </div>
+  );
+}
 
-  const onSubmit = (values, props) => {
-    console.log(values);
-    console.log(props)
-    setTimeout(()=>{
-
-      props.resetForm()
-      props.setSubmitting(false)
-    },2000)
-
-    const registerUrl = "http://localhost:8080/user/register";
-    const {emailConfirmation, passwordConfirmation, ...user} = initialValues
-    
-    const headersObj = {
-    "Content-Type": "application/json"
-    }
-    
-    axios.post("http://localhost:8080/user/register",
-    { firstName: "testing",
-    lastName: "somemore",
-    email: "test12@gmail.com",
-    password: "testing54321*"},{headers:headersObj}).then((response) => {
-      console.log("response from backend=> ", response)
-    }).catch((error) => {
-      console.error("error while backend calling ", error)
-    })
-  };
-
-
-
-const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
-    email: Yup.string().email("Invalid email address").required("Email is required"),
-    emailConfirmation: Yup.string()
-      .oneOf([Yup.ref("email")], "Emails must match")
-      .required("Email Confirmation is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .max(64, "Password must be at most 64 characters")
-      .matches(
-        /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/,
-        "Password must contain at least one number and one special character"
-      ),
-    passwordConfirmation: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Password Confirmation is required"),
-  });
-
+export default RegisterComponent;
