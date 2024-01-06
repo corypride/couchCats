@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
 //TODO: update login to handle post so I can test to make sure front end/back end API works
 function LoginComponent() {
+
+  const initialLoginValues = {
+    email: "",
+    password: "",
+  };
+
+  const onSubmit = (values, props) => {
+    console.log(values);
+    console.log(props)
+    setTimeout(()=>{
+
+      props.resetForm()
+      props.setSubmitting(false)
+    },2000)
+
+    const loginUrl = "http://localhost:8080/user/login";
+    const {...user} = initialValues
+
+    const headersObj = {
+      "Content-Type": "application/json"
+      }
+
+
+   axios.post("http://localhost:8080/user/login",
+    { email: "newemail2@gmail.com",
+    password: "Testing54321*"},{headers:headersObj}).then((response) => {
+      console.log("response from backend=> ", response)
+    }).catch((error) => {
+      console.error("error while backend calling ", error)
+    })
+  };
+      
+
   return (
     <div>
       <form>
