@@ -20,11 +20,13 @@ public class Movie {
     private String title;
     private int year;
 
-    @Size(max = 1000)
+    @Column(columnDefinition="TEXT", length = 3000)
     private String description;
 
     @Size(max = 100)
     private String director;
+
+    @Size(max = 255)
     private String cast;
     private float rating;
 
