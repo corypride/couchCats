@@ -1,11 +1,13 @@
 package org.launchcode.couchcatbackend.controllers;
 
+import org.launchcode.couchcatbackend.configuration.AuthenticationConfig;
 import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
 import org.launchcode.couchcatbackend.models.dto.UserDetailsDTO;
 import org.launchcode.couchcatbackend.services.UserService;
 import org.launchcode.couchcatbackend.utils.HTTPResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,12 +51,15 @@ public class UserController {
     }
 
     @GetMapping("/secure")
-    public ResponseEntity<String> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
-        //TODO: Add in method for getting a user's id using their sessionId and update logic and return to include that along with an authorized response.
-        if (sessionId != null && !sessionId.isEmpty()) {
-            return userService.authenticateSecureEndpoint(sessionId);
+    public ResponseEntity<User> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
+        User loggedInUser = userRepository.findBySessionId(sessionId);
+        System.out.println("user based on session id is: " + loggedInUser);
+        if (loggedInUser != null) {
+            //update last activity
+            AuthenticationConfig.updateLastActivityTime(sessionId);
+            return ResponseEntity.ok(loggedInUser);
         } else {
-            return HTTPResponseBuilder.badRequest("Invalid session ID");
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -79,7 +84,7 @@ public class UserController {
 //
 //        return null;
 //    }
-//    //  TODO: YUMI - review the below suggested approach to the user details method to replace the one above
+//    //  TODO: VALIDATE THIS METHOD IS ACTUALLY NOT NEEDED AND DELETE IF SO, IF IT IS NEEDED, REPLACE USERDTO WITH USER
 /*NOTES: 1. this uses the URI I set when the user registers "/user/{id}" (no "details), which is what the front end would
 pass back to retrieve the information
 */
