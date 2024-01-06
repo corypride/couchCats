@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 function RegisterComponent() {
+  //FROM ERIN: Added a state variable for success message that we can use to set and display a message when registration is successful
+  const [successMessage, setSuccessMessage] = useState(null);
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -25,28 +28,52 @@ function RegisterComponent() {
 
     const registerUrl = "http://localhost:8080/user/register";
     const {emailConfirmation, passwordConfirmation, ...user} = initialValues
+
     
     const headersObj = {
     "Content-Type": "application/json"
     }
+    
     axios.post(registerUrl, values, { headers: headersObj })
   .then((response) => {
     console.log("response from backend => ", response);
+
+        //FROM ERIN: Added to display the success message to the user letting them know registration worked. 
+        //Feel free to adjust, and maybe even link to the login page?
+        setSuccessMessage("Registration successful! Go to login page.");
   })
   .catch((error) => {
     console.error("error while backend calling ", error);
-  });
+
+    // Note from Erin: Added this code to handle the HTTP Response that the server sends
+    if (error.response) {
+      //The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log("Error data:", error.response.data);
+      console.log("Error status:", error.response.status);
+      console.log("Error headers:", error.response.headers);
+
+      // Display the error message to the user
+      alert("Error: " + error.response.data);
+  } else if (error.request) {
+      // The request was made but no response was received
+      console.log("Error request:", error.request);
+  } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error message:", error.message);
+  }
+});
 
 
-   /* axios.post("http://localhost:8080/user/register",
-    { firstName: "testing",
-    lastName: "somemore",
-    email: "erin@gmail.com",
-    password: "testing54321*"},{headers:headersObj}).then((response) => {
-      console.log("response from backend=> ", response)
-    }).catch((error) => {
-      console.error("error while backend calling ", error)
-    })*/
+  //  axios.post("http://localhost:8080/user/register",
+  //   { firstName: "testing",
+  //   lastName: "somemore",
+  //   email: "newemail2@gmail.com",
+  //   password: "Testing54321*"},{headers:headersObj}).then((response) => {
+  //     console.log("response from backend=> ", response)
+  //   }).catch((error) => {
+  //     console.error("error while backend calling ", error)
+  //   })
   };
 
 
@@ -177,6 +204,13 @@ const validationSchema = Yup.object().shape({
               disable={props.isSubmitting}
             >{props.isSubmitting?"Loading":"Register"}
             </Button>
+
+            {/* FROM ERIN: Displays success message if/when it exists */}
+          {successMessage && (
+            <Typography variant="body1" color="success" sx={{ marginTop: "1rem" }}>
+              {successMessage}
+            </Typography>
+          )}
           </Box>
         </Form>
       )}
