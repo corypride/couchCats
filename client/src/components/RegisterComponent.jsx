@@ -39,7 +39,7 @@ function RegisterComponent() {
     console.log("response from backend => ", response);
 
         //FROM ERIN: Added to display the success message to the user letting them know registration worked. 
-        //Feel free to adjust, and maybe even link to the login page?
+        //Feel free to adjust, and maybe even link to the login page? Up to you. 
         setSuccessMessage("Registration successful! Go to login page.");
   })
   .catch((error) => {
