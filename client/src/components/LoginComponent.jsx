@@ -36,7 +36,7 @@ function LoginComponent() {
       .then((response) => {
         console.log("response from backend => ", response);
         //TODO redirect to profile page instead of home (once ready)
-        //navigate('/');
+        navigate('/search');
       })
       .catch((error) => {
         console.error("error while backend calling ", error);
