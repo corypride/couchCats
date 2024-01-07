@@ -1,28 +1,36 @@
 import React from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button'; 
 
 const LogoutComponent = () => {
-    const handleLogout = async () => {
-        try {
-      // Send the logout request to the server
-        const response = await axios.post('/user/logout', {}, {
-            withCredentials: true,  // Include cookies in the request
-        });
 
-         // Assuming your server returns a success message or a specific response for logout
-        console.log(response.data);
-        setIsLoggedIn(false);
+    const logoutUrl = "http://localhost:8080/user/logout";
 
-        // Handle any additional logic after successful logout (e.g., redirecting to the login page)
-        } catch (error) {
-        console.error('Error during logout:', error);
-        // Handle errors (e.g., show an error message to the user)
+    const headersObj = {
+        "Content-Type": "application/json"
         }
-    };
 
-    return (
-        <button onClick={handleLogout}>Logout</button>
-    );
-};
-
-export default LogoutComponent;
+        const logout= () => {
+            axios.post(logoutUrl, { headers: headersObj, withCredentials: true })
+              .then((response) => {
+                console.log("Response from backend => ", response);
+                // Perform any additional actions after successful logout
+                //handleLogout();
+              })
+              .catch((error) => {
+                console.error("Error while backend calling ", error);
+              });
+          };
+        
+          return (
+            <Button
+              onClick={logout}
+              variant="contained"
+              color="primary"
+            >
+              Logout
+            </Button>
+          );
+        }
+        
+        export default LogoutComponent;

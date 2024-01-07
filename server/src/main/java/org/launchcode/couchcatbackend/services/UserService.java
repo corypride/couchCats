@@ -100,12 +100,20 @@ public class UserService {
     sessionId to null; resets the cookie and returns logout successful;
      */
     public ResponseEntity<String> logoutUser(String sessionId) {
-        boolean sessionInvalidated = authenticationConfig.invalidateSession(sessionId); // method changes a valid sessionId passed at logout to null
+        boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
+        System.out.println("Session Validated to check if a user with session id: " + sessionId + " result is: " + sessionValidated);
 
-        if (sessionInvalidated) { //if the sessionId is invalidated -- changed to null; this code executes, and the cookie is reset and the message logout successful is returned
-        HttpHeaders headers = new HttpHeaders();
+        //boolean sessionInvalidated = authenticationConfig.invalidateSession(sessionId); // method changes a valid sessionId passed at logout to null
+
+        if (sessionValidated) { //if the sessionId is a valid session we will then call the invalidate session method,
+            // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
+            System.out.println("entered if statement with id: " + sessionId);
+
+            authenticationConfig.invalidateSession(sessionId);
+            System.out.println("after invalidated Session is called is was: " + sessionId);
+            HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Path=/; Max-Age=0; Secure; HttpOnly");
-        return HTTPResponseBuilder.ok("Logout successful", headers);
+            return HTTPResponseBuilder.ok("Logout successful", headers);
     } else {
         return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
     }

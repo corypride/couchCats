@@ -1,15 +1,11 @@
 import React from 'react';
 import LogoutComponent from '../components/LogoutComponent';
 
-const TestLogoutButtonPage = () => {
-  // Your component logic
-
+const TestLogoutButton = () => {
   return (
     <div>
-      {/* Your component content */}
       <LogoutComponent />
     </div>
   );
-};
-
-export default TestLogoutButtonPage;
+}
+export default TestLogoutButton;

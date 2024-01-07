@@ -51,12 +51,12 @@ public class UserController {
     }
 
     @GetMapping("/secure")
-    public ResponseEntity<User> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
+    public ResponseEntity<User> secureEndpoint(@RequestParam @CookieValue(name = "sessionId", required = false) String sessionId) {
         User loggedInUser = userRepository.findBySessionId(sessionId);
         System.out.println("user based on session id is: " + loggedInUser);
         if (loggedInUser != null) {
             //update last activity
-            AuthenticationConfig.updateLastActivityTime(sessionId);
+            //AuthenticationConfig.updateLastActivityTime(sessionId);
             return ResponseEntity.ok(loggedInUser);
         } else {
             return ResponseEntity.badRequest().build();
@@ -66,11 +66,12 @@ public class UserController {
 
     @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
-       if (sessionId != null && !sessionId.isEmpty()) {
-           return userService.logoutUser(sessionId);
-       } else {
-           return HTTPResponseBuilder.badRequest("Invalid session ID");
-       }
+       System.out.println(sessionId);
+        if (sessionId == null || sessionId.isEmpty()) {
+            return HTTPResponseBuilder.badRequest("Invalid session ID");
+        } else {
+            return userService.logoutUser(sessionId);
+        }
    }
 
 //    @GetMapping("/details/{id}")
