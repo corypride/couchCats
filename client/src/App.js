@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/RegisterPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
+import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="movie" element={<SingleMovie />} />
+        <Route path="logout-test" element={<TestLogoutButtonPage />} />
       </Routes>
     </div>
   );
