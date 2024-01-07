@@ -35,7 +35,7 @@ function LoginComponent() {
       axios.post(loginUrl, values, { headers: headersObj })
       .then((response) => {
         console.log("response from backend => ", response);
-        //TODO redirect to profile page instead of home once we are ready to do so
+        //TODO redirect to profile page instead of home (once ready)
         navigate('/');
       })
       .catch((error) => {
