@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const getWatchList = async (user_id) => {
-    const url = `http://localhost:8081/watchlist/${user_id}`;
+    const url = `http://localhost:8080/watchlist/${user_id}`;
   
     try {
       const response = await axios.get(url);
