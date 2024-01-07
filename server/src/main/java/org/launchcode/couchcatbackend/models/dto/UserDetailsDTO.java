@@ -1,7 +1,7 @@
 package org.launchcode.couchcatbackend.models.dto;
 
 public class UserDetailsDTO {
-
+//TODO: Delete if we determine this is no longer needed
     private String firstName;
     private String lastName;
     private String email;
