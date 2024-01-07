@@ -13,6 +13,7 @@ function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
   const [userId, setUserId] = useState(1);
+  const [refetchDb, setRefetchDb] = useState(false);
 
   // const list = useWatchList(userId)
   // setUserWatchList(list)
@@ -22,15 +23,16 @@ function App() {
     getWatchList(userId)
     .then(data => {
       setUserWatchList(data)
+      console.log(data)
     })
     .catch(error => {
       console.error(error);
     });
-  }, [userId]);
+  }, [userId, refetchDb]);
 
   return (
     <div className="App">
-      <userContext.Provider value={{ userWatchList, userId }}>
+      <userContext.Provider value={{ userWatchList, userId, refetchDb, setRefetchDb }}>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />

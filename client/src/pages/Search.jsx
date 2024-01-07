@@ -83,7 +83,6 @@ const FilterSearch = () => {
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
       with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
     });
-
   }
 
   // handles scroll effect
