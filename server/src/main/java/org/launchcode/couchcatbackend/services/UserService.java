@@ -84,26 +84,14 @@ public class UserService {
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
-                return HTTPResponseBuilder.ok("Login successful\n", headers);
+                return HTTPResponseBuilder.ok("Login successful", headers);
             } else {
-                return HTTPResponseBuilder.unauthorized("Login failed: Email and password are not a match\n");
+                return HTTPResponseBuilder.unauthorized("Login failed. The email and password combination entered was not valid.");
             }
         } else {
             return HTTPResponseBuilder.unauthorized("Login Failed: Email address does not exist\n");
         }
     }
-
-    public ResponseEntity<String> authenticateSecureEndpoint(String sessionId) {
-        if (authenticationConfig.isValidSession(sessionId)) {
-            //update last activity
-            AuthenticationConfig.updateLastActivityTime(sessionId);
-            // Process the request for the authenticated user
-            return HTTPResponseBuilder.ok("Authorized access");
-        } else {
-            return HTTPResponseBuilder.unauthorized("Session expired or invalid");
-        }
-    }
-
 
     /**
      * LOGOUT
