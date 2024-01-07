@@ -1,6 +1,7 @@
 package org.launchcode.couchcatbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,6 +31,7 @@ public class User {
     @NotEmpty
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @NotEmpty
     private String password;
