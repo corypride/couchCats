@@ -68,7 +68,7 @@ public class UserController {
 
 
     @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
+    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
        System.out.println(sessionId);
         if (sessionId == null || sessionId.isEmpty()) {
             return HTTPResponseBuilder.badRequest("Invalid session ID");
@@ -76,25 +76,6 @@ public class UserController {
             return userService.logoutUser(sessionId);
         }
    }
-//    @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
-//            System.out.println(sessionId);
-//    boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
-//        System.out.println("Session Validated to check if a user with session id: " + sessionId + " result is: " + sessionValidated);
-//
-//        if (sessionValidated) { //if the sessionId is a valid session we will then call the invalidate session method,
-//        // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
-//        System.out.println("entered if statement with id: " + sessionId);
-//
-//        authenticationConfig.invalidateSession(sessionId);
-//        System.out.println("after invalidated Session is called is was: " + sessionId);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Path=/; Max-Age=0; Secure; HttpOnly");
-//        return HTTPResponseBuilder.ok("Logout successful", headers);
-//    } else {
-//        return HTTPResponseBuilder.badRequest("Logout failed, sessionId was invalid."); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
-//    }
-//}
 
 //    @GetMapping("/details/{id}")
 //    public User getUserDetailsById(@PathVariable int id) {

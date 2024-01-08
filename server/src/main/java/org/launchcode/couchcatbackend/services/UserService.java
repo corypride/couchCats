@@ -83,7 +83,9 @@ public class UserService {
             if (isPasswordCorrect(user, userLogin)) {
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; Secure; HttpOnly; SameSite=None"); // Sets the Secure and HttpOnly attributes for the cookie
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; Secure; HttpOnly; SameSite=None");
+                System.out.println(headers);
+                // Sets the Secure and HttpOnly attributes for the cookie
                 return HTTPResponseBuilder.ok("Login successful", headers);
             } else {
                 return HTTPResponseBuilder.unauthorized("Login failed. The email and password combination entered was not valid.");
@@ -103,8 +105,6 @@ public class UserService {
         boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
         System.out.println("Session Validated to check if a user with session id: " + sessionId + " result is: " + sessionValidated);
 
-        //boolean sessionInvalidated = authenticationConfig.invalidateSession(sessionId); // method changes a valid sessionId passed at logout to null
-
         if (sessionValidated) { //if the sessionId is a valid session we will then call the invalidate session method,
             // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
             System.out.println("entered if statement with id: " + sessionId);
@@ -112,7 +112,7 @@ public class UserService {
             authenticationConfig.invalidateSession(sessionId);
             System.out.println("after invalidated Session is called is was: " + sessionId);
             HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, "sessionId=; PMax-Age=3600; Secure; HttpOnly; SameSite=None");
+            headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; Secure; HttpOnly; SameSite=None");
             return HTTPResponseBuilder.ok("Logout successful", headers);
     } else {
         return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails

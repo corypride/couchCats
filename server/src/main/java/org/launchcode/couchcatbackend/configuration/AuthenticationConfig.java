@@ -60,8 +60,7 @@ public class AuthenticationConfig {
         return false;
     }
 
-    /* finds a user by their sessionId, if the user exists, method changes the sessionId to null,
-    updates the user and returns this boolean as true, otherwise it returns false*/
+    /* finds a user by their sessionId, if the user exists, method changes the sessionId to null*/
     public void invalidateSession(String sessionId) {
         User user = userRepository.findBySessionId(sessionId);
         if (user != null) {
