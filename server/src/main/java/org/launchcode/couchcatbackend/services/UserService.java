@@ -83,7 +83,7 @@ public class UserService {
             if (isPasswordCorrect(user, userLogin)) {
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; Secure; HttpOnly; SameSite=None"); // Sets the Secure and HttpOnly attributes for the cookie
                 return HTTPResponseBuilder.ok("Login successful", headers);
             } else {
                 return HTTPResponseBuilder.unauthorized("Login failed. The email and password combination entered was not valid.");
@@ -112,7 +112,7 @@ public class UserService {
             authenticationConfig.invalidateSession(sessionId);
             System.out.println("after invalidated Session is called is was: " + sessionId);
             HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Path=/; Max-Age=0; Secure; HttpOnly");
+        headers.add(HttpHeaders.SET_COOKIE, "sessionId=; PMax-Age=3600; Secure; HttpOnly; SameSite=None");
             return HTTPResponseBuilder.ok("Logout successful", headers);
     } else {
         return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
