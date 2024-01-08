@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/user")
 public class UserController {
 
@@ -25,6 +25,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationConfig authenticationConfig;
 
     private final UserService userService;
 
@@ -56,7 +59,7 @@ public class UserController {
         System.out.println("user based on session id is: " + loggedInUser);
         if (loggedInUser != null) {
             //update last activity
-            AuthenticationConfig.updateLastActivityTime(sessionId);
+            //AuthenticationConfig.updateLastActivityTime(sessionId);
             return ResponseEntity.ok(loggedInUser);
         } else {
             return ResponseEntity.badRequest().build();
@@ -65,12 +68,13 @@ public class UserController {
 
 
     @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
-       if (sessionId != null && !sessionId.isEmpty()) {
-           return userService.logoutUser(sessionId);
-       } else {
-           return HTTPResponseBuilder.badRequest("Invalid session ID");
-       }
+    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
+       System.out.println(sessionId);
+        if (sessionId == null || sessionId.isEmpty()) {
+            return HTTPResponseBuilder.badRequest("Invalid session ID");
+        } else {
+            return userService.logoutUser(sessionId);
+        }
    }
 
 //    @GetMapping("/details/{id}")
