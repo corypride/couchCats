@@ -12,12 +12,19 @@ const TestUserComponent = (props) => {
   async function getUserInfoBySessionId() {
     let session_id = "3f99a243-0a03-462c-a6d6-c83c71cc92ec";
     let userDetails = await getUserDetails(session_id);
+    console.log("user details: " + userDetails);
 
     // Update the state with the user details
     setUser(userDetails);
   }
 
-  return <div>User details: {user.email}</div>;
+  console.log("user: " + user);
+  console.log("user.email: " + user.email);
+
+  let id = user.id;
+  let email = user.email;
+
+  return <div>User details: {id} {email}</div>;
 };
 
 export default TestUserComponent;
