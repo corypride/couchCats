@@ -5,6 +5,8 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
+//after a user logins in, the headersObj in UserManagement is updated to contain the new Cookie set by the server
+//And this function takes in that headersObj from the UserManagement component in the signature as a prop. 
 const LoginComponent = ({ headersObj }) => {
     // FROM ERIN: Added a state variable for the success message that we can use to set and display a message when registration is successful
     const [failMessage, setFailMessage] = useState(null);
