@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/user")
 public class UserController {
 
@@ -51,12 +51,13 @@ public class UserController {
     }
 
     @GetMapping("/secure")
-    public ResponseEntity<User> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
+    public ResponseEntity<User> secureEndpoint(@RequestParam(name = "sessionId", required = false) String sessionId) {
         User loggedInUser = userRepository.findBySessionId(sessionId);
         System.out.println("user based on session id is: " + loggedInUser);
         if (loggedInUser != null) {
             //update last activity
-            AuthenticationConfig.updateLastActivityTime(sessionId);
+//            TODO: comment line below back in after testing
+//            AuthenticationConfig.updateLastActivityTime(sessionId);
             return ResponseEntity.ok(loggedInUser);
         } else {
             return ResponseEntity.badRequest().build();
