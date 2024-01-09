@@ -119,17 +119,18 @@ pass back to retrieve the information
     }
 
 //    TODO: add some kind of security so you can't delete other users' accounts? change to @RequestBody and you pass in sessionId instead and it deletes user associated with that sessionId?
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @Transactional
-    public ResponseEntity<String> deleteUser(@PathVariable int id) {
-        Optional<User> result = userRepository.findById(id);
-//        User user = userRepository.findBySessionId(sessionId);
-//        if !user / else
-        if (result.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
+//        Optional<User> result = userRepository.findById(id);
+        if (sessionId == null || sessionId.isEmpty()) {
+            return HTTPResponseBuilder.badRequest("Invalid session ID");
         } else {
-            User user = result.get();
+            User user = userRepository.findBySessionId(sessionId);
+            System.out.println("user: " + user);
+            int id = user.getId();
             String email = user.getEmail();
+
             List<Movie> watchlist = new ArrayList<>(user.getWatchlist());
 
             for (Movie movie : watchlist) {
