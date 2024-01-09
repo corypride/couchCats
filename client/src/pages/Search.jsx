@@ -24,6 +24,7 @@ const FilterSearch = () => {
 
   const [singleResult, setSingleResult] = useState(false);
   const [singleRandom, setSingleRandom] = useState(0);
+  const [display, setDisplay] = useState(false);
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -110,15 +111,15 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
-        setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
-        setQueriedMovies(data.results);
+        setQueriedMovies(data.results)
+        setDisplay(true);
       } catch (error) {
         console.error(error);
       }
     };
     if(!params) return;
     else submit();
-  }, [params, queriedMovies.length]); //TODO: check for validation
+  }, [params]); //TODO: check for validation
 
 
   //sideways transition to movie pages?
@@ -183,6 +184,8 @@ const FilterSearch = () => {
               onClick={() => {
                 handleSubmit();
                 setSingleResult(true);
+                setDisplay(false);
+                setSingleRandom(Math.floor(Math.random() * 19));
               }}
               >Find My Movie!</Button>
             <Button 
@@ -190,6 +193,7 @@ const FilterSearch = () => {
               sx={submitButtonSx}
               onClick={() => {
                 handleSubmit();
+                setDisplay(false);
                 setSingleResult(false);
               }}
               >Give Me Options!</Button>
@@ -222,7 +226,7 @@ const FilterSearch = () => {
                       <Typography>Back</Typography>
                   </Button> : ""}
 
-              {(queriedMovies.length ===0) ?
+              {(!display) ?
                 null :
                   singleResult ?
                     <MovieDisplay
