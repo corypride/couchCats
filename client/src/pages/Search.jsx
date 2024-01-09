@@ -3,15 +3,16 @@ import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, SvgIcon,  } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
-import getGenres from "../utils/getGenres"
+import getGenres from "../utils/getGenres";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-
-
 
 const FilterSearch = () => {
 
   //FIXME:calls 4 times?
   const genres = getGenres();
+
+  const serviceIds = streamingServices.map(service => service.id);
+  const serviceReqDefault = serviceIds.join("|");
 
   //scroll references
   const results = useRef(null);
@@ -82,7 +83,7 @@ const FilterSearch = () => {
       watch_region: 'US',
       with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join("|") : undefined,
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
-      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
+      with_watch_providers: (!selectedStreaming.length < 1) ? selectedStreaming.join("|") : serviceReqDefault,
     });
   }
 
