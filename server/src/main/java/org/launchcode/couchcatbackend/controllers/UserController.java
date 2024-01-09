@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,13 +119,23 @@ pass back to retrieve the information
         if (result.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-//            TODO: delete from userMovieLog first
+            User user = result.get();
+            String email = user.getEmail();
+            List<Movie> watchlist = new ArrayList<>(user.getWatchlist());
+
+            for (Movie movie : watchlist) {
+                user.removeFromWatchlist(movie);
+            }
+
             List<UserMovieLog> logEntries = userMovieLogRepository.findByIdUserId(id);
             for (UserMovieLog log : logEntries) {
                 userMovieLogRepository.delete(log);
             }
+            
+            userRepository.save(user);
             userRepository.deleteById(id);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+//            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return ResponseEntity.ok().body("The account associated with email address " + email + " was deleted.");
         }
     }
 }
