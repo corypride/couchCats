@@ -1,17 +1,25 @@
 package org.launchcode.couchcatbackend.controllers;
 
+import jakarta.transaction.Transactional;
 import org.launchcode.couchcatbackend.configuration.AuthenticationConfig;
+import org.launchcode.couchcatbackend.data.UserMovieLogRepository;
 import org.launchcode.couchcatbackend.data.UserRepository;
+import org.launchcode.couchcatbackend.models.Movie;
 import org.launchcode.couchcatbackend.models.User;
+import org.launchcode.couchcatbackend.models.UserMovieLog;
 import org.launchcode.couchcatbackend.models.dto.UserDetailsDTO;
 import org.launchcode.couchcatbackend.services.UserService;
 import org.launchcode.couchcatbackend.utils.HTTPResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -22,6 +30,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMovieLogRepository userMovieLogRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -64,8 +75,7 @@ public class UserController {
         }
     }
 
-
-    @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+   @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
        if (sessionId != null && !sessionId.isEmpty()) {
            return userService.logoutUser(sessionId);
@@ -89,16 +99,34 @@ public class UserController {
 /*NOTES: 1. this uses the URI I set when the user registers "/user/{id}" (no "details), which is what the front end would
 pass back to retrieve the information
 */
-@GetMapping("/{id}")
-public ResponseEntity<UserDetailsDTO> getUserDetailsById(@PathVariable Integer id) {
-    Optional<User> result = userRepository.findById(id);
-    if (result.isPresent()) {
-        User user = result.get();
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO(user.getFirstName(), user.getLastName(), user.getEmail());
-        return ResponseEntity.ok().body(userDetailsDTO);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDetailsDTO> getUserDetailsById(@PathVariable Integer id) {
+        Optional<User> result = userRepository.findById(id);
+        if (result.isPresent()) {
+            User user = result.get();
+            UserDetailsDTO userDetailsDTO = new UserDetailsDTO(user.getFirstName(), user.getLastName(), user.getEmail());
+            return ResponseEntity.ok().body(userDetailsDTO);
+        }
+        return ResponseEntity.notFound().build();
     }
-    return ResponseEntity.notFound().build();
-}
+
+//    TODO: add some kind of security so you can't delete other users' accounts? change to @RequestBody and you pass in sessionId instead and it deletes user associated with that sessionId?
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        Optional<User> result = userRepository.findById(id);
+        if (result.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+//            TODO: delete from userMovieLog first
+            List<UserMovieLog> logEntries = userMovieLogRepository.findByIdUserId(id);
+            for (UserMovieLog log : logEntries) {
+                userMovieLogRepository.delete(log);
+            }
+            userRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
 }
 
 
