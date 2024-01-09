@@ -7,6 +7,7 @@ import Register from "./pages/RegisterPage.jsx";
 import TestUserPage from "./pages/TestUserPage.jsx"
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
+import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import getWatchList from "./utils/getWatchList.js";
 import userContext from "./utils/userContext.js"
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
           <Route path="usertest" element={<TestUserPage />} />
+          <Route path="logout-test" element={<TestLogoutButtonPage />} />
         </Routes>
       </userContext.Provider>
     </div>

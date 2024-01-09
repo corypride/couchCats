@@ -5,12 +5,15 @@ import org.launchcode.couchcatbackend.data.UserRepository;
 import org.launchcode.couchcatbackend.models.User;
 import org.launchcode.couchcatbackend.utils.HTTPResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -71,25 +74,34 @@ public class UserService {
     If they do not, we return a 401 HTTP status with a custom message that email and password were not a match;
      */
     private boolean isPasswordCorrect(User providedUser, User storedUser) {
+        //takes in the password passed with the user details from the front end, and the stored password
+        // for that same user in the database, compares the encoded versions,
+        // returns a boolean value of true when they match, false when they do not
         String providedPassword = providedUser.getPassword();
         String storedPassword = storedUser.getPassword();
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
+//TODO: return the user id as well
 
-    public ResponseEntity<String> authenticateUser(User user) {
+    public ResponseEntity<Object> authenticateUser(User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
 
         if (userLogin != null) {
+            //next call isPasswordCorrect to check if the password is valid
             if (isPasswordCorrect(user, userLogin)) {
+                //if passwords match, the login credentials are valid so we can generate a sessionId
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Secure; HttpOnly"); // Sets the Secure and HttpOnly attributes for the cookie
-                return HTTPResponseBuilder.ok("Login successful\n", headers);
+                //we set that sessionId as a Cookie, we use
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; Secure; HttpOnly; SameSite=None");
+                System.out.println(headers);
+                // Sets the Secure and HttpOnly attributes for the cookie
+                return ResponseEntity.ok().headers(headers).body(userLogin);
             } else {
-                return HTTPResponseBuilder.unauthorized("Login failed: Email and password are not a match\n");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials.");
             }
         } else {
-            return HTTPResponseBuilder.unauthorized("Login Failed: Email address does not exist\n");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed: Email address does not exist\n");
         }
     }
 
@@ -100,12 +112,13 @@ public class UserService {
     sessionId to null; resets the cookie and returns logout successful;
      */
     public ResponseEntity<String> logoutUser(String sessionId) {
-        boolean sessionInvalidated = authenticationConfig.invalidateSession(sessionId); // method changes a valid sessionId passed at logout to null
-
-        if (sessionInvalidated) { //if the sessionId is invalidated -- changed to null; this code executes, and the cookie is reset and the message logout successful is returned
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Path=/; Max-Age=0; Secure; HttpOnly");
-        return HTTPResponseBuilder.ok("Logout successful", headers);
+        boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
+        if (sessionValidated) { //if the sessionId is a valid session we will then call the invalidate session method,
+            // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
+            authenticationConfig.invalidateSession(sessionId);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; Secure; HttpOnly; SameSite=None");
+            return HTTPResponseBuilder.ok("Logout successful", headers);
     } else {
         return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
     }

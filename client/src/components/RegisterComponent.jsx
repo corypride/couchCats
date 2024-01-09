@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'; 
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 function RegisterComponent() {
-  //FROM ERIN: Added a state variable for success message that we can use to set and display a message when registration is successful
-  const [successMessage, setSuccessMessage] = useState(null);
+  
+  const navigate = useNavigate();
+
 
   const initialValues = {
     firstName: "",
@@ -38,9 +39,8 @@ function RegisterComponent() {
   .then((response) => {
     console.log("response from backend => ", response);
 
-        //FROM ERIN: Added to display the success message to the user letting them know registration worked. 
-        //Feel free to adjust, and maybe even link to the login page? 
-        setSuccessMessage("Registration successful! Go to login page.");
+        //redirects to login page
+        navigate('/login');;
   })
   .catch((error) => {
     console.error("error while backend calling ", error);
@@ -63,6 +63,8 @@ function RegisterComponent() {
       console.log("Error message:", error.message);
   }
 });
+
+
 
 
   //  axios.post("http://localhost:8080/user/register",
@@ -91,7 +93,7 @@ const validationSchema = Yup.object().shape({
       .max(64, "Password must be at most 64 characters")
       .matches(
         /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/,
-        "Password must contain at least one number and one special character"
+        "Password must contain at least one number and one special character. Special characters allowed are: !, @, #, $, %, ^, &, *."
       ),
     passwordConfirmation: Yup.string()
       .oneOf([Yup.ref("password")], "Passwords must match")
@@ -137,7 +139,7 @@ const validationSchema = Yup.object().shape({
               color="primary"
               fullWidth
               name="firstName"  
-              helperText={<ErrorMessage name="firstName" component="div"/>}
+              helperText={<ErrorMessage name="firstName" component="span"/>}
               />
             <Field
               as={TextField}
@@ -148,7 +150,7 @@ const validationSchema = Yup.object().shape({
               color="secondary"
               fullWidth
               name="lastName"
-              helperText={<ErrorMessage name="lastName" component="div"/>}
+              helperText={<ErrorMessage name="lastName" component="span"/>}
             />
             <Field
               as={TextField}
@@ -159,7 +161,7 @@ const validationSchema = Yup.object().shape({
               color="secondary"
               fullWidth
               name="email" 
-              helperText={<ErrorMessage name="email" component="div"/>}
+              helperText={<ErrorMessage name="email" component="span"/>}
 
             />
             <Field
@@ -171,7 +173,7 @@ const validationSchema = Yup.object().shape({
               color="secondary"
               fullWidth
               name="emailConfirmation"
-              helperText={<ErrorMessage name="emailConfirmation" component="div"/>}
+              helperText={<ErrorMessage name="emailConfirmation" component="span"/>}
 
             />
             <Field
@@ -183,7 +185,7 @@ const validationSchema = Yup.object().shape({
               color="secondary"
               fullWidth
               name="password"
-              helperText={<ErrorMessage name="password" component="div"/>}
+              helperText={<ErrorMessage name="password" component="span"/>}
             />
             <Field
               as={TextField}
@@ -194,23 +196,16 @@ const validationSchema = Yup.object().shape({
               color="secondary"
               fullWidth
               name="passwordConfirmation"
-              helperText={<ErrorMessage name="passwordConfirmation" component="div"/>}
+              helperText={<ErrorMessage name="passwordConfirmation" component="span"/>}
             />
             <Button
               type="submit"
               variant="contained"
               color="primary"
               sx={{ marginTop: "1.5rem" }}
-              disable={props.isSubmitting}
-            >{props.isSubmitting?"Loading":"Register"}
+              disabled={props.isSubmitting}
+            >{props.isSubmitting ? "Loading" : "Register"}
             </Button>
-
-            {/* FROM ERIN: Displays success message if/when it exists */}
-          {successMessage && (
-            <Typography variant="body1" color="success" sx={{ marginTop: "1rem" }}>
-              {successMessage}
-            </Typography>
-          )}
           </Box>
         </Form>
       )}

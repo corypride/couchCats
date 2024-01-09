@@ -38,6 +38,9 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationConfig authenticationConfig;
+
     private final UserService userService;
 
     @Autowired
@@ -58,31 +61,35 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> userLogin(@RequestBody User user) {
+    public ResponseEntity<Object> userLogin(@RequestBody User user) {
         return userService.authenticateUser(user);
     }
 
+    //Receives get request from the front end, which includes HTTP header with the credentials, we extract the sessionId
     @GetMapping("/secure")
     public ResponseEntity<User> secureEndpoint(@RequestParam(name = "sessionId", required = false) String sessionId) {
         User loggedInUser = userRepository.findBySessionId(sessionId);
-        System.out.println("user based on session id is: " + loggedInUser);
+//        if a user with that sessionId exists in the database, that user is assigned to loggedInUser
+        //TODO: Possibly update to validate that the sessionId is assigned to the particular user by adding
+        // Integer id to the request param and comparing the id of the loggedInUser to the id passed in to verify they are a match
         if (loggedInUser != null) {
-            //update last activity
-//            TODO: comment line below back in after testing
-//            AuthenticationConfig.updateLastActivityTime(sessionId);
+            //update last activity - commenting out because not working properly and tabling this as not critical for MVP
+            //AuthenticationConfig.updateLastActivityTime(sessionId);
+            //returns loggedInUser details but depending on how front end works, we may only need to return a success message
             return ResponseEntity.ok(loggedInUser);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
-   @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
-       if (sessionId != null && !sessionId.isEmpty()) {
-           return userService.logoutUser(sessionId);
-       } else {
-           return HTTPResponseBuilder.badRequest("Invalid session ID");
-       }
+    @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
+//       System.out.println(sessionId);
+        if (sessionId == null || sessionId.isEmpty()) {
+            return HTTPResponseBuilder.badRequest("Invalid session ID");
+        } else {
+            return userService.logoutUser(sessionId);
+        }
    }
 
 //    @GetMapping("/details/{id}")

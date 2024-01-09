@@ -36,6 +36,7 @@ public class User {
     @NotEmpty
     private String password;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String sessionId;
 
 
