@@ -116,6 +116,8 @@ pass back to retrieve the information
     @Transactional
     public ResponseEntity<String> deleteUser(@PathVariable int id) {
         Optional<User> result = userRepository.findById(id);
+//        User user = userRepository.findBySessionId(sessionId);
+//        if !user / else
         if (result.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
@@ -131,7 +133,7 @@ pass back to retrieve the information
             for (UserMovieLog log : logEntries) {
                 userMovieLogRepository.delete(log);
             }
-            
+
             userRepository.save(user);
             userRepository.deleteById(id);
 //            return new ResponseEntity(HttpStatus.NO_CONTENT);
