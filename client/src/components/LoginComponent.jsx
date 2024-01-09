@@ -108,7 +108,7 @@ const LoginComponent = ({ headersObj }) => {
                             color="secondary"
                             fullWidth
                             name="email"
-                            helperText={<ErrorMessage name="email" component="div" />}
+                            helperText={<ErrorMessage name="email" component="span" />}
                         />
                         <Field
                             as={TextField}
@@ -119,7 +119,7 @@ const LoginComponent = ({ headersObj }) => {
                             color="secondary"
                             fullWidth
                             name="password"
-                            helperText={<ErrorMessage name="password" component="div" />}
+                            helperText={<ErrorMessage name="password" component="span" />}
                         />
                         <Button
                             type="submit"
