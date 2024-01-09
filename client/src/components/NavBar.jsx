@@ -24,6 +24,24 @@ const NavBar = () => {
   const handleChange = (_e, newValue) => {
     setValue(newValue);
   }
+// //ERIN ADDED CODE
+//   const Navigation = () => {
+//     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+//     const handleLogin = () => {
+//       // Perform login logic, set isLoggedIn to true
+//       setIsLoggedIn(true);
+//     };
+
+//     const handleLogout = () => {
+//       // Perform logout logic, set isLoggedIn to false
+//       setIsLoggedIn(false);
+//     };
+        
+//       };
+
+//     //end of ERIN ADDED CODE
+
   return (
     <React.Fragment>
       <AppBar
