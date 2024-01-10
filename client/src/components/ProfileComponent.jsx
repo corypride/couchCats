@@ -3,97 +3,94 @@ import {
     Button,
     Typography,
     Card,
-    CardMedia,
     CardContent,
     CardActions,
     Grid
 } from "@mui/material";
 import axios from "axios";
+import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
     const user = JSON.parse(sessionStorage.getItem('user'))
     user.watchlist = [
-        { title: "Batman", year: "1997", description: "movie description", director: "Batman Director" },
-        { title: "Superman", year: "1998", description: "movie description", director: "Superman Director" },
-        { title: "Batman", year: "1997", description: "movie description", director: "Batman Director" },
-        { title: "Killers of the Flower Moon", year: "2023-10-18", description: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.", director: "Batman Director" },
-        { title: "Superman", year: "1998", description: "movie description", director: "Superman Director" },
-        { title: "Superman", year: "2023-10-18", description: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.", director: "Superman Director" }
+        // ... watchlist data ...
     ];
 
     const isWatchList = () => {
-        return user?.watchlist?.length > 0
+        return user?.watchlist?.length > 0;
     }
 
-    const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
+    // Function to delete a movie from the watch list
+    const deleteMovieFromWatchList = (movie) => {
         console.log("delete a movie from watch list handle called")
         setTimeout(() => {
+            const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
+
+            const headersObj = {
+                "Content-Type": "application/json"
+            }
+
+            const deletePayload = {
+                "userId": user.id,
+                "movieId": movie.id
+            }
+
+            // Axios DELETE request to remove the movie from the watchlist
+            axios.delete(deleteMovieFromWatchlistUrl, { headers: headersObj, data: deletePayload })
+                .then((response) => {
+                    console.log(response);
+                    // If deletion is successful, update the watchlist.
+                    // The following line removes the selected movie from the watchlist.
+                    // This operation may vary depending on the state management or data structures used.
+                    // Example: setWatchlist(updatedWatchlist)
+                    user.watchlist = user.watchlist.filter(item => item.id !== movie.id);
+                })
+                .catch(err => { console.error(err) });
         }, 2000)
-
-        const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
-
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-
-        const deletePayload = {
-            "userId": user.id,
-            "movieId": movie.id
-        }
     }
 
-
-    const deleteMyAccountHandle = () => { // deletes the account 
+    // Function to delete the user account
+    const deleteMyAccountHandle = () => {
         console.log("delete handle called")
         setTimeout(() => {
+            const deleteUserUrl = "http://localhost:8080/user/delete/" + user.id;
+
+            const headersObj = {
+                "Content-Type": "application/json"
+            }
+
+            // Axios DELETE request for deleting the user account
+            axios.delete(deleteUserUrl, { headers: headersObj })
+                .then((response) => {
+                    console.log(response);
+                    // When the account is deleted, the user session might be closed.
+                    // This depends on the used session management and application configuration.
+                    // Example: logout() function call.
+                })
+                .catch(err => { console.error(err) });
         }, 2000)
-
-        const deleteUserUrl = "http://localhost:8080/user/delete/" + user.id;
-
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-        // Delete methode for account
-        axios.delete(deleteUserUrl, { headers: headersObj })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch(err => { console.error(err) });
     }
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography // welcome message line
-                    variant="h4"
-                    color="primary"
-                    padding={2}
-                    textAlign={"center"}
-                >
-                    Welcome  {user.firstName} {user.lastName}
+                <Typography variant="h4" color="primary" padding={2} textAlign={"center"}>
+                    Welcome {user.firstName} {user.lastName}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography // welcome message line
-                    variant="h6"
-                    color="primary"
-                    padding={2}
-                    textAlign={"center"}
-                >
+                <Typography variant="h6" color="primary" padding={2} textAlign={"center"}>
                     E-mail: {user.email}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography // title of the watch list
-                    variant="h4"
-                    padding={2}
-                >
+                <Typography variant="h4" padding={2}>
                     Watch List
                 </Typography>
             </Grid>
             {isWatchList() ? (
                 <>
-                    {user.watchlist.map((movie, index) => ( //loop for watch list movies 
+                    {user.watchlist.map((movie, index) => (
                         <Grid key={index} item xs={6} md={3}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardContent>
@@ -109,13 +106,12 @@ function ProfileComponent() {
                                 </CardContent>
                                 <CardActions>
                                     <Button size="small">Watch</Button>
-                                    <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                    <Button size="small" color="attention" onClick={() => deleteMovieFromWatchList(movie)}>Delete</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
                     ))}
                 </>
-
             ) : (
                 <>
                     <Grid item xs={12}>
@@ -127,14 +123,8 @@ function ProfileComponent() {
             )}
 
             <Grid item xs={12}>
-                <Button
-                    variant="contained"
-                    color="attention"
-                    sx={{ marginTop: "1.5rem", color: "white" }}
-                    onClick={deleteMyAccountHandle}
-                >
-                    Delete My Account!
-                </Button>
+                {/* Component for deleting the user account */}
+                <DeleteAccountComponent onDeleteAccount={deleteMyAccountHandle} />
             </Grid>
         </Grid>
     );
