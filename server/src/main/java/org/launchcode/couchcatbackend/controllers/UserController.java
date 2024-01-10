@@ -143,6 +143,7 @@ pass back to retrieve the information
             }
 
             userRepository.save(user);
+            userService.logoutUser(sessionId);
             userRepository.deleteById(id);
 //            return new ResponseEntity(HttpStatus.NO_CONTENT);
             return ResponseEntity.ok().body("The account associated with email address " + email + " was deleted.");
