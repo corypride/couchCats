@@ -67,7 +67,7 @@ public class UserController {
 
     //Receives get request from the front end, which includes HTTP header with the credentials, we extract the sessionId
     @GetMapping("/secure")
-    public ResponseEntity<User> secureEndpoint(@RequestParam(name = "sessionId", required = false) String sessionId) {
+    public ResponseEntity<User> secureEndpoint(@CookieValue(name = "sessionId", required = false) String sessionId) {
         User loggedInUser = userRepository.findBySessionId(sessionId);
 //        if a user with that sessionId exists in the database, that user is assigned to loggedInUser
         //TODO: Possibly update to validate that the sessionId is assigned to the particular user by adding
