@@ -102,9 +102,14 @@ public class UserService {
     /* For logging a user out: receives sessionId, calls sessionInvalidated in Authentication Config which sets the
     sessionId to null; resets the cookie and returns logout successful;
      */
+    //TODO: For this method to fully work to clear the cookie, we have to be running localhost on https, need to put cert in place
+    //TODO:Once we have the front end call to /secure working, refactor to also take in userId in addition to sessionId,
+    // update isValidSession to use same validation methods so we can use that in the /secure as well,
+    // and then proceed with  executing the logic to expire the cookie as it exists
     public ResponseEntity<String> logoutUser(String sessionId) {
         boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
-        if (sessionValidated) { //if the sessionId is a valid session we will then call the invalidate session method,
+        if (sessionValidated) {
+            //if the sessionId is a valid session we will then call the invalidate session method,
             // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
             authenticationConfig.invalidateSession(sessionId);
             HttpHeaders headers = new HttpHeaders();
