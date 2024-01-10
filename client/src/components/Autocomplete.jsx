@@ -112,7 +112,7 @@ const AutocompleteMUI = () => {
                   }
                 }}
                 onChange={handleChange}
-                {...params} label="Seach Movies..." />}
+                {...params} label="Search Movies..." />}
                />
         </Stack>
     );

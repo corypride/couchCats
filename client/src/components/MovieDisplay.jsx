@@ -72,9 +72,10 @@ const MovieDisplay = (props) => {
   }
 
   useEffect(() => {
-    console.log(userWatchList)
-    if(userWatchList.some((item)=> item.id === movie.id)) {
-      setSelected(true);
+    if(userWatchList) {
+      if(userWatchList.some((item)=> item.id === movie.id)) {
+        setSelected(true);
+      }
     }
   }, [userWatchList, movie.id])
 
