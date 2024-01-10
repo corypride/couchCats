@@ -17,6 +17,9 @@ const theme = createTheme({
     box: {
         main: '#d3d3d3',
     },
+    attention: {
+      main: '#D92F2F'
+    }
   },
 });
 
