@@ -3,15 +3,16 @@ import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, SvgIcon,  } from "@mui/material";
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
-import getGenres from "../utils/getGenres"
+import getGenres from "../utils/getGenres";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-
-
 
 const FilterSearch = () => {
 
   //FIXME:calls 4 times?
   const genres = getGenres();
+
+  const serviceIds = streamingServices.map(service => service.id);
+  const serviceReqDefault = serviceIds.join("|");
 
   //scroll references
   const results = useRef(null);
@@ -24,6 +25,7 @@ const FilterSearch = () => {
 
   const [singleResult, setSingleResult] = useState(false);
   const [singleRandom, setSingleRandom] = useState(0);
+  const [display, setDisplay] = useState(false);
 
   //sx styles
   const toggleButtonGroupSx = {
@@ -81,7 +83,7 @@ const FilterSearch = () => {
       watch_region: 'US',
       with_genres: (!selectedGenres.length < 1 || !selectedGenres === undefined) ? selectedGenres.join("|") : undefined,
       with_people: (!selectedCrew.length < 1 || !selectedCrew === undefined) ? selectedCrew.join("|") : undefined,
-      with_watch_providers: (!selectedStreaming.length < 1 || !selectedStreaming === undefined) ? selectedStreaming.join("|") : undefined,
+      with_watch_providers: (!selectedStreaming.length < 1) ? selectedStreaming.join("|") : serviceReqDefault,
     });
   }
 
@@ -110,15 +112,15 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
-        setSingleRandom(Math.floor(Math.random() * queriedMovies.length));
-        setQueriedMovies(data.results);
+        setQueriedMovies(data.results)
+        setDisplay(true);
       } catch (error) {
         console.error(error);
       }
     };
     if(!params) return;
     else submit();
-  }, [params, queriedMovies.length]); //TODO: check for validation
+  }, [params]); //TODO: check for validation
 
 
   //sideways transition to movie pages?
@@ -183,6 +185,8 @@ const FilterSearch = () => {
               onClick={() => {
                 handleSubmit();
                 setSingleResult(true);
+                setDisplay(false);
+                setSingleRandom(Math.floor(Math.random() * 19));
               }}
               >Find My Movie!</Button>
             <Button 
@@ -190,6 +194,7 @@ const FilterSearch = () => {
               sx={submitButtonSx}
               onClick={() => {
                 handleSubmit();
+                setDisplay(false);
                 setSingleResult(false);
               }}
               >Give Me Options!</Button>
@@ -222,7 +227,7 @@ const FilterSearch = () => {
                       <Typography>Back</Typography>
                   </Button> : ""}
 
-              {(queriedMovies.length ===0) ?
+              {(!display) ?
                 null :
                   singleResult ?
                     <MovieDisplay
