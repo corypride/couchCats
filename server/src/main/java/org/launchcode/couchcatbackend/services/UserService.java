@@ -38,9 +38,7 @@ public class UserService {
     public ResponseEntity<String> registerUser(User user) {
         // If a User with the email passed does not exist in the database, null is assigned as the value of isExist,
         //otherwise, the user details are assigned to isExist, so it bypasses the if statement
-        System.out.println("User being passed in: " + user);
         User isExist = (userRepository.findByEmail(user.getEmail()));
-        System.out.println("isExist value: " + user);
         if (isExist != null) {
             return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
         }
@@ -53,14 +51,7 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
-        String uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath() //excludes "/register" from URI
-                .path("/user/{id}")
-                .buildAndExpand(newUser.getId())
-                .toUriString();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION, uri);
-        return HTTPResponseBuilder.created("User was successfully registered.", headers);
+        return HTTPResponseBuilder.created("User was successfully registered.");
     }
 
     /**
@@ -81,7 +72,6 @@ public class UserService {
         String storedPassword = storedUser.getPassword();
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
-//TODO: return the user id as well
 
     public ResponseEntity<Object> authenticateUser(User user) {
         User userLogin = (userRepository.findByEmail(user.getEmail()));
@@ -92,10 +82,11 @@ public class UserService {
                 //if passwords match, the login credentials are valid so we can generate a sessionId
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                //we set that sessionId as a Cookie, we use
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; Secure; HttpOnly; SameSite=None");
+                //Set-Cookie with the sessionId; use HttpOnly attribute which prevents them from being accessed via JavaScript.
+                // They are mainly used for security to mitigate the risk of cross-site scripting (XSS) attacks.
+                //And Cookies must be secure for Cross Site (we have two diff ports)
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure" );
                 System.out.println(headers);
-                // Sets the Secure and HttpOnly attributes for the cookie
                 return ResponseEntity.ok().headers(headers).body(userLogin);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials.");
@@ -117,10 +108,11 @@ public class UserService {
             // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
             authenticationConfig.invalidateSession(sessionId);
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; Secure; HttpOnly; SameSite=None");
+            headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; HttpOnly; SameSite=None; Secure");
             return HTTPResponseBuilder.ok("Logout successful", headers);
     } else {
-        return HTTPResponseBuilder.internalServerError("Logout failed"); // if the sessionID is not invalidated (it was already null or empty) then the logout fails
+            // if the sessionID is not invalidated (it was already null or empty) then the logout fails
+            return HTTPResponseBuilder.internalServerError("Logout failed");
     }
 }
 
