@@ -15,6 +15,7 @@ const LogoutComponent = ({ headersObj }) => {
         axios.post(logoutUrl, {}, { headers: headersObj, withCredentials: true })
             .then((response) => {
                 console.log("Response from backend => ", response);
+                sessionStorage.removeItem('user');
                 navigate('/login');
                 // Perform any additional actions after successful logout if/as needed 
                 //-- not sure if we'll need to add anything else here (i.e. if there is boolean or something Yumi establishes) so leaving a comment for us to revisit

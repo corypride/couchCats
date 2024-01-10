@@ -8,7 +8,8 @@ import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import getWatchList from "./utils/getWatchList.js";
-import userContext from "./utils/userContext.js"
+import userContext from "./utils/userContext.js";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
           <Route path="logout-test" element={<TestLogoutButtonPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Routes>
       </userContext.Provider>
     </div>

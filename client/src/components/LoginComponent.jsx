@@ -34,9 +34,9 @@ const LoginComponent = ({ headersObj }) => {
                 console.log("response from backend => ", response);
                 // TODO redirect to the profile page instead of home (once ready)
                 if(response?.data) {
-                    sessionStorage.setItem('user', JSON.stringify(response.data));
+                    sessionStorage.setItem('user', JSON.stringify(response.data))
                 }
-                navigate('/search');
+                navigate('/profile');
             })
             .catch((error) => {
                 console.error("error while backend calling ", error);
