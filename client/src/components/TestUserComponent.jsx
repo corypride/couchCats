@@ -10,7 +10,7 @@ const TestUserComponent = (props) => {
   }, []);
 
   async function getUserInfoBySessionId() {
-    let session_id = "3f99a243-0a03-462c-a6d6-c83c71cc92ec";
+    let session_id = "3f99a243-0a03-462c-c6ef7a0b-755d-47e4-a8c9-a39b54de3432-c83c71cc92ec";
     let userDetails = await getUserDetails(session_id);
     console.log("user details: " + userDetails);
 

@@ -9,6 +9,7 @@ import {
     Grid
 } from "@mui/material";
 import axios from "axios";
+import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
     const user = JSON.parse(sessionStorage.getItem('user'))
@@ -127,14 +128,7 @@ function ProfileComponent() {
             )}
 
             <Grid item xs={12}>
-                <Button
-                    variant="contained"
-                    color="attention"
-                    sx={{ marginTop: "1.5rem", color: "white" }}
-                    onClick={deleteMyAccountHandle}
-                >
-                    Delete My Account!
-                </Button>
+                <DeleteAccountComponent />
             </Grid>
         </Grid>
     );

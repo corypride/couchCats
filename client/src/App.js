@@ -9,6 +9,7 @@ import TestDeleteAccountPage from "./pages/TestDeleteAccountPage.jsx"
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
+import TestMovieLog from "./pages/TestMovieLog.jsx";
 import getWatchList from "./utils/getWatchList.js";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
@@ -16,7 +17,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(253);
   const [refetchDb, setRefetchDb] = useState(false);
 
   // const list = useWatchList(userId)
@@ -47,6 +48,7 @@ function App() {
           <Route path="movie" element={<SingleMovie />} />
           <Route path="usertest" element={<TestUserPage />} />
           <Route path="logout-test" element={<TestLogoutButtonPage />} />
+          <Route path="movie-log" element={<TestMovieLog />} />
           <Route path="test-delete-account" element={<TestDeleteAccountPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Routes>
