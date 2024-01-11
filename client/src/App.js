@@ -17,39 +17,51 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
+<<<<<<< HEAD
   const [userId, setUserId] = useState(253);
+=======
+  const [userInfo, setUserInfo] = useState({
+    isAuthenticated: false,
+    id: null,
+    firstName: null,
+    lastName: null,
+    email: null
+  });
+>>>>>>> 3e0d0793d587edcce0d5d8a88b1161c6809768dd
   const [refetchDb, setRefetchDb] = useState(false);
 
-  // const list = useWatchList(userId)
-  // setUserWatchList(list)
-  // console.log(list)
-
+  // sets userWatchList
   useEffect(() => {
-    getWatchList(userId)
-    .then(data => {
-      setUserWatchList(data)
-      console.log(data)
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }, [userId, refetchDb]);
+    if(userInfo.isAuthenticated) {
+      getWatchList(userInfo)
+      .then(data => {
+        setUserWatchList(data)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+  }, [userInfo, refetchDb]);
 
   return (
     <div className="App">
-      <userContext.Provider value={{ userWatchList, userId, refetchDb, setRefetchDb }}>
+      <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo }}>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="search" userWatchList={userWatchList} element={<Search />} />
+          <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
+<<<<<<< HEAD
           <Route path="usertest" element={<TestUserPage />} />
           <Route path="logout-test" element={<TestLogoutButtonPage />} />
           <Route path="movie-log" element={<TestMovieLog />} />
           <Route path="test-delete-account" element={<TestDeleteAccountPage />} />
+=======
+          <Route path="logout" element={<TestLogoutButtonPage />} />
+>>>>>>> 3e0d0793d587edcce0d5d8a88b1161c6809768dd
           <Route path="profile" element={<ProfilePage />} />
         </Routes>
       </userContext.Provider>
