@@ -57,26 +57,6 @@ public class UserController {
         return userService.authenticateUser(user);
     }
 
-    //OPTION A:
-    @PostMapping(value = "/secure", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> secureEndpoint(
-            @RequestBody Map<String, Object> requestBody,
-            @CookieValue(name = "sessionId", required = false) String sessionId) {
-        User retrievedUser = userRepository.findBySessionId(sessionId);
-        Integer id = (Integer) requestBody.get("id");
-        if (retrievedUser != null && id != null) {
-            Optional<User> providedUser = userRepository.findById(id);
-            if (providedUser.isPresent() && retrievedUser.equals(providedUser.get())) {
-                return HTTPResponseBuilder.ok("Session is valid.");
-            } else {
-                return HTTPResponseBuilder.badRequest("Invalid credentials.");
-            }
-        }
-        return HTTPResponseBuilder.badRequest("Credentials not found.");
-
-    }
-
-    //OPTION B:
     @GetMapping("/secure/{id}")
     public ResponseEntity<String> secureGetEndpoint(
             @PathVariable Integer id,
@@ -102,12 +82,9 @@ public class UserController {
             return userService.logoutUser(sessionId);
         }
     }
-}
 
-//    //  TODO: VALIDATE THIS METHOD IS ACTUALLY NOT NEEDED AND DELETE IF SO, IF IT IS NEEDED, REPLACE USERDTO WITH USER and Delete UserDTO
-/*NOTES: 1. this uses the URI I set when the user registers "/user/{id}" (no "details), which is what the front end would
-pass back to retrieve the information
-*/
+/*  TODO: YUMI - I am not using this anywhere and the front end gets the user data from the login response
+     and then uses it throughout so I think we can delete, let me know if you disagree*/
     @GetMapping("/{id}")
     public ResponseEntity<UserDetailsDTO> getUserDetailsById(@PathVariable Integer id) {
         Optional<User> result = userRepository.findById(id);
