@@ -10,6 +10,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     User findOneByEmailAndPassword(String email, String password);
 
-    @Query("SELECT u FROM User u WHERE u.sessionId = ?1")
+//    @Query("SELECT u FROM User u WHERE u.sessionId = ?1")
     User findBySessionId(String sessionId);
 }
