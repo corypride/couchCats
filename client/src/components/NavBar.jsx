@@ -9,21 +9,25 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import DrawerComp from "./DrawerComp";
 import imgLogo from "../assets/img/logo-no-background.png"
 import { Link } from "react-router-dom"
 import PetsIcon from '@mui/icons-material/Pets';
 import Autocomplete from "./Autocomplete";
+import userContext from "../utils/userContext.js";
+import LogoutComponent from "./LogoutComponent.jsx";
 
 const NavBar = () => {
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const PAGES = ["Home", "Search"];
+  const PAGES = ["Home", "Search", "Profile"];
   const handleChange = (_e, newValue) => {
     setValue(newValue);
   }
+
+  const { userInfo } = useContext(userContext)
 // //ERIN ADDED CODE
 //   const Navigation = () => {
 //     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +55,6 @@ const NavBar = () => {
         <Toolbar>
           {isMatch ? (
             <>
-
               <PetsIcon color="primary" sx={{marginRight:1, paddingBottom:1}}/>
               <Typography color="primary">Couch Cats</Typography>
               <DrawerComp />
@@ -67,35 +70,52 @@ const NavBar = () => {
               >
                 <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
               </IconButton>
-
               <Tabs
                 textColor="inherit"
-                sx={{ marginLeft: "auto" }}
+                sx={{ 
+                  marginLeft: "auto",
+                  marginRight: 2
+                 }}
                 value={value}
                 onChange={handleChange}
-
               >
                 {PAGES.map((page, index) => (
                   <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
                 ))}
               </Tabs>
               <Autocomplete />
-              <Button sx={{ marginLeft: 2 }}
-                variant="contained"
-                component={Link} 
-                to="/login"
+              {userInfo.isAuthenticated ?
+                <Typography
+                  sx={{
+                    marginLeft: 2,
+                    marginRight: 2,
+                    color: "accent.main"
+                  }}>
+                  {`Welcome, ${userInfo.firstName}!`}
+                </Typography>
+                :              
+                <Button
+                  sx={{ marginLeft: 2 }}
+                  color="secondary"
+                  variant="contained"
+                  component={Link}
+                  to="/register"
                 >
-                Login
-              </Button>
-              <Button
-                sx={{ marginLeft: 2 }}
-                color="secondary"
-                variant="contained"
-                component={Link}
-                to="/register"
-              >
-                Register
-              </Button>
+                  Register
+                </Button>
+              }
+              {userInfo.isAuthenticated ?
+                <LogoutComponent />
+                :
+                <Button sx={{ marginLeft: 2 }}
+                  variant="contained"
+                  component={Link} 
+                  to="/login"
+                  >
+                  Login
+                </Button>
+              }
+
             </>
           )}
         </Toolbar>
