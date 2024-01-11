@@ -28,14 +28,14 @@ function RegisterComponent() {
     },2000)
 
     const registerUrl = "http://localhost:8080/user/register";
-    const {emailConfirmation, passwordConfirmation, ...user} = initialValues
+    const {emailConfirmation, passwordConfirmation, ...user} = initialValues // decunstraction of the intialValues object the 
 
     
     const headersObj = {
     "Content-Type": "application/json"
     }
     
-    axios.post(registerUrl, values, { headers: headersObj })
+    axios.post(registerUrl, user, { headers: headersObj })
   .then((response) => {
     console.log("response from backend => ", response);
 

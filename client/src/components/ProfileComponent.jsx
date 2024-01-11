@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
     Button,
     Typography,
     Card,
-    CardMedia,
     CardContent,
     CardActions,
     Grid
 } from "@mui/material";
 import axios from "axios";
+import userContext from "../utils/userContext";
+import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
-    const user = JSON.parse(sessionStorage.getItem('user'))
+    const { userInfo } = useContext(userContext);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!userInfo.isAuthenticated) {
+            navigate('/login')
+        }
+    });
+    const user = {}
     user.watchlist = [
         { title: "Batman", year: "1997", description: "movie description", director: "Batman Director" },
         { title: "Superman", year: "1998", description: "movie description", director: "Superman Director" },
@@ -42,25 +51,6 @@ function ProfileComponent() {
         }
     }
 
-
-    const deleteMyAccountHandle = () => { // deletes the account 
-        console.log("delete handle called")
-        setTimeout(() => {
-        }, 2000)
-
-        const deleteUserUrl = "http://localhost:8080/user/delete/" + user.id;
-
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-        // Delete methode for account
-        axios.delete(deleteUserUrl, { headers: headersObj })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch(err => { console.error(err) });
-    }
-
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -70,7 +60,7 @@ function ProfileComponent() {
                     padding={2}
                     textAlign={"center"}
                 >
-                    Welcome  {user.firstName} {user.lastName}
+                    Welcome  {userInfo.firstName} {userInfo.lastName}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -80,7 +70,7 @@ function ProfileComponent() {
                     padding={2}
                     textAlign={"center"}
                 >
-                    E-mail: {user.email}
+                    E-mail: {userInfo.email}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -127,14 +117,7 @@ function ProfileComponent() {
             )}
 
             <Grid item xs={12}>
-                <Button
-                    variant="contained"
-                    color="attention"
-                    sx={{ marginTop: "1.5rem", color: "white" }}
-                    onClick={deleteMyAccountHandle}
-                >
-                    Delete My Account!
-                </Button>
+                <DeleteAccountComponent />
             </Grid>
         </Grid>
     );
