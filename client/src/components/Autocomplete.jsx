@@ -25,32 +25,6 @@ const AutocompleteMUI = () => {
         };
         handleSearch();
       }, [searchTerm]);
-  
-    // const handleClick = (result) => {
-    //   setSearchTerm(result.title);
-    //   setMovieId(result.id);
-    //   setSearchResults([]); // Clear suggestions after selection
-    // };
-
-
-
-    // const handleNavigate = (value) => {
-    //   console.log(value)
-    //   const data = value;
-    //   navigate('/movie', { state: data });
-    // };
-
-    // const handleSubmit = (event, value) => {
-    //   setSelectedOption(value);
-    //   setNavigatePage(true);
-    // };
-    
-    // useEffect(() => {
-    //   if (navigatePage) {
-    //     navigate('/movie', { state: { selectedOption } }); // Pass data if needed
-    //     setNavigatePage(false); // Reset flag
-    //   }
-    // }, [navigatePage, selectedOption, navigate]);
 
     // TODO: styling
   
@@ -75,7 +49,7 @@ const AutocompleteMUI = () => {
                 if(!value) {
                   return
                 } else {
-                  navigate('/movie', { state: { value } })
+                  navigate(`/movie`, { state: { value } })
                 }
 
               } 
@@ -112,7 +86,7 @@ const AutocompleteMUI = () => {
                   }
                 }}
                 onChange={handleChange}
-                {...params} label="Seach Movies..." />}
+                {...params} label="Search Movies..." />}
                />
         </Stack>
     );

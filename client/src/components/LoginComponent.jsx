@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'; 
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import userContext from "../utils/userContext";
 
 //after a user logins in, the headersObj in UserManagement is updated to contain the new Cookie set by the server
 //And this function takes in that headersObj from the UserManagement component in the signature as a prop. 
 const LoginComponent = () => {
     // FROM ERIN: Added a state variable for the success message that we can use to set and display a message when registration is successful
     const [failMessage, setFailMessage] = useState(null);
+
+    const { setUserInfo } = useContext(userContext)
 
     const initialLoginValues = {
         email: "",
@@ -30,12 +33,19 @@ const LoginComponent = () => {
             props.setSubmitting(false);
         }, 2000);
 
-        const loginUrl = "http://localhost:8080/user/login";
+        const loginUrl = "http://localhost:8081/user/login";
         const { ...user } = initialLoginValues;
 
         axios.post(loginUrl, values, { headers: headersObj, withCredentials: true })
             .then((response) => {
                 console.log("response from backend => ", response);
+                setUserInfo({
+                    isAuthenticated: true,
+                    id: response.data.id,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    email: response.data.email
+                });
                 // TODO redirect to the profile page instead of home (once ready)
                 if(response?.data) {
                     sessionStorage.setItem('user', JSON.stringify(response.data))
