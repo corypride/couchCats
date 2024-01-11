@@ -4,7 +4,8 @@ import { List, ListItem, Box, ListItemButton, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
-import userContext from "../utils/userContext"
+import userContext from "../utils/userContext";
+import databaseCall from "../utils/databaseCall";
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -16,17 +17,16 @@ const MovieDisplay = (props) => {
   const [selected, setSelected] = useState(false);
 
   const movie = props.movie
-  const { userWatchList, userId, refetchDb, setRefetchDb } = useContext(userContext)
-
+  const { userWatchList, userInfo, refetchDb, setRefetchDb } = useContext(userContext)
 
   // adds movie to watchlist
   async function handleWatchList() {
 
-    const urlPOST = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
-    const urlDELETE = 'http://localhost:8080/watchlist';
+    // const urlPOST = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
+    // const urlDELETE = 'http://localhost:8081/watchlist';
 
     const movieDataPOST = {
-      userId: userId,
+      userId: userInfo.id,
       movie: {
         id: movie.id,
         title: movie.title,
@@ -42,7 +42,7 @@ const MovieDisplay = (props) => {
     };
 
     const dataDelete = {
-      userId: userId,
+      userId: userInfo.id,
       movieId: movie.id
     }
 
@@ -50,7 +50,7 @@ const MovieDisplay = (props) => {
     if(!selected) {
       try {
 
-        const response = await axios.post(urlPOST, movieDataPOST);
+        const response = await databaseCall.post('/watchlist/save', movieDataPOST);
         console.log('Response:', response.data);
         setSelected(true);
         setRefetchDb(!refetchDb)
@@ -59,7 +59,7 @@ const MovieDisplay = (props) => {
       }
     } else {
       try {
-          const response = await axios.delete(urlDELETE, {
+          const response = await databaseCall.delete('/watchlist', {
             data: dataDelete
           });
           console.log('Response:', response.data);
@@ -72,12 +72,11 @@ const MovieDisplay = (props) => {
   }
 
   useEffect(() => {
-    if(userWatchList) {
-      if(userWatchList.some((item)=> item.id === movie.id)) {
+    if(userInfo.id)
+      if(userWatchList?.some((item)=> item.id === movie.id)) {
         setSelected(true);
-      }
     }
-  }, [userWatchList, movie.id])
+  }, [userWatchList, movie.id, userInfo.id])
 
   //grabs cast and service from TMDB
   useEffect(() => {
