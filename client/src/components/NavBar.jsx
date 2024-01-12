@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import DrawerComp from "./DrawerComp";
 import imgLogo from "../assets/img/logo-no-background.png"
 import { Link } from "react-router-dom"
@@ -30,23 +30,11 @@ const NavBar = () => {
 
   const { userInfo } = useContext(userContext)
 
-// //ERIN ADDED CODE
-//   const Navigation = () => {
-//     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//     const handleLogin = () => {
-//       // Perform login logic, set isLoggedIn to true
-//       setIsLoggedIn(true);
-//     };
-
-//     const handleLogout = () => {
-//       // Perform logout logic, set isLoggedIn to false
-//       setIsLoggedIn(false);
-//     };
-        
-//       };
-
-//     //end of ERIN ADDED CODE
+  useEffect(() => {
+    if (!userInfo.isAuthenticated && value === 2) {
+      setValue(0); 
+    }
+  }, [userInfo.isAuthenticated, value]);
 
   return (
     <React.Fragment>
@@ -63,15 +51,17 @@ const NavBar = () => {
             </>
           ) : (
             <>
+            <Link to="/">
               <IconButton
-                size="large"
-                edge="start"
-                color="primary"
-                aria-label="logo"
-                href="/"
-              >
-                <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
-              </IconButton>
+                  size="large"
+                  edge="start"
+                  color="primary"
+                  aria-label="logo"
+                >
+                  <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
+                </IconButton>
+            </Link>
+
               <Tabs
                 textColor="inherit"
                 sx={{ 
