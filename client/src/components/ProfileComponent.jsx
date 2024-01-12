@@ -101,6 +101,9 @@ function ProfileComponent(movie, handleWatchList) {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                    {/* TODO: MERVE, Add this code here: 
+                                    {movie && <WatchlistButton movie={movie} handleWatchList={handleWatchList}/>}
+                                    Also, remove deleteMoveiFromWatchList -- this button will handle that. You will also need to make sure to import WatchListButton and pass in the appropriate props */}
                                 </CardActions>
                             </Card>
                         </Grid>
