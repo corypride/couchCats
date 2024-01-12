@@ -28,7 +28,7 @@ function RegisterComponent() {
     },2000)
 
     const registerUrl = "http://localhost:8080/user/register";
-    const {emailConfirmation, passwordConfirmation, ...user} = initialValues
+    const {emailConfirmation, passwordConfirmation, ...user} = initialValues // decunstraction of the intialValues object the 
 
     
     const headersObj = {
@@ -67,15 +67,7 @@ function RegisterComponent() {
 
 
 
-  //  axios.post("http://localhost:8080/user/register",
-  //   { firstName: "testing",
-  //   lastName: "somemore",
-  //   email: "newemail2@gmail.com",
-  //   password: "Testing54321*"},{headers:headersObj}).then((response) => {
-  //     console.log("response from backend=> ", response)
-  //   }).catch((error) => {
-  //     console.error("error while backend calling ", error)
-  //   })
+
   };
 
 

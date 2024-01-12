@@ -21,7 +21,7 @@ const MovieDisplay = (props) => {
 
   // adds movie to watchlist
   async function handleWatchList() {
-
+    
     const movieDataPOST = {
       userId: userInfo.id,
       movie: {
