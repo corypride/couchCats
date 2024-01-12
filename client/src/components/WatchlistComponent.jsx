@@ -1,7 +1,6 @@
 
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import { Box } from "@mui/material";
-import userContext from "../utils/userContext";
 import MovieDisplay from "./MovieDisplay"; // Import the MovieDisplay component
 
 const Watchlist = (props) => {
@@ -15,9 +14,11 @@ const Watchlist = (props) => {
             display: "flex",
             justifyContent: "center"
         }}>
-            <MovieDisplay
-            movie={userWatchlist[0]}
-            />
+            {watchListMovies.map((movie) => (
+                <MovieDisplay
+                key={movie.id} 
+                movie={movie} />
+      ))}
         </Box>
 
     )
