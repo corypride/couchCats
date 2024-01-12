@@ -63,15 +63,17 @@ const NavBar = () => {
             </>
           ) : (
             <>
+            <Link to="/home">
               <IconButton
-                size="large"
-                edge="start"
-                color="primary"
-                aria-label="logo"
-                href="/"
-              >
-                <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
-              </IconButton>
+                  size="large"
+                  edge="start"
+                  color="primary"
+                  aria-label="logo"
+                >
+                  <img src={imgLogo} alt="" style={{ maxWidth: 200, border: 'none' }} />
+                </IconButton>
+            </Link>
+
               <Tabs
                 textColor="inherit"
                 sx={{ 

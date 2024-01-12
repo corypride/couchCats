@@ -25,58 +25,45 @@ function App() {
 
   const navigate = useNavigate();
 
-  // const getWatchList = async (userInfo) => {
-  //   try {
-  //     const response = await databaseCall.get(`watchlist/${1}`);
-  //     const data = await response.data;
-  //     console.log(data)
-  //     return data; // flatrate is movies on subscription streaming
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // };
+  const databaseCall = axios.create({
+    baseURL: 'http://localhost:8080',
+    withCredentials: true,
+  })
 
-const databaseCall = axios.create({
-  baseURL: 'http://localhost:8080',
-  withCredentials: true,
-})
-
-const headersObj = {
-"Content-Type": "application/json",
-};
-
-databaseCall.interceptors.request.use(async (config) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
-      console.log("success")
-      console.log("response from test => ", response);
-      return config;
-    } catch (error) {
-      setUserInfo({
-        isAuthenticated: false,
-        id: null,
-        firstName: null,
-        lastName: null,
-        email: null
-    })
-    navigate('/login');
-      return Promise.reject(error); // Return a rejected Promise to propagate the error
-    }
-  });
-
-  const getWatchList = async (userInfo) => {
-
-    try {
-      const response = await databaseCall.get(`watchlist/${1}`);
-      const data = await response.data;
-      console.log(data)
-      return data; // flatrate is movies on subscription streaming
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+  const headersObj = {
+  "Content-Type": "application/json",
   };
+
+  databaseCall.interceptors.request.use(async (config) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
+        console.log("success")
+        console.log("response from test => ", response);
+        return config;
+      } catch (error) {
+        setUserInfo({
+          isAuthenticated: false,
+          id: null,
+          firstName: null,
+          lastName: null,
+          email: null
+      })
+      navigate('/login');
+        return Promise.reject(error); // Return a rejected Promise to propagate the error
+      }
+    });
+
+    const getWatchList = async (userInfo) => {
+      try {
+        const response = await databaseCall.get(`watchlist/${1}`);
+        const data = await response.data;
+        console.log(data)
+        return data; // flatrate is movies on subscription streaming
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
 
   // sets userWatchList
   useEffect(() => {
@@ -96,7 +83,7 @@ databaseCall.interceptors.request.use(async (config) => {
       <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall }}>
         <NavBar />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<LandingPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
