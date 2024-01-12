@@ -8,11 +8,6 @@ import Register from "./pages/RegisterPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
-<<<<<<< HEAD
-import TestMovieLog from "./pages/TestMovieLog.jsx";
-import getWatchList from "./utils/getWatchList.js";
-=======
->>>>>>> 9064997c677c40ecaf1934eec7ae74597732bcc7
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
 
@@ -107,10 +102,6 @@ databaseCall.interceptors.request.use(async (config) => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
-          <Route path="usertest" element={<TestUserPage />} />
-          <Route path="logout-test" element={<TestLogoutButtonPage />} />
-          <Route path="movie-log" element={<TestMovieLog />} />
-          <Route path="test-delete-account" element={<TestDeleteAccountPage />} />
           <Route path="logout" element={<TestLogoutButtonPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Routes>

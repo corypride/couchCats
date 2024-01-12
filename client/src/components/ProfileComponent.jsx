@@ -9,11 +9,7 @@ import {
     CardActions,
     Grid
 } from "@mui/material";
-<<<<<<< HEAD
-import axios from "axios";
-=======
 import userContext from "../utils/userContext";
->>>>>>> 9064997c677c40ecaf1934eec7ae74597732bcc7
 import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
