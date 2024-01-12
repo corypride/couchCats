@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
-import { List, ListItem, Box, ListItemButton, Typography, SvgIcon } from "@mui/material";
+import { List, ListItem, Box, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
 import userContext from "../utils/userContext";
-import WatchlistButton from './WatchlistButton';
+import WatchListButton from './WatchListButton';
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -16,62 +16,9 @@ const MovieDisplay = (props) => {
   const [selected, setSelected] = useState(false);
 
   const movie = props.movie
-  const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
+  const handleWatchList = props.handleWatchList
 
-  // adds movie to watchlist
-  async function handleWatchList() {
-    
-    const movieDataPOST = {
-      userId: userInfo.id,
-      movie: {
-        id: movie.id,
-        title: movie.title,
-        year: parseInt(movie.release_date.slice(0,4)),
-        description: movie.overview,
-        //TODO: need to change directors into string if there are multiple
-        director: director[0].name,
-        //TODO: need to change cast names into string
-        cast: topCast[0].name, 
-        rating: movie.vote_average,
-        poster: movie.poster_path
-      }
-    };
-
-    const dataDelete = {
-      userId: userInfo.id,
-      movieId: movie.id
-    }
-
-    // if movie is selected(in userWatchList), POST. Else, Delete.
-    if(!selected) {
-      try {
-        const response = await databaseCall.post('/watchlist/save', movieDataPOST);
-        console.log('Response:', response.data);
-        setSelected(true);
-        setRefetchDb(!refetchDb)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    } else {
-      try {
-          const response = await databaseCall.delete('/watchlist', {
-            data: dataDelete
-          });
-          console.log('Response:', response.data);
-          setSelected(false);
-          setRefetchDb(!refetchDb)
-        } catch (error) {
-          console.error('Error:', error);
-      }
-    }
-  }
-
-  // useEffect(() => {
-  //   if(userInfo.id)
-  //     if(userWatchList?.some((item)=> item.id === movie.id)) {
-  //       setSelected(true);
-  //   }
-  // }, [userWatchList, movie.id, userInfo.id])
+  const { userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
 
   //grabs cast and service from TMDB
   useEffect(() => {
@@ -119,7 +66,11 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                  <WatchlistButton movie={props.movie} handleWatchList={handleWatchList} />
+                  <WatchListButton   
+                      movie={props.movie}
+                      handleWatchList={handleWatchList}
+                      director={director}
+                      topCast={topCast} />
           </Box>
           {/* right side */}
           <Box 
