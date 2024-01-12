@@ -7,6 +7,7 @@ const getUserDetails = async (session_id) => {
     console.log("Try statement runs");
     const response = await axios.get(url, {
       params: {
+        //TODO: Remove this hard-coded sessionId
         sessionId: "3f99a243-0a03-462c-a6d6-c83c71cc92ec",
       },
     });
