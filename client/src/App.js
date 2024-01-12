@@ -10,7 +10,7 @@ import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
-//comment out .interceptor
+
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
@@ -46,24 +46,24 @@ const headersObj = {
 "Content-Type": "application/json",
 };
 
-databaseCall.interceptors.request.use(async (config) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
-      console.log("success")
-      console.log("response from test => ", response);
-      return config;
-    } catch (error) {
-      setUserInfo({
-        isAuthenticated: false,
-        id: null,
-        firstName: null,
-        lastName: null,
-        email: null
-    })
-    navigate('/login');
-      return Promise.reject(error); // Return a rejected Promise to propagate the error
-    }
-  });
+// databaseCall.interceptors.request.use(async (config) => {
+//     try {
+//       const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
+//       console.log("success")
+//       console.log("response from test => ", response);
+//       return config;
+//     } catch (error) {
+//       setUserInfo({
+//         isAuthenticated: false,
+//         id: null,
+//         firstName: null,
+//         lastName: null,
+//         email: null
+//     })
+  //   navigate('/login');
+  //     return Promise.reject(error); // Return a rejected Promise to propagate the error
+  //   }
+  // });
 
   const getWatchList = async (userInfo) => {
 
