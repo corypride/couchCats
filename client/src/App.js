@@ -19,9 +19,6 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
-<<<<<<< HEAD
-  const [userId, setUserId] = useState(253);
-=======
   const [userInfo, setUserInfo] = useState({
     isAuthenticated: false,
     id: null,
@@ -29,7 +26,6 @@ function App() {
     lastName: null,
     email: null
   });
->>>>>>> 3e0d0793d587edcce0d5d8a88b1161c6809768dd
   const [refetchDb, setRefetchDb] = useState(false);
 
   const navigate = useNavigate();
@@ -111,14 +107,11 @@ databaseCall.interceptors.request.use(async (config) => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
-<<<<<<< HEAD
           <Route path="usertest" element={<TestUserPage />} />
           <Route path="logout-test" element={<TestLogoutButtonPage />} />
           <Route path="movie-log" element={<TestMovieLog />} />
           <Route path="test-delete-account" element={<TestDeleteAccountPage />} />
-=======
           <Route path="logout" element={<TestLogoutButtonPage />} />
->>>>>>> 3e0d0793d587edcce0d5d8a88b1161c6809768dd
           <Route path="profile" element={<ProfilePage />} />
         </Routes>
       </userContext.Provider>

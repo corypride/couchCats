@@ -8,7 +8,8 @@ const MovieLogComponent = (props) => {
     // Fetch user details when the component mounts
     const fetchData = async () => {
       try {
-        let userid = 253;
+        // TODO: get this to work with actual userId
+        let userid = 2;
         let movieLog = await getMovieLog(userid);
 
         // Update the state with the user details
@@ -24,7 +25,7 @@ const MovieLogComponent = (props) => {
   }, []);
 
 //   return <div>User details: {userMovieLog.dateAdded}</div>;
-        return <div></div>
+        return <div>Movie log: </div>
 };
 
 export default MovieLogComponent;
