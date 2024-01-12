@@ -8,7 +8,7 @@ import userContext from "../utils/userContext";
 // that cookie is what the backend requires for request parameter for the logout function so this function takes in 
 // that headersObj from the UserManagement component in the signature as a prop. 
 const LogoutComponent = ({ headersObj }) => {
-    const logoutUrl = "http://localhost:8081/user/logout";
+    const logoutUrl = "http://localhost:8080/user/logout";
     const navigate = useNavigate();
 
     const { setUserInfo } = useContext(userContext);
