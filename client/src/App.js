@@ -10,7 +10,7 @@ import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
-
+//comment out .interceptor
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
