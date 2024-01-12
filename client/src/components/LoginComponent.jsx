@@ -29,7 +29,7 @@ const LoginComponent = ({ headersObj }) => {
             props.setSubmitting(false);
         }, 2000);
 
-        const loginUrl = "http://localhost:8081/user/login";
+        const loginUrl = "http://localhost:8080/user/login";
         const { ...user } = initialLoginValues;
 
         axios.post(loginUrl, values, { headers: headersObj, withCredentials: true })

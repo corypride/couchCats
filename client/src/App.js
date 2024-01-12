@@ -4,8 +4,6 @@ import LandingPage from "./pages/LandingPage.jsx";
 import Search from "./pages/Search.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/RegisterPage.jsx";
-import TestUserPage from "./pages/TestUserPage.jsx"
-import TestDeleteAccountPage from "./pages/TestDeleteAccountPage.jsx"
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";

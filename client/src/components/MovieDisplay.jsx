@@ -22,8 +22,8 @@ const MovieDisplay = (props) => {
   // adds movie to watchlist
   async function handleWatchList() {
 
-    // const urlPOST = 'http://localhost:8081/watchlist/save'; // Replace with the actual API endpoint
-    // const urlDELETE = 'http://localhost:8081/watchlist';
+    // const urlPOST = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
+    // const urlDELETE = 'http://localhost:8080/watchlist';
 
     const movieDataPOST = {
       userId: userInfo.id,
