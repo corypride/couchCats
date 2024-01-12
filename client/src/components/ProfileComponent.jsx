@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
     Button,
     Typography,
@@ -8,22 +9,28 @@ import {
     CardActions,
     Grid
 } from "@mui/material";
+<<<<<<< HEAD
 import axios from "axios";
+=======
+import userContext from "../utils/userContext";
+>>>>>>> 9064997c677c40ecaf1934eec7ae74597732bcc7
 import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
-    const user = JSON.parse(sessionStorage.getItem('user'))
-    user.watchlist = [
-        { title: "Batman", year: "1997", description: "movie description", director: "Batman Director" },
-        { title: "Superman", year: "1998", description: "movie description", director: "Superman Director" },
-        { title: "Batman", year: "1997", description: "movie description", director: "Batman Director" },
-        { title: "Killers of the Flower Moon", year: "2023-10-18", description: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.", director: "Batman Director" },
-        { title: "Superman", year: "1998", description: "movie description", director: "Superman Director" },
-        { title: "Superman", year: "2023-10-18", description: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.", director: "Superman Director" }
-    ];
+    const { userInfo, userWatchList } = useContext(userContext);
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!userInfo.isAuthenticated) {// if user not logged in then will redirect to login page
+            navigate('/login')
+        }
+        if (userWatchList) {
+        }
+    });
+    
     const isWatchList = () => {
-        return user?.watchlist?.length > 0
+        return userWatchList?.length > 0
     }
 
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
@@ -38,28 +45,9 @@ function ProfileComponent() {
         }
 
         const deletePayload = {
-            "userId": user.id,
+            "userId": userInfo.id,
             "movieId": movie.id
         }
-    }
-
-
-    const deleteMyAccountHandle = () => { // deletes the account 
-        console.log("delete handle called")
-        setTimeout(() => {
-        }, 2000)
-
-        const deleteUserUrl = "http://localhost:8080/user/delete/" + user.id;
-
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-        // Delete methode for account
-        axios.delete(deleteUserUrl, { headers: headersObj })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch(err => { console.error(err) });
     }
 
     return (
@@ -71,7 +59,7 @@ function ProfileComponent() {
                     padding={2}
                     textAlign={"center"}
                 >
-                    Welcome  {user.firstName} {user.lastName}
+                    Welcome  {userInfo.firstName} {userInfo.lastName}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -81,7 +69,7 @@ function ProfileComponent() {
                     padding={2}
                     textAlign={"center"}
                 >
-                    E-mail: {user.email}
+                    E-mail: {userInfo.email}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -94,9 +82,15 @@ function ProfileComponent() {
             </Grid>
             {isWatchList() ? (
                 <>
-                    {user.watchlist.map((movie, index) => ( //loop for watch list movies 
+                    {userWatchList.map((movie, index) => ( //loop for watch list movies 
                         <Grid key={index} item xs={6} md={3}>
                             <Card sx={{ maxWidth: 345 }}>
+                                <CardMedia
+                                    component={"img"}
+                                    image={`https://image.tmdb.org/t/p/w500${movie.poster}`}
+                                    title={movie.title}
+                                    sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                                />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" textAlign={"left"}>
                                         {movie.title}
