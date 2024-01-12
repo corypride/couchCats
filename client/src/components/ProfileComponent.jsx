@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
+//TODO: Merve, Import WatchListButton
 
-function ProfileComponent(movie, handleWatchList) {
+function ProfileComponent() {
+    //TODO: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton ({ movie, director, topCast })
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
