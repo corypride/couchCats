@@ -63,7 +63,7 @@ const NavBar = () => {
             </>
           ) : (
             <>
-            <Link to="/home">
+            <Link to="/">
               <IconButton
                   size="large"
                   edge="start"

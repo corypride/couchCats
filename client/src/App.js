@@ -10,6 +10,7 @@ import SingleMovie from "./pages/SingleMovie.jsx";
 import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import ProtectedRoutes from "./components/ProtectedRoutes.jsx"
 
 function App() {
 
@@ -83,14 +84,15 @@ function App() {
       <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall }}>
         <NavBar />
         <Routes>
-          <Route path="/home" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
-          <Route path="logout" element={<TestLogoutButtonPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route element={<ProtectedRoutes userInfo={userInfo}/>}>
+            <Route path="profile" element={<ProfilePage />} />
+          </Route>
         </Routes>
       </userContext.Provider>
     </div>
