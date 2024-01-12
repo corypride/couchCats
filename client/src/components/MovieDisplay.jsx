@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
 import { List, ListItem, Box, ListItemButton, Typography, SvgIcon } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
 import userContext from "../utils/userContext";
-import StarIcon from '@mui/icons-material/Star';
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -46,7 +44,6 @@ const MovieDisplay = (props) => {
     // if movie is selected(in userWatchList), POST. Else, Delete.
     if(!selected) {
       try {
-
         const response = await databaseCall.post('/watchlist/save', movieDataPOST);
         console.log('Response:', response.data);
         setSelected(true);
