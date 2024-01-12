@@ -33,9 +33,8 @@ const FilterSearch = () => {
     justifySelf: "center",
     gridTemplateColumns: "repeat(5, 1fr)",
     gridTemplateRows: "repeat(2, 1fr)",
-    gap: "5px",
+    gap: "0.4rem",
     width: "75%",
-
   }
 
   const toggleButtonSx = {
@@ -43,12 +42,15 @@ const FilterSearch = () => {
     "&:hover": {
       color: "accent.main",
       bgcolor: "primary.main",
-      //connect to theme accent.main
-      border: "1px solid #ff9610"
+      borderColor: "#ff9610 !important"
     },
     "&.Mui-selected": {
       color: "accent.main",
-      bgcolor: "primary.main"
+      bgcolor: "primary.main",
+      borderColor: "#ff9610 !important"
+    },
+    "&.MuiToggleButtonGroup-grouped": {
+      borderRadius: "4px !important",
     }
   }
 
@@ -122,10 +124,6 @@ const FilterSearch = () => {
     else submit();
   }, [params]); //TODO: check for validation
 
-
-  //sideways transition to movie pages?
-  // FIXME: outline of buttons not full
-
     return (
         <Box 
         sx={{
@@ -137,7 +135,11 @@ const FilterSearch = () => {
         }}>
           <form style={{display: "grid"}}>
 {/* Genre Filters */}
-            <Typography variant="h4">Genre</Typography>
+            <Typography 
+            variant="h4"
+            sx={{
+              color: "accent.main"
+            }}>Genre</Typography>
               <ToggleButtonGroup 
               id="genreContainer"
               value={selectedGenres}
@@ -156,7 +158,11 @@ const FilterSearch = () => {
                 )}
               </ToggleButtonGroup>
 {/* Streaming Service Filters */}
-            <Typography variant="h4">Streaming Service</Typography>
+            <Typography 
+            variant="h4"
+            sx={{
+              color: "accent.main"
+            }}>Streaming Service</Typography>
               <ToggleButtonGroup 
               sx={toggleButtonGroupSx}
               value={selectedStreaming}
@@ -200,6 +206,23 @@ const FilterSearch = () => {
               >Give Me Options!</Button>
           </Box>
 {/* Shows movie results */}
+            {params ? 
+              <Button 
+                onClick={handleScrollTop}
+                sx={{
+                  alignSelf: "flex-end",
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "sticky",
+                  top: "0"
+                }}>
+                  <SvgIcon
+                    sx={{
+                      fontSize: "5rem",
+                    }} component={KeyboardDoubleArrowUpIcon}/>
+                    <Typography>Top</Typography>
+                </Button> : ""}
+{/* movie Results */}
           <Box 
             sx={{
               display: "flex",
@@ -210,23 +233,7 @@ const FilterSearch = () => {
               marginBottom: "5rem"
             }}
             ref={results}>
-              {params ? 
-                <Button 
-                  onClick={handleScrollTop}
-                  sx={{
-                    alignSelf: "flex-end",
-                    display: "flex",
-                    flexDirection: "column",
-                    position: "sticky",
-                    top: "0"
-                  }}>
-                    <SvgIcon
-                      sx={{
-                        fontSize: "6rem"
-                      }} component={KeyboardDoubleArrowUpIcon}/>
-                      <Typography>Back</Typography>
-                  </Button> : ""}
-
+             
               {(!display) ?
                 null :
                   singleResult ?
@@ -242,7 +249,6 @@ const FilterSearch = () => {
                   ))
                 }
           </Box>
-        
         </Box> 
       );
 }

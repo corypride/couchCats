@@ -35,13 +35,9 @@ const AutocompleteMUI = () => {
             width: "15vw"
             }}>
           <Autocomplete
-          // open
+          // open={true}
             sx={{
               backgroundColor: "primary.main",
-              color: "white",
-              ".MuiAutocompleteListbox-option": {
-                justifyContent: "space-between"
-              }
             }}
             freeSolo
             onChange={
@@ -53,19 +49,20 @@ const AutocompleteMUI = () => {
                 }
 
               } 
-
-              // console.log(value)
             }
             options={searchResults}
             getOptionLabel={(option) => option.original_title}
             noOptionsText="No movies fit that criteria..."
             renderOption={(props, option) => {
               return (
+                // <Typography>{option.original_title}</Typography>
                   <Box
                     {...props} 
                     key={option.id}
-                    sx={{
-                      width: "100%"
+                    component="div"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
                     }}>
                         <Typography>{option.original_title}</Typography>
                         <Typography>{option.release_date.slice(0,4)}</Typography>
@@ -76,13 +73,14 @@ const AutocompleteMUI = () => {
               <TextField
                 sx={{
                   input: {
-                    color: "accent.main"
+                    color: "accent.main",
                   },
                   "& .MuiFormLabel-root": {
                     color: "accent.main"
                   },
-                  "& .Mui-focused": {
-                    color: "accent.main"
+                  "& .MuiFormLabel-focused": {
+                    color: "accent.main",
+                    borderColor: "accent.main"
                   }
                 }}
                 onChange={handleChange}
