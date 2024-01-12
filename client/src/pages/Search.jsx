@@ -137,7 +137,9 @@ const FilterSearch = () => {
         }}>
           <form style={{display: "grid"}}>
 {/* Genre Filters */}
+            <br></br>
             <Typography variant="h4">Genre</Typography>
+            <br></br>
               <ToggleButtonGroup 
               id="genreContainer"
               value={selectedGenres}
@@ -156,7 +158,9 @@ const FilterSearch = () => {
                 )}
               </ToggleButtonGroup>
 {/* Streaming Service Filters */}
+            <br></br><br></br>
             <Typography variant="h4">Streaming Service</Typography>
+            <br></br>
               <ToggleButtonGroup 
               sx={toggleButtonGroupSx}
               value={selectedStreaming}
@@ -188,7 +192,7 @@ const FilterSearch = () => {
                 setDisplay(false);
                 setSingleRandom(Math.floor(Math.random() * 19));
               }}
-              >Find My Movie!</Button>
+              >Find One Movie!</Button>
             <Button 
               variant="outlined"
               sx={submitButtonSx}
