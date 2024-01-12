@@ -1,9 +1,14 @@
 import { Outlet, Navigate } from 'react-router-dom'
+import userContext from "../utils/userContext";
+import { useContext } from 'react';
 
-const ProtectedRoutes = (props) => {
+const ProtectedRoutes = () => {
 
+    const { userInfo, sessionCheck } = useContext(userContext)
+    sessionCheck();
+    
     return(
-        props.userInfo.isAuthenticated ? <Outlet/> : <Navigate to="/login"/>
+        userInfo.isAuthenticated ? <Outlet/> : <Navigate to="/login"/>
     )
 }
 

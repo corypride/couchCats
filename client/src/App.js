@@ -7,10 +7,9 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/RegisterPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import SingleMovie from "./pages/SingleMovie.jsx";
-import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import ProtectedRoutes from "./components/ProtectedRoutes.jsx"
+import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
 function App() {
 
@@ -34,37 +33,41 @@ function App() {
   const headersObj = {
   "Content-Type": "application/json",
   };
+  
+  // checks for user id and session id matching in database
+  const sessionCheck = async (config) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
+      console.log("response from test => ", response);
+      return config;
+    } catch (error) {
+      setUserInfo({
+        isAuthenticated: false,
+        id: null,
+        firstName: null,
+        lastName: null,
+        email: null
+    })
+    navigate('/login');
+    return 
+    }
+  }
 
-  databaseCall.interceptors.request.use(async (config) => {
-      try {
-        const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
-        console.log("success")
-        console.log("response from test => ", response);
-        return config;
-      } catch (error) {
-        setUserInfo({
-          isAuthenticated: false,
-          id: null,
-          firstName: null,
-          lastName: null,
-          email: null
-      })
-      navigate('/login');
-        return Promise.reject(error); // Return a rejected Promise to propagate the error
-      }
-    });
+  // sessionCheck for every database call
+  databaseCall.interceptors.request.use(sessionCheck);
 
-    const getWatchList = async (userInfo) => {
-      try {
-        const response = await databaseCall.get(`watchlist/${1}`);
-        const data = await response.data;
-        console.log(data)
-        return data; // flatrate is movies on subscription streaming
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    };
+  // calls userWatchList from database
+  const getWatchList = async (userInfo) => {
+    try {
+      const response = await databaseCall.get(`watchlist/${1}`);
+      const data = await response.data;
+      console.log(data)
+      return data; // flatrate is movies on subscription streaming
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   // sets userWatchList
   useEffect(() => {
@@ -81,7 +84,7 @@ function App() {
 
   return (
     <div className="App">
-      <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall }}>
+      <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall, sessionCheck }}>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -90,7 +93,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
-          <Route element={<ProtectedRoutes userInfo={userInfo}/>}>
+          <Route element={<ProtectedRoutes />}>
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
