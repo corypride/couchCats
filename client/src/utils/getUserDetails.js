@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+//TODO: Revisit -- this is not an accurate backend api endpoint now that it has been reconfigured. Also this endpoint is NOT for getting user details, it is for checking if a user has a valid sessionId and is logged in. 
 const getUserDetails = async (session_id) => {
   const url = 'http://localhost:8080/user/secure';
 

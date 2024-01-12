@@ -12,7 +12,7 @@ import {
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 
-function ProfileComponent() {
+function ProfileComponent(movie, handleWatchList) {
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
