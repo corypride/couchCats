@@ -15,7 +15,7 @@ import DeleteAccountComponent from "./DeleteAccountComponent";
 
 function ProfileComponent() {
     //TODO: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton ({ movie, director, topCast })
-    const { userInfo, userWatchList } = useContext(userContext);
+    const { userInfo, userWatchList, userMovieLog } = useContext(userContext);
 
     const navigate = useNavigate();
 
@@ -29,6 +29,18 @@ function ProfileComponent() {
     
     const isWatchList = () => {
         return userWatchList?.length > 0
+    }
+
+    const isMovieLog = () => {
+        return userMovieLog?.length > 0
+    }
+
+    // TODO: remove after testing
+    if (isMovieLog) {
+        console.log("user movie log: " + JSON.stringify(userMovieLog));
+        console.log("user movie log 0: " + JSON.stringify(userMovieLog[0]));
+        console.log("movie: " + userMovieLog[0].movie);
+        console.log("movie title: " + userMovieLog[0].movie.title);
     }
 
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
@@ -130,8 +142,68 @@ function ProfileComponent() {
             )}
 
             <Grid item xs={12}>
+                <Typography // title of the movie log
+                    variant="h4"
+                    padding={2}
+                >
+                    Movie Log
+                </Typography>
+            </Grid>
+            {isMovieLog ? (
+    // {/*TODO: Merve, review this to ensure it is set up to pass the correct data as props into WatchListButton*/}
+    // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
+    <>
+        {userMovieLog.map((entry, index) => ( //loop for logged movies 
+            <Grid key={index} item xs={6} md={3}>
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                        component={"img"}
+                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
+                        title={entry.movie.title}
+                        sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" textAlign={"left"}>
+                            {entry.movie.title}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
+                            {entry.movie.director}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                            {entry.movie.description}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small">Watch</Button>
+                        <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                {/* TODO: Merve, Add the following code here
+                        TODO: Merve, after other TODO's are complete, test to make sure it is working
+                        <WatchListButton
+                            movie={movie}
+                            director={movie.director} 
+                            topCast={movie.topCast} 
+                        />
+                        TODO: Merve, Add styling to this button so it's not so wide*/}
+                    </CardActions>
+                </Card>
+            </Grid>
+        ))}
+    </>
+
+) : (
+    <>
+        <Grid item xs={12}>
+            <Typography variant="h6">
+                Your movie log is currently empty
+            </Typography>
+        </Grid>
+    </>
+)}
+
+<           Grid item xs={12}>
                 <DeleteAccountComponent />
             </Grid>
+            
         </Grid>
     );
 }

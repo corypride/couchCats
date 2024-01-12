@@ -10,10 +10,12 @@ import SingleMovie from "./pages/SingleMovie.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
+import TestMovieLog from "./pages/TestMovieLog.jsx"; //TODO: remove after testing
 
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
+  const [userMovieLog, setUserMovieLog] = useState([]);
   const [userInfo, setUserInfo] = useState({
     isAuthenticated: false,
     id: null,
@@ -82,9 +84,35 @@ function App() {
     }
   }, [userInfo, refetchDb]);
 
+    // calls userMovieLog from database
+    const getUserMovieLog = async (userInfo) => {
+      try {
+        const response = await databaseCall.get(`log/${userInfo.id}`);
+        const data = await response.data;
+        console.log(data)
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
+
+    // sets userMovieLog
+    useEffect(() => {
+      if(userInfo.isAuthenticated) {
+        getUserMovieLog(userInfo)
+        .then(data => {
+          setUserMovieLog(data)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
+    }, [userInfo, refetchDb]);
+
   return (
     <div className="App">
-      <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall, sessionCheck }}>
+      <userContext.Provider value={{ userWatchList, userMovieLog, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall, sessionCheck }}>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -93,8 +121,9 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
+          <Route path="movielog" element={<TestMovieLog />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </userContext.Provider>
