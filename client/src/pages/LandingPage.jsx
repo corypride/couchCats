@@ -43,7 +43,7 @@ const LandingPage = () => {
                     fontSize: "7rem",
                     marginTop: "5rem",
                     marginBottom: "0",
-                    color: "primary.main"
+                    color: "primary.main",
                 }}>CouchCat</Typography>
 
                 <Typography 
@@ -60,6 +60,7 @@ const LandingPage = () => {
                     variant="outlined" 
                     onClick={() => navigate("/search")}
                     sx={{
+                        boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.5)",
                         "&:hover": {
                             color: "accent.main",
                             //connect to theme accent.main
