@@ -22,12 +22,14 @@ const NavBar = () => {
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const PAGES = ["Home", "Search", "Profile"];
+  const PAGES = ["Home", "Search"];
+  const pagesAuth = ["Home", "Search", "Profile"]
   const handleChange = (_e, newValue) => {
     setValue(newValue);
   }
 
   const { userInfo } = useContext(userContext)
+
 // //ERIN ADDED CODE
 //   const Navigation = () => {
 //     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,7 +52,7 @@ const NavBar = () => {
     <React.Fragment>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "transparent", borderBottom: "1px solid red" }}
+        sx={{ backgroundColor: "transparent" }}
       >
         <Toolbar>
           {isMatch ? (
@@ -79,9 +81,17 @@ const NavBar = () => {
                 value={value}
                 onChange={handleChange}
               >
-                {PAGES.map((page, index) => (
-                  <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
-                ))}
+
+                {userInfo.isAuthenticated ?
+                  pagesAuth.map((page, index) => (
+                    <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
+                  ))
+                :
+                  PAGES.map((page, index) => (
+                    <Tab key={index} label={page} index={index} component={Link} to={`/${page.toLowerCase()}`} />
+                  ))
+                }
+
               </Tabs>
               <Autocomplete />
               {userInfo.isAuthenticated ?

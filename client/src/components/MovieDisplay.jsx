@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
-import { List, ListItem, Box, ListItemButton, Typography } from "@mui/material";
+import { List, ListItem, Box, ListItemButton, Typography, SvgIcon } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
 import userContext from "../utils/userContext";
-import databaseCall from "../utils/databaseCall";
+import StarIcon from '@mui/icons-material/Star';
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -17,14 +17,11 @@ const MovieDisplay = (props) => {
   const [selected, setSelected] = useState(false);
 
   const movie = props.movie
-  const { userWatchList, userInfo, refetchDb, setRefetchDb } = useContext(userContext)
+  const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
 
   // adds movie to watchlist
   async function handleWatchList() {
-
-    // const urlPOST = 'http://localhost:8080/watchlist/save'; // Replace with the actual API endpoint
-    // const urlDELETE = 'http://localhost:8080/watchlist';
-
+    
     const movieDataPOST = {
       userId: userInfo.id,
       movie: {
