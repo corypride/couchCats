@@ -12,7 +12,7 @@ import TestLogoutButtonPage from "./pages/TestLogoutButtonPage.jsx";
 import getWatchList from "./utils/getWatchList.js";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
-
+//comment out .interceptor
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
