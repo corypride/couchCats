@@ -77,8 +77,6 @@ function ProfileComponent(movie, handleWatchList) {
                 </Typography>
             </Grid>
             {isWatchList() ? (
-                // {/*TODO: Merve, review this to ensure it is set up to pass the correct data as props into WatchListButton*/}
-                // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
                 <>
                     {userWatchList.map((movie, index) => ( //loop for watch list movies 
                         <Grid key={index} item xs={6} md={3}>
@@ -103,14 +101,9 @@ function ProfileComponent(movie, handleWatchList) {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                            {/* TODO: Merve, Add the following code here
-                                    TODO: Merve, after other TODO's are complete, test to make sure it is working
-                                    <WatchListButton
-                                        movie={movie}
-                                        director={movie.director} 
-                                        topCast={movie.topCast} 
-                                    />
-                                    TODO: Merve, Add styling to this button so it's not so wide*/}
+                                    {/* TODO: MERVE, Add this code here: 
+                                    {movie && <WatchlistButton movie={movie} handleWatchList={handleWatchList}/>}
+                                    Also, remove deleteMoveiFromWatchList -- this button will handle that. You will also need to make sure to import WatchListButton and pass in the appropriate props */}
                                 </CardActions>
                             </Card>
                         </Grid>

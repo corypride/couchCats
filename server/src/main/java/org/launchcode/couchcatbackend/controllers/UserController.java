@@ -96,6 +96,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
+//    TODO: add some kind of security so you can't delete other users' accounts? change to @RequestBody and you pass in sessionId instead and it deletes user associated with that sessionId?
     @DeleteMapping
     @Transactional
     public ResponseEntity<String> deleteUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
