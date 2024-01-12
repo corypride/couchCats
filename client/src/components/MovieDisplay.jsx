@@ -4,6 +4,7 @@ import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
 import userContext from "../utils/userContext";
+import WatchlistButton from './WatchlistButton';
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -65,12 +66,12 @@ const MovieDisplay = (props) => {
     }
   }
 
-  useEffect(() => {
-    if(userInfo.id)
-      if(userWatchList?.some((item)=> item.id === movie.id)) {
-        setSelected(true);
-    }
-  }, [userWatchList, movie.id, userInfo.id])
+  // useEffect(() => {
+  //   if(userInfo.id)
+  //     if(userWatchList?.some((item)=> item.id === movie.id)) {
+  //       setSelected(true);
+  //   }
+  // }, [userWatchList, movie.id, userInfo.id])
 
   //grabs cast and service from TMDB
   useEffect(() => {
@@ -118,25 +119,7 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                <ListItemButton
-                  variant="cont"
-                  onClick={() => handleWatchList(props.movie)}
-                  selected={selected}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    bgcolor: "accent.main",
-                    width: "6rem",
-                    "&.Mui-selected": {
-                      backgroundColor: "primary.main", // Apply custom styling when selected
-                      color: "white",
-                    },
-                    "&:hover": {
-                      backgroundColor: "accent.secondary",
-                      color: "white" // Hover styles override selected background
-                    },
-                  }}
-                  >{selected ? "Added" : "Add"}</ListItemButton>
+                  <WatchlistButton movie={props.movie} handleWatchList={handleWatchList} />
           </Box>
           {/* right side */}
           <Box 

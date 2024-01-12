@@ -59,7 +59,7 @@ function App() {
   // calls userWatchList from database
   const getWatchList = async (userInfo) => {
     try {
-      const response = await databaseCall.get(`watchlist/${1}`);
+      const response = await databaseCall.get(`watchlist/${userInfo.id}`); //FROM ERIN: fixed a hard-coded user id here
       const data = await response.data;
       console.log(data)
       return data; // flatrate is movies on subscription streaming

@@ -12,7 +12,7 @@ import {
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 
-function ProfileComponent() {
+function ProfileComponent(movie, handleWatchList) {
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
@@ -101,6 +101,9 @@ function ProfileComponent() {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                    {/* TODO: MERVE, Add this code here: 
+                                    {movie && <WatchlistButton movie={movie} handleWatchList={handleWatchList}/>}
+                                    Also, remove deleteMoveiFromWatchList -- this button will handle that. You will also need to make sure to import WatchListButton and pass in the appropriate props */}
                                 </CardActions>
                             </Card>
                         </Grid>
