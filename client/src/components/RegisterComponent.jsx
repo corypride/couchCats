@@ -35,7 +35,7 @@ function RegisterComponent() {
     "Content-Type": "application/json"
     }
     
-    axios.post(registerUrl, user, { headers: headersObj })
+    axios.post(registerUrl, values, { headers: headersObj })
   .then((response) => {
     console.log("response from backend => ", response);
 
@@ -67,15 +67,7 @@ function RegisterComponent() {
 
 
 
-  //  axios.post("http://localhost:8080/user/register",
-  //   { firstName: "testing",
-  //   lastName: "somemore",
-  //   email: "newemail2@gmail.com",
-  //   password: "Testing54321*"},{headers:headersObj}).then((response) => {
-  //     console.log("response from backend=> ", response)
-  //   }).catch((error) => {
-  //     console.error("error while backend calling ", error)
-  //   })
+
   };
 
 

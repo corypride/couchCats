@@ -26,7 +26,7 @@ function ProfileComponent() {
     });
     
     const isWatchList = () => {
-        return userWatchList.length > 0
+        return userWatchList?.length > 0
     }
 
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
