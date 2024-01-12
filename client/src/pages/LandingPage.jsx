@@ -43,6 +43,7 @@ const LandingPage = () => {
                     fontSize: "7rem",
                     marginTop: "5rem",
                     marginBottom: "0",
+                    color: "primary.main"
                 }}>CouchCat</Typography>
 
                 <Typography 
@@ -50,7 +51,8 @@ const LandingPage = () => {
                 sx={{
                     fontSize: "1.5rem",
                     marginTop: "0",
-                    marginBottom: "1rem"
+                    marginBottom: "1rem",
+                    color: "primary.main"
                 }}
                 >Spend your time watching.</Typography>
 
@@ -68,14 +70,15 @@ const LandingPage = () => {
             {/* Top Movie List */}
             <Box
             sx={{
-                marginTop: "10rem",
+                marginTop: "15rem",
                 marginBottom: "10rem"
             }}>
                 <Typography component="h2" 
                 sx={{
                     fontSize: "3rem",
                     marginTop: "5rem",
-                    marginBottom: "0"
+                    marginBottom: "0",
+                    color: "accent.main"
                 }}>Top Movies</Typography>
                     <List 
                     sx={{
