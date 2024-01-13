@@ -13,7 +13,10 @@ const MovieDisplay = (props) => {
   const [castCrew, setCastCrew] = useState();
   const [director, setDirector] = useState();
   const [topCast, setTopCast] = useState();
+  const [releaseDate, setReleaseDate] = useState();
+
   const [selected, setSelected] = useState(false);
+
 
   const movie = props.movie
   const handleWatchList = props.handleWatchList
@@ -38,6 +41,33 @@ const MovieDisplay = (props) => {
       setTopCast(castCrew.cast.slice(0,3))
     } 
   }, [castCrew])
+
+  // seEffect(() => {
+  //   getServices(props.movie.id)
+  //   .then(servicesResult => {
+  //     setServices(servicesResult);
+  //     })
+  //   getCastCrew(props.movie.id)
+  //   .then(castCrewResult => {
+  //     setCastCrew(castCrewResult)
+  //     })
+  //   getReleaseDate(props.movie.id)
+  //   .then(releaseDateResult) => {
+  //     setReleaseDate(releaseDateResult)
+  //     }}, [props.movie])
+
+  // useEffect(() => {
+  //   if(castCrew) {
+  //     setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
+  //     setTopCast(castCrew.cast.slice(0,3))
+  //   } 
+  // }, [castCrew])
+
+  // useEffect(() => {
+  //   if(releaseDate) {
+  //     setReleaseYear(movie.id.release_date.slice(0,4))
+  //   } 
+  // }, [releaseDate])
 
   return (
       <List
@@ -66,11 +96,11 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                  <WatchListButton   
+                  {userInfo.isAuthenticated && <WatchListButton   
                       movie={props.movie}
                       handleWatchList={handleWatchList}
                       director={director}
-                      topCast={topCast} />
+                      topCast={topCast} />}
           </Box>
           {/* right side */}
           <Box 
@@ -100,7 +130,10 @@ const MovieDisplay = (props) => {
                   sx={{
                     alignSelf: "center",
                     color: "accent.main"
-                  }}>{props.movie.release_date.slice(0,4)}</Typography>
+                  }}>
+                    {props.movie.release_date.slice(0,4)}
+                    {/* {releaseYear} */}
+                  </Typography>
                 </Box>
                 {/* overview-middle */}
                 <Typography

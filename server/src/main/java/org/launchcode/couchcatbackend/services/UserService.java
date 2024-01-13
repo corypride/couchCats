@@ -10,10 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -86,7 +82,6 @@ public class UserService {
                 // They are mainly used for security to mitigate the risk of cross-site scripting (XSS) attacks.
                 //And Cookies must be secure for Cross Site (we have two diff ports)
                 headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure" );
-                System.out.println(headers);
                 return ResponseEntity.ok().headers(headers).body(userLogin);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials.");

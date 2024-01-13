@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { ListItemButton } from "@mui/material";
 import userContext from "../utils/userContext";
 
-const WatchListButton = ({ movie, director, topCast }) => {
-  const [selected, setSelected] = useState(false);
-
+const WatchListButton = ({ movie, director, topCast, releaseDate }) => {
   const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
+  const [selected, setSelected] = useState(false);
 
   async function handleWatchList() {
     
@@ -15,6 +14,7 @@ const WatchListButton = ({ movie, director, topCast }) => {
         id: movie.id,
         title: movie.title,
         year: parseInt(movie.release_date.slice(0,4)),
+        // year: releaseYear,
         description: movie.overview,
         //TODO: need to change directors into string if there are multiple
         director: director[0].name,
@@ -39,16 +39,6 @@ const WatchListButton = ({ movie, director, topCast }) => {
         setSelected(true);
         setRefetchDb(!refetchDb)
       } catch (error) {
-        if (error.response) {
-          console.log("Error data:", error.response.data);
-          console.log("Error status:", error.response.status);
-          console.log("Error headers:", error.response.headers);
-    
-          // TODO: ERIN: Display a custom message to the user, 
-          // letting them know they cannot add a movie when they are not logged in and 
-          // prompting them to register and offering a link to the register page, with the ability to close the box easily
-          alert("Error: " + error.response.data);
-      }
         console.error('Error:', error);
       }
     } else {
@@ -92,7 +82,7 @@ const WatchListButton = ({ movie, director, topCast }) => {
                     },
                   }}
                   >{selected ? "Added" : "Add"}</ListItemButton>
-      )
+        )
 }
         
 export default WatchListButton;

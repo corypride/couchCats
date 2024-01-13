@@ -18,8 +18,6 @@ const LogoutComponent = ({ headersObj }) => {
         axios.post(logoutUrl, {}, { headers: headersObj, withCredentials: true })
             .then((response) => {
                 console.log("Response from backend => ", response);
-          //sessionStorage.removeItem('user');
-                sessionStorage.removeItem("")
                 setUserInfo({
                     isAuthenticated: false,
                     id: null,
