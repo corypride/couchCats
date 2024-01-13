@@ -46,7 +46,6 @@ const FilterSearch = () => {
     },
     "&.Mui-selected": {
       color: "accent.main",
-      bgcolor: "primary.main",
       borderColor: "#ff9610 !important"
     },
     "&.MuiToggleButtonGroup-grouped": {

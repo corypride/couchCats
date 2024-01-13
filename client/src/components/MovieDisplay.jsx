@@ -53,7 +53,7 @@ const MovieDisplay = (props) => {
         key={props.movie.original_title}
         sx={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "center"
         }}>
           {/* movie poster and add button-left side*/}
           <Box component="div">
@@ -93,7 +93,8 @@ const MovieDisplay = (props) => {
                     sx={{
                       alignSelf: "flex-start",
                       fontSize: "2.5rem",
-                      fontWeight: "bold"
+                      fontWeight: "bold",
+                      color: "primary.main"
                     }}
                     >{props.movie.original_title}</Typography>
                   <Typography
@@ -121,7 +122,8 @@ const MovieDisplay = (props) => {
                       }} />
                       <Typography
                       sx={{
-                          fontSize: "1.5rem"
+                          fontSize: "1.5rem",
+                          color: "primary.main"
                       }}>{String(props.movie.vote_average).slice(0,3)}</Typography>
                   </Box>
                 {/* director and top billed cast-middle */}
@@ -138,7 +140,8 @@ const MovieDisplay = (props) => {
                     }}>
                         <Typography
                         sx={{
-                          fontSize: "3rem"
+                          fontSize: "3rem",
+                          color: "primary.main"
                         }}>Director</Typography>
                         {director ? 
                           <>
@@ -160,7 +163,8 @@ const MovieDisplay = (props) => {
                     }}>
                         <Typography
                         sx={{
-                          fontSize: "3rem"
+                          fontSize: "3rem",
+                          color: "primary.main"
                         }}>Cast</Typography>
                         {topCast ? 
                           <>

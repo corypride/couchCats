@@ -43,7 +43,7 @@ const LandingPage = () => {
                     fontSize: "7rem",
                     marginTop: "5rem",
                     marginBottom: "0",
-                    color: "primary.main",
+                    color: "primary.main"
                 }}>CouchCat</Typography>
 
                 <Typography 
@@ -57,14 +57,14 @@ const LandingPage = () => {
                 >Spend your time watching.</Typography>
 
                 <Button 
-                    variant="outlined" 
+                    // variant="outlined" 
                     onClick={() => navigate("/search")}
                     sx={{
                         boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.5)",
                         "&:hover": {
                             color: "accent.main",
                             //connect to theme accent.main
-                            border: "1px solid #ff9610"
+                            // border: "1px solid #ff9610"
                             }
                     }}>Find your Movie!</Button>
             </Box>
@@ -96,7 +96,8 @@ const LandingPage = () => {
                                     flexDirection: "column",
                                     fontSize: "0.5rem",
                                     width: "20rem",
-                                    gap: "0.25rem"
+                                    gap: "0.25rem",
+                                    color: 'primary.main'
                                 }}>
                                     <Box 
                                     component="img" 
