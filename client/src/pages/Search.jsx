@@ -218,6 +218,9 @@ const FilterSearch = () => {
                   <SvgIcon
                     sx={{
                       fontSize: "5rem",
+                      "&:hover": {
+                        color: "accent.main"
+                      }
                     }} component={KeyboardDoubleArrowUpIcon}/>
                     <Typography>Top</Typography>
                 </Button> : ""}

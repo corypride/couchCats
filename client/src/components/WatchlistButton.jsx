@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ListItemButton } from "@mui/material";
+import { ListItemButton, SvgIcon, Typography, Box } from "@mui/material";
 import userContext from "../utils/userContext";
+import StarIcon from '@mui/icons-material/Star';
 
 const WatchListButton = ({ movie, director, topCast }) => {
   const [selected, setSelected] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
 
@@ -74,22 +76,56 @@ const WatchListButton = ({ movie, director, topCast }) => {
         <ListItemButton
                   variant="cont"
                   onClick={() => handleWatchList(movie)}
+                  onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
                   selected={selected}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
-                    bgcolor: "accent.main",
-                    width: "6rem",
+                    bgcolor: "accent.secondary",
+                    width: "20%",
+                    padding: "0",
+                    color: "white",
                     "&.Mui-selected": {
-                      backgroundColor: "primary.main", // Apply custom styling when selected
-                      color: "white",
+                      backgroundColor: "primary.main",
+                      color: "accent.main",
+                      "&:hover": {
+                        backgroundColor: "accent.secondary",
+                        color: "accent.main"
+                      }
                     },
                     "&:hover": {
-                      backgroundColor: "accent.secondary",
-                      color: "white" // Hover styles override selected background
+                      backgroundColor: "primary.main"
                     },
                   }}
-                  >{selected ? "Added" : "Add"}</ListItemButton>
+                  >
+                    {selected ?
+                      <SvgIcon
+                      component={StarIcon}/> 
+                      : 
+                      <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center"
+                      }}>
+                        <SvgIcon
+                        component={StarIcon}/>
+                        {/* {isHovered ? 
+                          <Box
+                            sx={{
+                              transition: 'max-width 0.3s ease-in-out', // Transition for smooth roll-out
+                              overflow: 'hidden',
+                              maxWidth: isHovered ? '200px' : '0px', // Adjust heights as needed
+                            }}
+                          >
+                            Add to WatchList
+                          </Box>
+                        :
+                        null} */}
+
+                      </Box>
+
+                      }
+        </ListItemButton>
       )
 }
         
