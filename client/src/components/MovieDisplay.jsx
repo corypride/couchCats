@@ -13,7 +13,9 @@ const MovieDisplay = (props) => {
   const [castCrew, setCastCrew] = useState();
   const [director, setDirector] = useState();
   const [topCast, setTopCast] = useState();
-  const [releaseDate, setReleaseDate] = useState();
+  // const [releaseDate, setReleaseDate] = useState();
+  // const [releaseYear, setReleaseYear = useState();
+
 
   const [selected, setSelected] = useState(false);
 
@@ -33,6 +35,10 @@ const MovieDisplay = (props) => {
     .then(castCrewResult => {
       setCastCrew(castCrewResult)
       })
+    //   getReleaseDate(props.movie.id)
+    // .then(releaseDateResult => {
+    //   setReleaseDate(releaseDateResult)
+    //   })
   }, [props.movie])
 
   useEffect(() => {
@@ -41,27 +47,6 @@ const MovieDisplay = (props) => {
       setTopCast(castCrew.cast.slice(0,3))
     } 
   }, [castCrew])
-
-  // seEffect(() => {
-  //   getServices(props.movie.id)
-  //   .then(servicesResult => {
-  //     setServices(servicesResult);
-  //     })
-  //   getCastCrew(props.movie.id)
-  //   .then(castCrewResult => {
-  //     setCastCrew(castCrewResult)
-  //     })
-  //   getReleaseDate(props.movie.id)
-  //   .then(releaseDateResult) => {
-  //     setReleaseDate(releaseDateResult)
-  //     }}, [props.movie])
-
-  // useEffect(() => {
-  //   if(castCrew) {
-  //     setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
-  //     setTopCast(castCrew.cast.slice(0,3))
-  //   } 
-  // }, [castCrew])
 
   // useEffect(() => {
   //   if(releaseDate) {
