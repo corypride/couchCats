@@ -14,7 +14,8 @@ import DeleteAccountComponent from "./DeleteAccountComponent";
 //TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
-    //TODO: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton ({ movie, director, topCast })
+    //TODO: UPDATE: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton 
+    //({ handleWatchList, director, topCast, services, castCrew })
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
@@ -79,7 +80,7 @@ function ProfileComponent() {
                 </Typography>
             </Grid>
             {isWatchList() ? (
-                // {/*TODO: Merve, review this to ensure it is set up to pass the correct data as props into WatchListButton*/}
+                // {/*TODO: UPDATE Merve, I do not think you will need to make any updates here afterall for the WatchListButton*/}
                 // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
                 <>
                     {userWatchList.map((movie, index) => ( //loop for watch list movies 
@@ -105,13 +106,16 @@ function ProfileComponent() {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                            {/* TODO: Merve, Add the following code here
-                                    TODO: Merve, after other TODO's are complete, test to make sure it is working
-                                    <WatchListButton
-                                        movie={movie}
-                                        director={movie.director} 
-                                        topCast={movie.topCast} 
-                                    />
+                                    {/* TODO: UPDATED: Merve, after other TODO's are complete, test to make sure it is working
+                                     {userInfo.isAuthenticated && <WatchListButton   
+                                            movie={movie}
+                                            handleWatchList={() => {
+                                                handleWatchList(services, castCrew);
+                                              }}
+                                            director={director}
+                                            topCast={topCast} 
+                                            services={services}
+                                            castCrew={castCrew} />}
                                     TODO: Merve, Add styling to this button so it's not so wide*/}
                                 </CardActions>
                             </Card>

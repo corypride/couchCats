@@ -6,8 +6,8 @@ import tmdb_main from "../assets/tmdb_main.svg";
 import WatchListButton from "../components/WatchListButton";
 import userContext from "../utils/userContext";
 
-
-const LandingPage = ({ handleWatchList, director, topCast }) => {
+//props for WatchListButton
+const LandingPage = ({ handleWatchList, director, topCast, services, castCrew }) => {
     //Allows button navigation
     const navigate = useNavigate();
 
@@ -128,11 +128,16 @@ const LandingPage = ({ handleWatchList, director, topCast }) => {
                                         sx={{
                                             fontSize: "1.5rem"
                                         }}>{String(movie.vote_average).slice(0,3)}</Typography>
+                                        {/*Display WatchListButton*/}
                                         {userInfo.isAuthenticated && <WatchListButton   
                                             movie={movie}
-                                            handleWatchList={handleWatchList}
+                                            handleWatchList={() => {
+                                                handleWatchList(services, castCrew);
+                                              }}
                                             director={director}
-                                            topCast={topCast} />}
+                                            topCast={topCast} 
+                                            services={services}
+                                            castCrew={castCrew} />}
                                     </Box>
                                     {/* TODO: get streaming services? */}
                                 </ListItem>

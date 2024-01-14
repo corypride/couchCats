@@ -16,9 +16,11 @@ const WatchListButton = ({ movie, director, topCast, services, castCrew }) => {
         year: parseInt(movie.release_date.slice(0,4)),
         description: movie.overview,
         //TODO: need to change directors into string if there are multiple
-        director: director[0].name,
+        // director: director[0].name,
+        director: director && director[0] ? director[0].name : 'Unknown Director',
         //TODO: need to change cast names into string
-        cast: topCast[0].name,
+        // cast: topCast[0].name,
+        cast: topCast && topCast[0] ? topCast[0].name : 'Unknown Cast',
         rating: movie.vote_average,
         poster: movie.poster_path
       }

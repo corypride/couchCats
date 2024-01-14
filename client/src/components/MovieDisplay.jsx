@@ -70,13 +70,14 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
+                  {/*Display WatchListButton*/}
                   {userInfo.isAuthenticated && <WatchListButton   
-                      movie={props.movie}
-                      handleWatchList={handleWatchList(services, castCrew)}
-                      director={director}
-                      topCast={topCast} 
-                      services={services}
-                      castCrew={castCrew}
+                       movie={props.movie}
+                       handleWatchList={props.handleWatchList}
+                       director={props.director}
+                       topCast={props.topCast}
+                       services={props.services}
+                       castCrew={props.castCrew}
                       />}
           </Box>
           {/* right side */}
