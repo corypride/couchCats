@@ -7,9 +7,11 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid
+    Grid,
+    Rating
 } from "@mui/material";
 import userContext from "../utils/userContext";
+import RatingComponent from "./RatingComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 //TODO: Merve, Import WatchListButton
 
@@ -36,12 +38,12 @@ function ProfileComponent() {
     }
 
     // TODO: remove after testing
-    if (isMovieLog) {
-        console.log("user movie log: " + JSON.stringify(userMovieLog));
-        console.log("user movie log 0: " + JSON.stringify(userMovieLog[0]));
-        console.log("movie: " + userMovieLog[0].movie);
-        console.log("movie title: " + userMovieLog[0].movie.title);
-    }
+    // if (isMovieLog) {
+    //     console.log("user movie log: " + JSON.stringify(userMovieLog));
+    //     console.log("user movie log 0: " + JSON.stringify(userMovieLog[0]));
+    //     console.log("movie: " + userMovieLog[0].movie);
+    //     console.log("movie title: " + userMovieLog[0].movie.title);
+    // }
 
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
         console.log("delete a movie from watch list handle called")
@@ -172,18 +174,15 @@ function ProfileComponent() {
                         <Typography variant="body2" color="text.secondary" textAlign={"left"}>
                             {entry.movie.description}
                         </Typography>
+                        <RatingComponent 
+                            movieId = {entry.movie.id}
+                            userRating = {entry.userRating}
+                        />
                     </CardContent>
                     <CardActions>
                         <Button size="small">Watch</Button>
                         <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                {/* TODO: Merve, Add the following code here
-                        TODO: Merve, after other TODO's are complete, test to make sure it is working
-                        <WatchListButton
-                            movie={movie}
-                            director={movie.director} 
-                            topCast={movie.topCast} 
-                        />
-                        TODO: Merve, Add styling to this button so it's not so wide*/}
+                                {/* TODO: insert 'delete from log' button*/}
                     </CardActions>
                 </Card>
             </Grid>
