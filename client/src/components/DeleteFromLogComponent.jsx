@@ -25,6 +25,7 @@ const DeleteFromLogComponent = ({ movieId }) => {
     };
 
     const handleClose = () => {
+        // e.stopPropagation();
         setOpen(false);
     };
 
@@ -34,19 +35,22 @@ const DeleteFromLogComponent = ({ movieId }) => {
           })
             .then((response) => {
                 console.log("Response from back end: ", response);
+                handleClose();
             })
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
+                // TODO: display error message to user? can I display this in the dialog?
+                handleClose();
             });
     };
 
     return (
         <React.Fragment>
             <Button
-            //calls function above on button click
+            size="small"
             onClick={handleClickOpen}
             variant="contained"
-            color="error"
+            color="attention"
             >
                 Delete
             </Button>

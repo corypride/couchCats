@@ -188,11 +188,6 @@ function ProfileComponent() {
                             movieId = {entry.movie.id}
                         />
                     </CardActions>
-                    <CardActions>
-                        <Button size="small">Watch</Button>
-                        <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                {/* TODO: insert 'delete from log' button*/}
-                    </CardActions>
                 </Card>
             </Grid>
         ))}
