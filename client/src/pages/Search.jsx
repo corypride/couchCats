@@ -118,8 +118,11 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
-        setQueriedMovies(data.results);
-        setDisplay(true);
+        //error handler when resuls is 0 (needs message)
+        if(data.results.length > 0) {
+          setQueriedMovies(data.results);
+          setDisplay(true);
+        } else setParams()
       } catch (error) {
         console.error(error);
       }
@@ -210,7 +213,7 @@ const FilterSearch = () => {
             >Give Me Options!</Button>
         </Box>
 {/* Shows movie results */}
-          {params ? 
+          {display ? 
             <Button 
               onClick={handleScrollTop}
               sx={{

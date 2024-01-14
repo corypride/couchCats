@@ -42,6 +42,7 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
                     setSearchTerm("")
                   } else {
                     handleCastCrewChange(value.id);
+                    console.log(value)
                   }
                 } 
               }
