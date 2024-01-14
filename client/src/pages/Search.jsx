@@ -118,7 +118,7 @@ const FilterSearch = () => {
           headers: { Authorization: `Bearer ${apiKey}` } 
         });
         const data = await response.data;
-        setQueriedMovies(data.results)
+        setQueriedMovies(data.results);
         setDisplay(true);
       } catch (error) {
         console.error(error);
@@ -128,136 +128,136 @@ const FilterSearch = () => {
     else submit();
   }, [params]); //TODO: check for validation
 
-    return (
-        <Box 
+  return (
+      <Box 
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
+        <form style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+{/* Genre Filters */}
+          <Typography 
+          variant="h4"
+          sx={{
+            color: "accent.main"
+          }}>Genre</Typography>
+            <ToggleButtonGroup 
+            id="genreContainer"
+            value={selectedGenres}
+            onChange={handleGenreChange}
+            sx={toggleButtonGroupSx}
+            >
+              {genres ? genres.map((genre) => (
+                <ToggleButton variant="outlined" 
+                key={genre.name} 
+                id="genre" 
+                value={genre.id}
+                sx={toggleButtonSx}
+                >{genre.name}</ToggleButton>
+              )) : (
+                "Loading"
+              )}
+            </ToggleButtonGroup>
+{/* Streaming Service Filters */}
+          <Typography 
+          variant="h4"
+          sx={{
+            color: "accent.main"
+          }}>Streaming Service</Typography>
+            <ToggleButtonGroup 
+            sx={toggleButtonGroupSx}
+            value={selectedStreaming}
+            onChange={handleStreamingChange}
+            >
+              {streamingServices.map((service) => (
+                <ToggleButton variant="outlined" 
+                key={service.name} 
+                id="genre" 
+                value={service.id}
+                sx={toggleButtonSx}
+                >{service.name}</ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+            <CastCrewSelect handleCastCrewChange={handleCastCrewChange}/>
+        </form>
+{/* submit buttons */}
+        <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
+          gap: "1rem"
         }}>
-          <form style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-{/* Genre Filters */}
-            <Typography 
-            variant="h4"
-            sx={{
-              color: "accent.main"
-            }}>Genre</Typography>
-              <ToggleButtonGroup 
-              id="genreContainer"
-              value={selectedGenres}
-              onChange={handleGenreChange}
-              sx={toggleButtonGroupSx}
-              >
-                {genres ? genres.map((genre) => (
-                  <ToggleButton variant="outlined" 
-                  key={genre.name} 
-                  id="genre" 
-                  value={genre.id}
-                  sx={toggleButtonSx}
-                  >{genre.name}</ToggleButton>
-                )) : (
-                  "Loading"
-                )}
-              </ToggleButtonGroup>
-{/* Streaming Service Filters */}
-            <Typography 
-            variant="h4"
-            sx={{
-              color: "accent.main"
-            }}>Streaming Service</Typography>
-              <ToggleButtonGroup 
-              sx={toggleButtonGroupSx}
-              value={selectedStreaming}
-              onChange={handleStreamingChange}
-              >
-                {streamingServices.map((service) => (
-                  <ToggleButton variant="outlined" 
-                  key={service.name} 
-                  id="genre" 
-                  value={service.id}
-                  sx={toggleButtonSx}
-                  >{service.name}</ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-              <CastCrewSelect handleCastCrewChange={handleCastCrewChange}/>
-          </form>
-{/* submit buttons */}
-          <Box
+          <Button 
+            variant="outlined"
+            sx={submitButtonSx}
+            onClick={() => {
+              handleSubmit();
+              setSingleResult(true);
+              setDisplay(false);
+              setSingleRandom(Math.floor(Math.random() * 19));
+            }}
+            >Find My Movie!</Button>
+          <Button 
+            variant="outlined"
+            sx={submitButtonSx}
+            onClick={() => {
+              handleSubmit();
+              setDisplay(false);
+              setSingleResult(false);
+            }}
+            >Give Me Options!</Button>
+        </Box>
+{/* Shows movie results */}
+          {params ? 
+            <Button 
+              onClick={handleScrollTop}
+              sx={{
+                alignSelf: "flex-end",
+                display: "flex",
+                flexDirection: "column",
+                position: "sticky",
+                top: "0"
+              }}>
+                <SvgIcon
+                  sx={{
+                    fontSize: "5rem",
+                    "&:hover": {
+                      color: "accent.main"
+                    }
+                  }} component={KeyboardDoubleArrowUpIcon}/>
+                  <Typography>Top</Typography>
+              </Button> : ""}
+{/* movie Results */}
+        <Box 
           sx={{
             display: "flex",
-            gap: "1rem"
-          }}>
-            <Button 
-              variant="outlined"
-              sx={submitButtonSx}
-              onClick={() => {
-                handleSubmit();
-                setSingleResult(true);
-                setDisplay(false);
-                setSingleRandom(Math.floor(Math.random() * 19));
-              }}
-              >Find My Movie!</Button>
-            <Button 
-              variant="outlined"
-              sx={submitButtonSx}
-              onClick={() => {
-                handleSubmit();
-                setDisplay(false);
-                setSingleResult(false);
-              }}
-              >Give Me Options!</Button>
-          </Box>
-{/* Shows movie results */}
-            {params ? 
-              <Button 
-                onClick={handleScrollTop}
-                sx={{
-                  alignSelf: "flex-end",
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "sticky",
-                  top: "0"
-                }}>
-                  <SvgIcon
-                    sx={{
-                      fontSize: "5rem",
-                      "&:hover": {
-                        color: "accent.main"
-                      }
-                    }} component={KeyboardDoubleArrowUpIcon}/>
-                    <Typography>Top</Typography>
-                </Button> : ""}
-{/* movie Results */}
-          <Box 
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "5rem"
-            }}
-            ref={results}>
-             
-              {(!display) ?
-                null :
-                  singleResult ?
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "5rem"
+          }}
+          ref={results}>
+            
+            {(!display) ?
+              null :
+                singleResult ?
+                  <MovieDisplay
+                    movie={queriedMovies[singleRandom]}
+                    />
+                  :
+                  queriedMovies.map((queriedMovie, index) => (
                     <MovieDisplay
-                      movie={queriedMovies[singleRandom]}
+                      key={index}
+                      movie={queriedMovie}
                       />
-                    :
-                    queriedMovies.map((queriedMovie, index) => (
-                      <MovieDisplay
-                        key={index}
-                        movie={queriedMovie}
-                        />
-                  ))
-                }
-          </Box>
-        </Box> 
-      );
+                ))
+              }
+        </Box>
+      </Box> 
+    );
 }
 
 export default FilterSearch;

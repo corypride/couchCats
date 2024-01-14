@@ -37,7 +37,9 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
             onChange={
                 (event, value) => {
                   if(!value) {
-                    return
+                    handleCastCrewChange("");
+                    setSearchResults([]);
+                    setSearchTerm("")
                   } else {
                     handleCastCrewChange(value.id);
                   }
@@ -45,7 +47,6 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
               }
             options={searchResults}
             getOptionLabel={(option) => option.name}
-            noOptionsText="No movies fit that criteria..."
             renderOption={(props, option) => {
               return (
                   <Box
