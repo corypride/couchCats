@@ -171,13 +171,16 @@ function ProfileComponent() {
                         <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
                             {entry.movie.director}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
                             {entry.movie.description}
                         </Typography>
                         <RatingComponent 
                             movieId = {entry.movie.id}
                             userRating = {entry.userRating}
                         />
+                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                            Date added: {entry.dateAdded}
+                        </Typography>
                     </CardContent>
                     <CardActions>
                         <Button size="small">Watch</Button>
