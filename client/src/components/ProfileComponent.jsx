@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
+import DeleteFromLogComponent from "./DeleteFromLogComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 //TODO: Merve, Import WatchListButton
 
@@ -182,6 +183,11 @@ function ProfileComponent() {
                             Date added: {entry.dateAdded}
                         </Typography>
                     </CardContent>
+                    <CardActions>
+                        <DeleteFromLogComponent 
+                            movieId = {entry.movie.id}
+                        />
+                    </CardActions>
                     <CardActions>
                         <Button size="small">Watch</Button>
                         <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
