@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 function RegisterComponent() {
-  
+  const [failMessage, setFailMessage] = useState(null);
   const navigate = useNavigate();
 
 
@@ -54,23 +55,18 @@ function RegisterComponent() {
       console.log("Error headers:", error.response.headers);
 
       // Display the error message to the user
-      alert("Error: " + error.response.data);
+      setFailMessage(error.response.data);
   } else if (error.request) {
       // The request was made but no response was received
       console.log("Error request:", error.request);
+      setFailMessage("Registration Failed: Something went wrong, please try again");
   } else {
       // Something happened in setting up the request that triggered an Error
       console.log("Error message:", error.message);
+      setFailMessage("Registration Failed: Something went wrong, please try again");
   }
 });
-
-
-
-
-
-  };
-
-
+};
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -122,6 +118,16 @@ const validationSchema = Yup.object().shape({
             >
               Register!
             </Typography>
+              {/* Displays fail message if/when it exists to let the user know why registration didn't work */}
+              {failMessage && 
+                (<Typography 
+                variant="standard" 
+                color="attention" //TODO: Eric, I tried to use this set in theme.jsx for the error message but it's not displaying for some reason. Can you take a look? It should be red.
+                sx={{ marginTop: "30rem" }}
+                > 
+                  {failMessage}
+                </Typography>
+              )}
             <Field
               as={TextField}
               margin="normal"

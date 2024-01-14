@@ -11,7 +11,6 @@ import userContext from "../utils/userContext";
 const LoginComponent = () => {
     // FROM ERIN: Added a state variable for the success message that we can use to set and display a message when registration is successful
     const [failMessage, setFailMessage] = useState(null);
-
     const { setUserInfo } = useContext(userContext)
 
     const initialLoginValues = {
@@ -67,9 +66,12 @@ const LoginComponent = () => {
                 } else if (error.request) {
                     // The request was made but no response was received
                     console.log("Error request:", error.request);
+                    setFailMessage("Login failed: Unknown error, please try again");
                 } else {
                     // Something happened in setting up the request that triggered an Error
                     console.log("Error message:", error.message);
+                    setFailMessage("Login failed: please try again");
+
                 }
             });
     };
@@ -109,9 +111,12 @@ const LoginComponent = () => {
                         >
                             Login!
                         </Typography>
-                        {/* FROM ERIN: Displays fail message if/when it exists to let the user know why their login didn't work */}
+                        {/* Displays fail message if/when it exists to let the user know why their login didn't work */}
                         {failMessage && (
-                            <Typography variant="body1" color="primary" sx={{ marginTop: "1rem" }}>
+                            <Typography 
+                            variant="standard" 
+                            color="attention" //TODO: Eric I tried to use this set in theme.jsx for the error message but it's not displaying for some reason. Can you take a look? It should be red.
+                            sx={{ marginTop: "1rem" }}>
                                 {failMessage}
                             </Typography>
                         )}

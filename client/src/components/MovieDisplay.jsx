@@ -13,8 +13,6 @@ const MovieDisplay = (props) => {
   const [castCrew, setCastCrew] = useState();
   const [director, setDirector] = useState();
   const [topCast, setTopCast] = useState();
-  // const [releaseDate, setReleaseDate] = useState();
-  // const [releaseYear, setReleaseYear = useState();
 
 
   const [selected, setSelected] = useState(false);
@@ -35,10 +33,6 @@ const MovieDisplay = (props) => {
     .then(castCrewResult => {
       setCastCrew(castCrewResult)
       })
-    //   getReleaseDate(props.movie.id)
-    // .then(releaseDateResult => {
-    //   setReleaseDate(releaseDateResult)
-    //   })
   }, [props.movie])
 
   useEffect(() => {
@@ -48,11 +42,6 @@ const MovieDisplay = (props) => {
     } 
   }, [castCrew])
 
-  // useEffect(() => {
-  //   if(releaseDate) {
-  //     setReleaseYear(movie.id.release_date.slice(0,4))
-  //   } 
-  // }, [releaseDate])
 
   return (
       <List
@@ -117,7 +106,6 @@ const MovieDisplay = (props) => {
                     color: "accent.main"
                   }}>
                     {props.movie.release_date.slice(0,4)}
-                    {/* {releaseYear} */}
                   </Typography>
                 </Box>
                 {/* overview-middle */}

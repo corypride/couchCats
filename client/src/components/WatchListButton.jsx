@@ -14,7 +14,6 @@ const WatchListButton = ({ movie, director, topCast }) => {
         id: movie.id,
         title: movie.title,
         year: parseInt(movie.release_date.slice(0,4)),
-        // year: releaseYear,
         description: movie.overview,
         //TODO: need to change directors into string if there are multiple
         director: director[0].name,

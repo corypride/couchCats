@@ -36,7 +36,7 @@ public class UserService {
         //otherwise, the user details are assigned to isExist, so it bypasses the if statement
         User isExist = (userRepository.findByEmail(user.getEmail()));
         if (isExist != null) {
-            return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
+            return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Check for errors, enter a new email to register, or if you already have an account, go to login.");
         }
 
         User newUser = new User();
@@ -84,10 +84,10 @@ public class UserService {
                 headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure" );
                 return ResponseEntity.ok().headers(headers).body(userLogin);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed: Email address does not exist\n");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials"); //this is if their email doesn't exist in the database at all
         }
     }
 
