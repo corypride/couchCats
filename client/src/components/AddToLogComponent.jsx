@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const AddToLogComponent = ({ movie, director, topCast }) => {
     const { userInfo, databaseCall } = useContext(userContext);
-    const logUrl = "http://localhost:8080/log";
+    const logUrl = "http://localhost:8080/log/save";
 
     // TODO: how to pass user rating value into movieDataPOST?
     // TODO: get rid of hard-coded user rating
