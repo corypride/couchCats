@@ -4,6 +4,7 @@ import { Button, ToggleButton, ToggleButtonGroup, Box, Typography, SvgIcon,  } f
 import streamingServices from "../assets/streamingServices";
 import MovieDisplay from "../components/MovieDisplay";
 import getGenres from "../utils/getGenres";
+import CastCrewSelect from "../components/CastCrewSelect";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 const FilterSearch = () => {
@@ -31,8 +32,8 @@ const FilterSearch = () => {
   const toggleButtonGroupSx = {
     display: "grid",
     justifySelf: "center",
-    gridTemplateColumns: "repeat(5, 1fr)",
-    gridTemplateRows: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(5, 1.5fr)",
+    gridTemplateRows: "repeat(2, 0.75fr)",
     gap: "0.4rem",
     width: "75%",
   }
@@ -72,6 +73,11 @@ const FilterSearch = () => {
     setSelectedStreaming(newValue);
   };
 
+  const handleCastCrewChange = (newValue) => {
+    //put in array to simulate environment for mulitple options.
+    setSelectedCrew([newValue]);
+  }
+
   const handleSubmit = () => {
     setParams({
       api_key: process.env.REACT_APP_API_KEY,
@@ -107,7 +113,6 @@ const FilterSearch = () => {
     const submit = async () => {
       const url = "https://api.themoviedb.org/3/discover/movie";
       const apiKey = process.env.REACT_APP_API_ACCESS_TOKEN; 
-
       try {
         const response = await axios.get(url, { params, 
           headers: { Authorization: `Bearer ${apiKey}` } 
@@ -132,7 +137,7 @@ const FilterSearch = () => {
           alignItems: "center",
           justifyContent: "center",
         }}>
-          <form style={{display: "grid"}}>
+          <form style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 {/* Genre Filters */}
             <Typography 
             variant="h4"
@@ -176,7 +181,7 @@ const FilterSearch = () => {
                   >{service.name}</ToggleButton>
                 ))}
               </ToggleButtonGroup>
-              {/* TODO: get crew suggestions */}
+              <CastCrewSelect handleCastCrewChange={handleCastCrewChange}/>
           </form>
 {/* submit buttons */}
           <Box

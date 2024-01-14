@@ -1,14 +1,10 @@
 import { TextField, Autocomplete, Stack, Typography, Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-//need to clear as delete, fix list items
-const AutocompleteMUI = () => {
+const CastCrewSelect = ({handleCastCrewChange}) => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-
-    const navigate = useNavigate();
   
     const handleChange = (event) => {
       setSearchTerm(event.target.value);
@@ -17,22 +13,20 @@ const AutocompleteMUI = () => {
     useEffect(() => {
         const handleSearch = async () => {
           if (searchTerm.length > 0) {
-            const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
-            // console.log(response)
+            const response = await fetch(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
             const data = await response.json();
-            setSearchResults(data.results);
+            setSearchResults(data.results.slice(0, 6));
           }
         };
         handleSearch();
       }, [searchTerm]);
 
-    // TODO: styling
-  
-    return (
+    return(
         <Stack 
           spacing={2} 
           sx={{
-            width: "20%"
+            width: "15vw",
+            alignSelf: "center"
             }}>
           <Autocomplete
           // open={true}
@@ -41,20 +35,19 @@ const AutocompleteMUI = () => {
             }}
             freeSolo
             onChange={
-              (event, value) => {
-                if(!value) {
-                  return
-                } else {
-                  navigate(`/movie`, { state: { value } })
-                }
-              } 
-            }
+                (event, value) => {
+                  if(!value) {
+                    return
+                  } else {
+                    handleCastCrewChange(value.id);
+                  }
+                } 
+              }
             options={searchResults}
-            getOptionLabel={(option) => option.original_title}
+            getOptionLabel={(option) => option.name}
             noOptionsText="No movies fit that criteria..."
             renderOption={(props, option) => {
               return (
-                // <Typography>{option.original_title}</Typography>
                   <Box
                     {...props} 
                     key={option.id}
@@ -63,32 +56,30 @@ const AutocompleteMUI = () => {
                       display: "flex",
                       justifyContent: "space-between",
                     }}>
-                        <Typography>{option.original_title}</Typography>
-                        <Typography>{option.release_date.slice(0,4)}</Typography>
+                        <Typography>{option.name}</Typography>
                   </Box>
               );
             }}
             renderInput={(params) => 
               <TextField
                 sx={{
-                  color: "accent.main",
-                  input: {
                     color: "accent.main",
-                  },
-                  "& .MuiFormLabel-root": {
-                    color: "accent.main"
-                  },
-                  "& .MuiFormLabel-focused": {
-                    color: "accent.main",
-                    borderColor: "accent.main"
-                  }
+                    input: {
+                        color: "accent.main",
+                    },
+                    "& .MuiFormLabel-root": {
+                        color: "accent.main"
+                    },
+                    "& .MuiFormLabel-focused": {
+                        color: "accent.main",
+                        borderColor: "accent.main"
+                    }
                 }}
                 onChange={handleChange}
-                {...params} label="Search Movies..." />}
+                {...params} label="Cast & Crew" />}
                />
         </Stack>
-    );
-  };
+    )
+}
 
-
-export default AutocompleteMUI;
+export default CastCrewSelect;
