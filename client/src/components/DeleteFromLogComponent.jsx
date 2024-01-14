@@ -9,13 +9,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 // TODO make it look like Merve's 'delete' button
 
-const DeleteFromLogComponent = ({ movieId }) => {
+const DeleteFromLogComponent = ({ movie }) => {
     const { userInfo, databaseCall } = useContext(userContext);
     const deleteUrl = "http://localhost:8080/log";
 
     const deletePayload = {
         userId: userInfo.id,
-        movieId: movieId
+        movieId: movie.id
     }
 
     const [open, setOpen] = React.useState(false);
@@ -25,7 +25,6 @@ const DeleteFromLogComponent = ({ movieId }) => {
     };
 
     const handleClose = () => {
-        // e.stopPropagation();
         setOpen(false);
     };
 
@@ -65,9 +64,14 @@ const DeleteFromLogComponent = ({ movieId }) => {
                 {"Are you sure?"}
             </DialogTitle>
             <DialogContent>
+                <DialogContentText id="alert-dialog-description" align="left">
+                    {movie.title} will be permanently deleted from your log.
+                </DialogContentText>
+            </DialogContent>
+            <DialogContent>
             </DialogContent>
             <DialogActions>
-                <Button onClick={deleteFromLog}>Delete from log</Button>
+                <Button onClick={deleteFromLog}>Delete</Button>
                 <Button onClick={handleClose} autoFocus>
                     Cancel
                 </Button>

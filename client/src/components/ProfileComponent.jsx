@@ -185,7 +185,7 @@ function ProfileComponent() {
                     </CardContent>
                     <CardActions>
                         <DeleteFromLogComponent 
-                            movieId = {entry.movie.id}
+                            movie = {entry.movie}
                         />
                     </CardActions>
                 </Card>
