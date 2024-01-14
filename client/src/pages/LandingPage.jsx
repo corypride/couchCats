@@ -1,16 +1,20 @@
 import axios from "axios";
 import { Box, Button, List, ListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import tmdb_main from "../assets/tmdb_main.svg";
+import WatchListButton from "../components/WatchListButton";
+import userContext from "../utils/userContext";
 
 
-const LandingPage = () => {
+const LandingPage = ({ handleWatchList, director, topCast }) => {
     //Allows button navigation
     const navigate = useNavigate();
 
     //for top movie requests
     const [topMovies, setTopMovies] = useState();
+    const { userInfo } = useContext(userContext)
+
 
     //discover why this is fetching 6 times per page load
 
@@ -60,7 +64,7 @@ const LandingPage = () => {
                     sx={{
                         "&:hover": {
                             color: "accent.main",
-                            //connect to theme accent.main
+                            //connect to theme accent.main - Eric saw this comment, is this still a TODO or done?
                             border: "1px solid #ff9610"
                             }
                     }}>Find your Movie!</Button>
@@ -90,7 +94,7 @@ const LandingPage = () => {
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    fontSize: "0.5rem",
+                                    fontSize: "1.0rem", //From Erin - Increased this as it didn't appear to control anything except when I added the Watchlist Button, it made "Add" 8px
                                     width: "20rem",
                                     gap: "0.25rem"
                                 }}>
@@ -124,6 +128,11 @@ const LandingPage = () => {
                                         sx={{
                                             fontSize: "1.5rem"
                                         }}>{String(movie.vote_average).slice(0,3)}</Typography>
+                                        {userInfo.isAuthenticated && <WatchListButton   
+                                            movie={movie}
+                                            handleWatchList={handleWatchList}
+                                            director={director}
+                                            topCast={topCast} />}
                                     </Box>
                                     {/* TODO: get streaming services? */}
                                 </ListItem>

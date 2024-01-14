@@ -72,9 +72,12 @@ const MovieDisplay = (props) => {
                   alt="movie poster" />
                   {userInfo.isAuthenticated && <WatchListButton   
                       movie={props.movie}
-                      handleWatchList={handleWatchList}
+                      handleWatchList={handleWatchList(services, castCrew)}
                       director={director}
-                      topCast={topCast} />}
+                      topCast={topCast} 
+                      services={services}
+                      castCrew={castCrew}
+                      />}
           </Box>
           {/* right side */}
           <Box 

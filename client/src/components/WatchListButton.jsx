@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ListItemButton } from "@mui/material";
 import userContext from "../utils/userContext";
 
-const WatchListButton = ({ movie, director, topCast }) => {
+const WatchListButton = ({ movie, director, topCast, services, castCrew }) => {
   const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
   const [selected, setSelected] = useState(false);
 
