@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
+import AddToLogComponent from "./AddToLogComponent";
 import DeleteFromLogComponent from "./DeleteFromLogComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 //TODO: Merve, Import WatchListButton
@@ -128,6 +129,13 @@ function ProfileComponent() {
                                         topCast={movie.topCast} 
                                     />
                                     TODO: Merve, Add styling to this button so it's not so wide*/}
+                                </CardActions>
+                                <CardActions>
+                                    <AddToLogComponent 
+                                        movie = {movie}
+                                        director={movie.director} 
+                                        topCast={movie.cast}
+                                    />
                                 </CardActions>
                             </Card>
                         </Grid>
