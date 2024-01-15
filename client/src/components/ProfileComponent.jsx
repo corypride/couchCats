@@ -12,10 +12,8 @@ import {
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 import WatchListButton from "./WatchListButton";
-//TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
-    //TODO: Outdated, see any notes from Eric regarding WatchListButton 
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
@@ -31,23 +29,23 @@ function ProfileComponent() {
     const isWatchList = () => {
         return userWatchList?.length > 0
     }
+//Tested commenting this out, and using only the Watchlist button, it works to remove the movie both from the front end and from the user_watchlist table in the database so I think this can be deleted.
+    // const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
+    //     console.log("delete a movie from watch list handle called")
+    //     setTimeout(() => {
+    //     }, 2000)
 
-    const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
-        console.log("delete a movie from watch list handle called")
-        setTimeout(() => {
-        }, 2000)
+    //     // const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
 
-        const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
+    //     const headersObj = {
+    //         "Content-Type": "application/json"
+    //     }
 
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-
-        const deletePayload = {
-            "userId": userInfo.id,
-            "movieId": movie.id
-        }
-    }
+    //     const deletePayload = {
+    //         "userId": userInfo.id,
+    //         "movieId": movie.id
+    //     }
+    // }
 
     return (
         <Grid container spacing={2}>
@@ -104,9 +102,8 @@ function ProfileComponent() {
                                 </CardContent>
                                 <CardActions>
                                     <Button size="small">Watch</Button>
-                                    <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                    {/* <WatchListButton movie={movie}/> */}
-                                            {/* TODO: Merve, outdated, see any notes from Eric regaridng WatchList Button*/}
+                                    {/* <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button> */}
+                                    <WatchListButton movie={movie}/>
                                 </CardActions>
                             </Card>
                         </Grid>

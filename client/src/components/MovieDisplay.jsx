@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { List, ListItem, Box, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
 import WatchListButton from './WatchListButton';
+import userContext from "../utils/userContext";
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
