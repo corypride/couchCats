@@ -6,12 +6,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import userContext from "../utils/userContext";
 
-//after a user logins in, the headersObj in UserManagement is updated to contain the new Cookie set by the server
-//And this function takes in that headersObj from the UserManagement component in the signature as a prop. 
 const LoginComponent = () => {
-    // FROM ERIN: Added a state variable for the success message that we can use to set and display a message when registration is successful
     const [failMessage, setFailMessage] = useState(null);
-
     const { setUserInfo } = useContext(userContext)
 
     const initialLoginValues = {
@@ -46,32 +42,28 @@ const LoginComponent = () => {
                     lastName: response.data.lastName,
                     email: response.data.email
                 });
-                // TODO redirect to the profile page instead of home (once ready)
-                if(response?.data) {
-                    sessionStorage.setItem('user', JSON.stringify(response.data))
-                }
                 navigate('/profile');
             })
             .catch((error) => {
                 console.error("error while backend calling ", error);
 
-                // Note from Erin: Added this code to handle the HTTP Response that the server sends
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
+                    // The request was made, server responded with a status code outside of 2xx
                     console.log("Error data:", error.response.data);
                     console.log("Error status:", error.response.status);
                     console.log("Error headers:", error.response.headers);
 
-                    // Display the error message to the user
+                    // Display the error message to the user, in this case, invalid credentials
                     setFailMessage(error.response.data);
                 } else if (error.request) {
                     // The request was made but no response was received
                     console.log("Error request:", error.request);
+                    setFailMessage("Login failed: Something went wrong, please try again");
                 } else {
                     // Something happened in setting up the request that triggered an Error
                     console.log("Error message:", error.message);
-                }
+                    setFailMessage("Login failed: Something went wrong, please try again");
+                } 
             });
     };
 
@@ -110,9 +102,12 @@ const LoginComponent = () => {
                         >
                             Login!
                         </Typography>
-                        {/* FROM ERIN: Displays fail message if/when it exists to let the user know why their login didn't work */}
+                        {/* Displays fail message if/when it exists to let the user know why their login didn't work */}
                         {failMessage && (
-                            <Typography variant="body1" color="primary" sx={{ marginTop: "1rem" }}>
+                            <Typography 
+                            variant="standard" 
+                            color="attention.main" 
+                            sx={{ marginTop: "1rem" }}>
                                 {failMessage}
                             </Typography>
                         )}
@@ -151,6 +146,6 @@ const LoginComponent = () => {
             )}
         </Formik>
     );
-}
+    }
 
 export default LoginComponent;

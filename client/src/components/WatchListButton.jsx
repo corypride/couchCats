@@ -137,5 +137,3 @@ const WatchListButton = ({ movie, director, topCast }) => {
 }
         
 export default WatchListButton;
-
-

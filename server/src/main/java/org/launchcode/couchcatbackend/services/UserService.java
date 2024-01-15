@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -40,7 +40,7 @@ public class UserService {
         //otherwise, the user details are assigned to isExist, so it bypasses the if statement
         User isExist = (userRepository.findByEmail(user.getEmail()));
         if (isExist != null) {
-            return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Enter a new email to register.\n");
+            return HTTPResponseBuilder.badRequest("User with email " + user.getEmail() + " already exists. Check for errors, enter a new email to register, or if you already have an account, go to login.");
         }
 
         User newUser = new User();
@@ -55,70 +55,83 @@ public class UserService {
     }
 
     /**
-     * Authenticate User - Login
+     * LOGIN - AUTHENTICATE USER
      **/
-    /*For logging a user in: First method compares the provided user and stored user passwords to validate if they match;
-    Second method looks for a user in the database with the email passed in from the login screen, verifies the data
-    received has a match/is not null; if does not have a match/is null, we return an HTTP 401 status with a custom
-    message that the email does not exist; otherwise, we call the first method to check if the passwords match,
-    and we return a 200 HTTP status and a custom message indicating the login was successful;
-    If they do not, we return a 401 HTTP status with a custom message that email and password were not a match;
-     */
+    //takes in the password from the form fill and the stored password of the same user who was found by email
     private boolean isPasswordCorrect(User providedUser, User storedUser) {
-        //takes in the password passed with the user details from the front end, and the stored password
-        // for that same user in the database, compares the encoded versions,
-        // returns a boolean value of true when they match, false when they do not
         String providedPassword = providedUser.getPassword();
         String storedPassword = storedUser.getPassword();
+        //encodes the password from the form fill, compares to see if they match, returns true if yes, false if not
         return passwordEncoder.matches(providedPassword, storedPassword);
     }
 
     public ResponseEntity<Object> authenticateUser(User user) {
+//        finds user by email from form fill to verify they are registered user,
+//        if no match, userLogin is assigned the value of null,
+//        otherwise, userLogin is assigned the values of that User,
         User userLogin = (userRepository.findByEmail(user.getEmail()));
 
         if (userLogin != null) {
             //next call isPasswordCorrect to check if the password is valid
             if (isPasswordCorrect(user, userLogin)) {
-                //if passwords match, the login credentials are valid so we can generate a sessionId
+                //if passwords match, the login credentials are valid, a sessionId is generated,
+                // which is used to authenticate the user's login status as they navigate the application and grant them access to secure pages, display appropriate states
                 String sessionId = authenticationConfig.createSession(user.getEmail());
                 HttpHeaders headers = new HttpHeaders();
-                //Set-Cookie with the sessionId; use HttpOnly attribute which prevents them from being accessed via JavaScript.
-                // They are mainly used for security to mitigate the risk of cross-site scripting (XSS) attacks.
-                //And Cookies must be secure for Cross Site (we have two diff ports)
-                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure" );
-                System.out.println(headers);
+                //Set-Cookie with the sessionId; HttpOnly prevents value from being accessed via JavaScript to
+                // mitigate the risk of cross-site scripting (XSS) attacks,
+                // and Secure which is required for Cross Origin requests
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=" + userLogin.getSessionId() + "; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure");
                 return ResponseEntity.ok().headers(headers).body(userLogin);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials.");
+                //returned when the password entered does not match the stored password
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed: Email address does not exist\n");
+            //returned when a user with the email entered does not exist
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Invalid Credentials"); //this is if their email doesn't exist in the database at all
         }
+    }
+
+    /**
+     * AUTHENTICATE SESSION
+     **/
+    public ResponseEntity<String> autheticateSession(Integer id, String sessionId) {
+        User retrievedUser = userRepository.findBySessionId(sessionId);
+        if (retrievedUser != null && id != null) {
+            Optional<User> providedUser = userRepository.findById(id);
+            if (providedUser.isPresent() && retrievedUser.equals(providedUser.get())) {
+                return HTTPResponseBuilder.ok("Session is valid.");
+            } else {
+                return HTTPResponseBuilder.badRequest("Invalid credentials.");
+            }
+        }
+        return HTTPResponseBuilder.badRequest("Credentials not found.");
+
     }
 
     /**
      * LOGOUT
      **/
-    /* For logging a user out: receives sessionId, calls sessionInvalidated in Authentication Config which sets the
-    sessionId to null; resets the cookie and returns logout successful;
-     */
-    //TODO: For this method to fully work to clear the cookie, we have to be running localhost on https, need to put cert in place
-    //TODO:Once we have the front end call to /secure working, refactor to also take in userId in addition to sessionId,
-    // update isValidSession to use same validation methods so we can use that in the /secure as well,
-    // and then proceed with  executing the logic to expire the cookie as it exists
+    /*NOTE: For MVP, this is a known issue: to expire and truly clear the cookie from the browser, we have to be running
+    the application on https:// not http://, which requires an SSL certificate.
+    Prior to pushing to a production environment, for this security method to fully work, we would run on https,
+    retest to validate, and run the future dev, staging and production environments on https */
     public ResponseEntity<String> logoutUser(String sessionId) {
-        boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
-        if (sessionValidated) {
-            //if the sessionId is a valid session we will then call the invalidate session method,
-            // which changes the sessionId to null; and the cookie is reset and the message logout successful is returned
-            authenticationConfig.invalidateSession(sessionId);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; HttpOnly; SameSite=None; Secure");
-            return HTTPResponseBuilder.ok("Logout successful", headers);
-    } else {
-            // if the sessionID is not invalidated (it was already null or empty) then the logout fails
-            return HTTPResponseBuilder.internalServerError("Logout failed");
+        if (sessionId != null) {
+            boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
+            System.out.println(sessionValidated);
+            if (sessionValidated) {
+                //if sessionId is valid, calls this method, which changes the sessionId to null in the database,
+                // which is important for our isAuthenticated method in the front end, which checks if a user is logged in and grants or restricts access to secure pages accordingly;
+                authenticationConfig.invalidateSession(sessionId);
+                HttpHeaders headers = new HttpHeaders();
+                //            sets the cookie in the browser to an empty value, expires it using max-age=0 and returns logout successful;
+                headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; HttpOnly; SameSite=None; Secure");
+                return HTTPResponseBuilder.ok("Logout successful", headers);
+            }
+        }
+        //occurs if sessionId was null or if sessionId was empty/had a value that didn't match a user in the database;
+        return HTTPResponseBuilder.badRequest("Unable to authenticate session.");
     }
-}
-
 }

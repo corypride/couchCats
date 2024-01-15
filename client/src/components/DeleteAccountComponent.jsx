@@ -8,8 +8,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// TODO after implementing Redux: this deletes user from database but doesn't seem to be deleting sessionID cookie from browser - is this bad?
-
 // TODO after implementing Redux: do I also need to update user context or headersObj through UserManagement?
 
 const DeleteAccountComponent = ({ headersObj }) => {
@@ -37,7 +35,6 @@ const DeleteAccountComponent = ({ headersObj }) => {
             .catch((error) => {
                 console.error("Error while calling end: ", error);
             });
-            handleClose();
     };
 
     return (
