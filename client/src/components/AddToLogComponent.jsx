@@ -19,22 +19,8 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
     // TODO: how to pass user rating value into movieDataPOST?
     // TODO: get rid of hard-coded user rating
 
-    const movieDataPOST = {
-        userId: userInfo.id,
-        movie: {
-          id: movie.id,
-          title: movie.title,
-          year: movie.year,
-          description: movie.description,
-          director: movie.director,
-          cast: movie.cast,
-          rating: movie.rating,
-          poster: movie.poster
-        },
-        userRating: 5
-      };
-
     const [open, setOpen] = React.useState(false);
+    const [rating, setRating] = useState(0);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -44,7 +30,21 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
         setOpen(false);
     };
 
-    const addToLog = () => {
+    const addToLog = (userRating) => {
+        const movieDataPOST = {
+            userId: userInfo.id,
+            movie: {
+              id: movie.id,
+              title: movie.title,
+              year: movie.year,
+              description: movie.description,
+              director: movie.director,
+              cast: movie.cast,
+              rating: movie.rating,
+              poster: movie.poster
+            },
+            userRating: userRating
+          };
         databaseCall.post(logUrl, movieDataPOST)
             .then((response) => {
                 console.log("Response from back end: ", response);
@@ -83,7 +83,11 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
-                <Rating name="read-only" value="5" readOnly />
+                <Rating
+                    name="rating"
+                    value={rating} // TODO: check this
+                    onChange={addToLog(rating)}
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={addToLog}>Add to Log</Button>
