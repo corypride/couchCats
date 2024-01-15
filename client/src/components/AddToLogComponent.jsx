@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import userContext from "../utils/userContext";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import Rating from '@mui/material/Rating';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -17,27 +18,18 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
 
     // TODO: how to pass user rating value into movieDataPOST?
     // TODO: get rid of hard-coded user rating
-    // TODO: get rid of hard-coded release year
 
     const movieDataPOST = {
         userId: userInfo.id,
         movie: {
           id: movie.id,
           title: movie.title,
-        //   year: 2024,
-        //   year: parseInt(movie.year.slice(0,4)),
           year: movie.year,
-          description: movie.overview,
-          //TODO: need to change directors into string if there are multiple
-        //   director: director[0].name,
+          description: movie.description,
           director: movie.director,
-          //TODO: need to change cast names into string
           cast: movie.cast,
-        //   cast: topCast[0].name,
-        //   rating: movie.vote_average,
           rating: movie.rating,
           poster: movie.poster
-        //   poster: movie.poster_path
         },
         userRating: 5
       };
@@ -91,6 +83,7 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
                 </DialogContentText>
             </DialogContent>
             <DialogContent>
+                <Rating name="read-only" value="5" readOnly />
             </DialogContent>
             <DialogActions>
                 <Button onClick={addToLog}>Add to Log</Button>
