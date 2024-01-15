@@ -7,15 +7,18 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid
+    Grid,
+    Rating
 } from "@mui/material";
 import userContext from "../utils/userContext";
+import RatingComponent from "./RatingComponent";
+import AddToLogComponent from "./AddToLogComponent";
+import DeleteFromLogComponent from "./DeleteFromLogComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 import WatchListButton from "./WatchListButton";
-import RatingComponent from "./RatingComponent";
 
 function ProfileComponent() {
-    const { userInfo, userWatchList } = useContext(userContext);
+    const { userInfo, userWatchList, userMovieLog } = useContext(userContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,6 +31,10 @@ function ProfileComponent() {
     
     const isWatchList = () => {
         return userWatchList?.length > 0
+    }
+
+    const isMovieLog = () => {
+        return userMovieLog?.length > 0
     }
 
     //     // const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
@@ -103,6 +110,11 @@ function ProfileComponent() {
                                     <Button size="small">Watch</Button>
                                     {/* <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button> */}
                                     <WatchListButton movie={movie}/>
+                                </CardActions>
+                                <CardActions>
+                                    <AddToLogComponent 
+                                        movie = {movie}
+                                    />
                                 </CardActions>
                             </Card>
                         </Grid>

@@ -1,6 +1,5 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useContext, useState } from "react";
+import userContext from "../utils/userContext";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,11 +7,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// TODO after implementing Redux: do I also need to update user context or headersObj through UserManagement?
+// TODO: make it look like Merve's 'delete' button
 
-const DeleteAccountComponent = ({ headersObj }) => {
-    const deleteUrl = "http://localhost:8080/user";
-    const navigate = useNavigate();
+// TODO: how do I refresh the movie log info on the page once item has been deleted?
+
+const DeleteFromLogComponent = ({ movie }) => {
+    const { userInfo, databaseCall, setRefetchDb, refetchDb } = useContext(userContext);
+    const deleteUrl = "http://localhost:8080/log";
+
+    const deletePayload = {
+        userId: userInfo.id,
+        movieId: movie.id
+    }
 
     const [open, setOpen] = React.useState(false);
 
@@ -20,33 +26,35 @@ const DeleteAccountComponent = ({ headersObj }) => {
         setOpen(true);
     };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-    const deleteAccount = () => {
-        //include the withCredentials: true to ensure that the Cookie is passed with the headers if present
-        console.log("Headers Object: ", headersObj);
-        axios.delete(deleteUrl, { headers: headersObj, withCredentials: true })
+    const deleteFromLog = () => {
+        databaseCall.delete(deleteUrl, {
+            data: deletePayload
+          })
             .then((response) => {
                 console.log("Response from back end: ", response);
-                navigate('/');
+                handleClose();
             })
             .catch((error) => {
-                console.error("Error while calling end: ", error);
+                console.error("Error while calling back end: ", error);
+                // TODO: display error message to user? can I display this in the dialog?
+                handleClose();
             });
-            handleClose();
+            setRefetchDb(!refetchDb);
     };
 
     return (
         <React.Fragment>
             <Button
-            //calls function above on button click
+            size="small"
             onClick={handleClickOpen}
             variant="contained"
-            color="error"
+            color="attention"
             >
-                Delete Account
+                Delete
             </Button>
 
             <Dialog
@@ -56,15 +64,15 @@ const DeleteAccountComponent = ({ headersObj }) => {
                 aria-describedby="alert-dialog-description"
             >
             <DialogTitle id="alert-dialog-title" align="left">
-                {"Are you sure you want to delete your account?"}
+                {"Are you sure?"}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description" align="left">
-                    All data associated with your account will be deleted. This action cannot be undone.
+                    {movie.title} will be permanently deleted from your log.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={deleteAccount}>Delete Account</Button>
+                <Button onClick={deleteFromLog}>Delete</Button>
                 <Button onClick={handleClose} autoFocus>
                     Cancel
                 </Button>
@@ -74,4 +82,4 @@ const DeleteAccountComponent = ({ headersObj }) => {
     );
 }
 
-export default DeleteAccountComponent;
+export default DeleteFromLogComponent;
