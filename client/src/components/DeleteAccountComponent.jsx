@@ -35,7 +35,6 @@ const DeleteAccountComponent = ({ headersObj }) => {
             .catch((error) => {
                 console.error("Error while calling end: ", error);
             });
-            handleClose();
     };
 
     return (
