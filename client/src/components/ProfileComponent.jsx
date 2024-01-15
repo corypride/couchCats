@@ -12,12 +12,9 @@ import {
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 import WatchListButton from "./WatchListButton";
-//TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
-    //TODO: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton ({ movie, director, topCast })
     const { userInfo, userWatchList } = useContext(userContext);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,22 +29,21 @@ function ProfileComponent() {
         return userWatchList?.length > 0
     }
 
-    const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
-        console.log("delete a movie from watch list handle called")
-        setTimeout(() => {
-        }, 2000)
+    //     // const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
 
-        const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
-
-        const headersObj = {
-            "Content-Type": "application/json"
-        }
-
-        const deletePayload = {
-            "userId": userInfo.id,
-            "movieId": movie.id
-        }
-    }
+    //Tested commenting this out, and using only the Watchlist button, it works to remove the movie both from the front end and from the user_watchlist table in the database so I think this can be deleted.
+    // const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
+    //     console.log("delete a movie from watch list handle called")
+    //     setTimeout(() => {
+    //     }, 2000)
+    //     const headersObj = {
+    //         "Content-Type": "application/json"
+    //     }
+    //     const deletePayload = {
+    //         "userId": userInfo.id,
+    //         "movieId": movie.id
+    //     }
+    // }
 
     return (
         <Grid container spacing={2}>
@@ -80,7 +76,6 @@ function ProfileComponent() {
                 </Typography>
             </Grid>
             {isWatchList() ? (
-                // {/*TODO: Merve, review this to ensure it is set up to pass the correct data as props into WatchListButton*/}
                 // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
                 <>
                     {userWatchList.map((movie, index) => ( //loop for watch list movies 
@@ -105,16 +100,8 @@ function ProfileComponent() {
                                 </CardContent>
                                 <CardActions>
                                     <Button size="small">Watch</Button>
-                                    <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                    {/* <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button> */}
                                     <WatchListButton movie={movie}/>
-                                            {/* TODO: Merve, Add the following code here
-                                    TODO: Merve, after other TODO's are complete, test to make sure it is working
-                                    // <WatchListButton
-                                    //     movie={movie}
-                                    //     director={movie.director} 
-                                    //     topCast={movie.topCast} 
-                                    // />
-                                    TODO: Merve, Add styling to this button so it's not so wide*/}
                                 </CardActions>
                             </Card>
                         </Grid>

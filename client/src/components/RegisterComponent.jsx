@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 function RegisterComponent() {
-  
+  const [failMessage, setFailMessage] = useState(null);
   const navigate = useNavigate();
 
 
@@ -45,32 +46,25 @@ function RegisterComponent() {
   .catch((error) => {
     console.error("error while backend calling ", error);
 
-    // Note from Erin: Added this code to handle the HTTP Response that the server sends
     if (error.response) {
-      //The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
+    // The request was made, server responded with a status code outside of 2xx
       console.log("Error data:", error.response.data);
       console.log("Error status:", error.response.status);
       console.log("Error headers:", error.response.headers);
 
       // Display the error message to the user
-      alert("Error: " + error.response.data);
+      setFailMessage(error.response.data);
   } else if (error.request) {
       // The request was made but no response was received
       console.log("Error request:", error.request);
+      setFailMessage("Registration Failed: Something went wrong, please try again");
   } else {
       // Something happened in setting up the request that triggered an Error
       console.log("Error message:", error.message);
+      setFailMessage("Registration Failed: Something went wrong, please try again");
   }
 });
-
-
-
-
-
-  };
-
-
+};
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -122,6 +116,16 @@ const validationSchema = Yup.object().shape({
             >
               Register!
             </Typography>
+              {/* Displays fail message if/when it exists to let the user know why registration didn't work */}
+              {failMessage && 
+                (<Typography 
+                variant="standard" 
+                color="attention.main"
+                sx={{ marginTop: "1.5rem" }}
+                > 
+                  {failMessage}
+                </Typography>
+              )}
             <Field
               as={TextField}
               margin="normal"
