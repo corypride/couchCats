@@ -22,28 +22,23 @@ const WatchListButton = ({ movie, director, topCast }) => {
   }, [userWatchList])
 
   async function handleWatchList() {
-    
-    const dataDelete = {
-      userId: userInfo.id,
-      movieId: movie.id
-    }
 
     // if movie is selected(in userWatchList), POST. Else, Delete.
     if(!selected) {
+      const movieDataPOST = {
+        userId: userInfo.id,
+        movie: {
+          id: movie.id,
+          title: movie.title,
+          year: parseInt(movie.release_date.slice(0,4)),
+          description: movie.overview,
+          director: director[0].name,
+          cast: topCast[0].name,
+          rating: movie.vote_average,
+          poster: movie.poster_path
+        }
+      };
       try {
-        const movieDataPOST = {
-          userId: userInfo.id,
-          movie: {
-            id: movie.id,
-            title: movie.title,
-            year: parseInt(movie.release_date.slice(0,4)),
-            description: movie.overview,
-            director: director[0].name,
-            cast: topCast[0].name,
-            rating: movie.vote_average,
-            poster: movie.poster_path
-          }
-        };
         const response = await databaseCall.post('/watchlist/save', movieDataPOST);
         console.log('Response:', response.data);
         setSelected(true);
@@ -63,6 +58,10 @@ const WatchListButton = ({ movie, director, topCast }) => {
       }
     } else {
       try {
+        const dataDelete = {
+          userId: userInfo.id,
+          movieId: movie.id
+        }
           const response = await databaseCall.delete('/watchlist', {
             data: dataDelete
           });
