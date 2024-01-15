@@ -7,7 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// TODO make it look like Merve's 'delete' button
+// TODO: make it look like Merve's 'delete' button
+
+// TODO: how do I refresh the movie log info on the page once item has been deleted?
 
 const DeleteFromLogComponent = ({ movie }) => {
     const { userInfo, databaseCall } = useContext(userContext);
@@ -67,8 +69,6 @@ const DeleteFromLogComponent = ({ movie }) => {
                 <DialogContentText id="alert-dialog-description" align="left">
                     {movie.title} will be permanently deleted from your log.
                 </DialogContentText>
-            </DialogContent>
-            <DialogContent>
             </DialogContent>
             <DialogActions>
                 <Button onClick={deleteFromLog}>Delete</Button>

@@ -39,14 +39,6 @@ function ProfileComponent() {
         return userMovieLog?.length > 0
     }
 
-    // TODO: remove after testing
-    // if (isMovieLog) {
-    //     console.log("user movie log: " + JSON.stringify(userMovieLog));
-    //     console.log("user movie log 0: " + JSON.stringify(userMovieLog[0]));
-    //     console.log("movie: " + userMovieLog[0].movie);
-    //     console.log("movie title: " + userMovieLog[0].movie.title);
-    // }
-
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
         console.log("delete a movie from watch list handle called")
         setTimeout(() => {
@@ -159,8 +151,6 @@ function ProfileComponent() {
                 </Typography>
             </Grid>
             {isMovieLog ? (
-    // {/*TODO: Merve, review this to ensure it is set up to pass the correct data as props into WatchListButton*/}
-    // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
     <>
         {userMovieLog.map((entry, index) => ( //loop for logged movies 
             <Grid key={index} item xs={6} md={3}>
@@ -186,7 +176,7 @@ function ProfileComponent() {
                             userRating = {entry.userRating}
                         />
                         <Typography variant="body2" color="text.secondary" textAlign={"left"}>
-                            Date added: {entry.dateAdded}
+                            Date added: {entry.dateAdded.slice(0,10)}
                         </Typography>
                     </CardContent>
                     <CardActions>
