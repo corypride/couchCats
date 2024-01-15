@@ -58,26 +58,12 @@ public class UserController {
     public ResponseEntity<String> secureGetEndpoint(
             @PathVariable Integer id,
             @CookieValue(name = "sessionId", required = false) String sessionId) {
-        User retrievedUser = userRepository.findBySessionId(sessionId);
-        if (retrievedUser != null && id != null) {
-            Optional<User> providedUser = userRepository.findById(id);
-            if (providedUser.isPresent() && retrievedUser.equals(providedUser.get())) {
-                return HTTPResponseBuilder.ok("Session is valid.");
-            } else {
-                return HTTPResponseBuilder.badRequest("Invalid credentials.");
-            }
-        }
-        return HTTPResponseBuilder.badRequest("Credentials not found.");
-
+        return userService.autheticateSession(id, sessionId);
     }
 
     @PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> logoutUser(@CookieValue(name = "sessionId", required = false) String sessionId) {
-        if (sessionId == null || sessionId.isEmpty()) {
-            return HTTPResponseBuilder.badRequest("Invalid session ID");
-        } else {
             return userService.logoutUser(sessionId);
-        }
     }
     @DeleteMapping
     @Transactional
@@ -105,8 +91,7 @@ public class UserController {
             userRepository.save(user);
             userService.logoutUser(sessionId);
             userRepository.deleteById(id);
-            //added this to ensure we also session and expire the cookie in the browser as well within the response,
-            // note until we run on HTTPS, it will not remove entirely, still captured in Application tab in dev tools
+            //From Erin: ensures we also expire the cookie in the browser as well within the response,
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; HttpOnly; SameSite=None; Secure");
             return HTTPResponseBuilder.ok("The account associated with email address " + email + " was deleted.", headers);

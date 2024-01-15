@@ -122,8 +122,8 @@ const validationSchema = Yup.object().shape({
               {failMessage && 
                 (<Typography 
                 variant="standard" 
-                color="attention.main" //TODO: Eric, I tried to use this set in theme.jsx for the error message but it's not displaying for some reason. Can you take a look? It should be red.
-                sx={{ marginTop: "30rem" }}
+                color="attention.main" 
+                sx={{ marginTop: "1rem" }}
                 > 
                   {failMessage}
                 </Typography>

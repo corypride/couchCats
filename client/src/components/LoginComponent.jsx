@@ -45,7 +45,7 @@ const LoginComponent = () => {
                     lastName: response.data.lastName,
                     email: response.data.email
                 });
-                // TODO redirect to the profile page instead of home (once ready)
+
                 if(response?.data) {
                 }
                 navigate('/profile');
@@ -115,7 +115,7 @@ const LoginComponent = () => {
                         {failMessage && (
                             <Typography 
                             variant="standard" 
-                            color="attention" //TODO: Eric I tried to use this set in theme.jsx for the error message but it's not displaying for some reason. Can you take a look? It should be red.
+                            color="attention.main" 
                             sx={{ marginTop: "1rem" }}>
                                 {failMessage}
                             </Typography>

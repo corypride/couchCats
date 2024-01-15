@@ -11,11 +11,10 @@ import {
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
-//TODO: Merve, Import WatchListButton
+// import WatchListButton from "./WatchListButton";
 
 function ProfileComponent() {
-    //TODO: UPDATE: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton 
-    //({ handleWatchList, director, topCast, services, castCrew })
+    //TODO: Outdated, see any notes from Eric regarding WatchListButton 
     const { userInfo, userWatchList } = useContext(userContext);
 
     const navigate = useNavigate();
@@ -80,7 +79,6 @@ function ProfileComponent() {
                 </Typography>
             </Grid>
             {isWatchList() ? (
-                // {/*TODO: UPDATE Merve, I do not think you will need to make any updates here afterall for the WatchListButton*/}
                 // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
                 <>
                     {userWatchList.map((movie, index) => ( //loop for watch list movies 
@@ -106,17 +104,8 @@ function ProfileComponent() {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                    {/* TODO: UPDATED: Merve, after other TODO's are complete, test to make sure it is working
-                                     {userInfo.isAuthenticated && <WatchListButton   
-                                            movie={movie}
-                                            handleWatchList={() => {
-                                                handleWatchList(services, castCrew);
-                                              }}
-                                            director={director}
-                                            topCast={topCast} 
-                                            services={services}
-                                            castCrew={castCrew} />}
-                                    TODO: Merve, Add styling to this button so it's not so wide*/}
+                                    {/* <WatchListButton movie={movie}/> */}
+                                            {/* TODO: Merve, outdated, see any notes from Eric regaridng WatchList Button*/}
                                 </CardActions>
                             </Card>
                         </Grid>

@@ -111,6 +111,7 @@ public class User {
     }
 
 //    TODO: fix or remove this (by adding to Service class?) - can't access movieRepository here
+//     Yumi - since Watchlist is working, I think this can all be deleted? (-EM)
 //    public void addToWatchlistById(int id) {
 //        Optional<Movie> result = movieRepository.findById(id);
 //        Movie movie = result.get();

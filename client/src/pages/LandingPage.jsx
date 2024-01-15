@@ -1,20 +1,16 @@
 import axios from "axios";
 import { Box, Button, List, ListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import tmdb_main from "../assets/tmdb_main.svg";
-import WatchListButton from "../components/WatchListButton";
-import userContext from "../utils/userContext";
 
-//props for WatchListButton
-const LandingPage = ({ handleWatchList, director, topCast, services, castCrew }) => {
+
+const LandingPage = () => {
     //Allows button navigation
     const navigate = useNavigate();
 
     //for top movie requests
     const [topMovies, setTopMovies] = useState();
-    const { userInfo } = useContext(userContext)
-
 
     //discover why this is fetching 6 times per page load
 
@@ -47,6 +43,7 @@ const LandingPage = ({ handleWatchList, director, topCast, services, castCrew })
                     fontSize: "7rem",
                     marginTop: "5rem",
                     marginBottom: "0",
+                    color: "primary.main"
                 }}>CouchCat</Typography>
 
                 <Typography 
@@ -54,32 +51,35 @@ const LandingPage = ({ handleWatchList, director, topCast, services, castCrew })
                 sx={{
                     fontSize: "1.5rem",
                     marginTop: "0",
-                    marginBottom: "1rem"
+                    marginBottom: "1rem",
+                    color: "primary.main"
                 }}
                 >Spend your time watching.</Typography>
 
                 <Button 
-                    variant="outlined" 
+                    // variant="outlined" 
                     onClick={() => navigate("/search")}
                     sx={{
+                        boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.5)",
                         "&:hover": {
                             color: "accent.main",
-                            //connect to theme accent.main - Eric saw this comment, is this still a TODO or done?
-                            border: "1px solid #ff9610"
+                            //connect to theme accent.main
+                            // border: "1px solid #ff9610"
                             }
                     }}>Find your Movie!</Button>
             </Box>
             {/* Top Movie List */}
             <Box
             sx={{
-                marginTop: "10rem",
+                marginTop: "15rem",
                 marginBottom: "10rem"
             }}>
                 <Typography component="h2" 
                 sx={{
                     fontSize: "3rem",
                     marginTop: "5rem",
-                    marginBottom: "0"
+                    marginBottom: "0",
+                    color: "accent.main"
                 }}>Top Movies</Typography>
                     <List 
                     sx={{
@@ -94,9 +94,10 @@ const LandingPage = ({ handleWatchList, director, topCast, services, castCrew })
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    fontSize: "1.0rem", //From Erin - Increased this as it didn't appear to control anything except when I added the Watchlist Button, it made "Add" 8px
+                                    fontSize: "0.5rem",
                                     width: "20rem",
-                                    gap: "0.25rem"
+                                    gap: "0.25rem",
+                                    color: 'primary.main'
                                 }}>
                                     <Box 
                                     component="img" 
@@ -128,16 +129,6 @@ const LandingPage = ({ handleWatchList, director, topCast, services, castCrew })
                                         sx={{
                                             fontSize: "1.5rem"
                                         }}>{String(movie.vote_average).slice(0,3)}</Typography>
-                                        {/*Display WatchListButton*/}
-                                        {userInfo.isAuthenticated && <WatchListButton   
-                                            movie={movie}
-                                            handleWatchList={() => {
-                                                handleWatchList(services, castCrew);
-                                              }}
-                                            director={director}
-                                            topCast={topCast} 
-                                            services={services}
-                                            castCrew={castCrew} />}
                                     </Box>
                                     {/* TODO: get streaming services? */}
                                 </ListItem>
