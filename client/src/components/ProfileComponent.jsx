@@ -8,7 +8,7 @@ import {
     CardContent,
     CardActions,
     Grid,
-    Rating
+    Rating,
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
@@ -28,7 +28,7 @@ function ProfileComponent() {
         if (userWatchList) {
         }
     });
-    
+
     const isWatchList = () => {
         return userWatchList?.length > 0
     }
@@ -78,6 +78,7 @@ function ProfileComponent() {
             <Grid item xs={12}>
                 <Typography // title of the watch list
                     variant="h4"
+                    color="primary"
                     padding={2}
                 >
                     Watch List
@@ -93,7 +94,7 @@ function ProfileComponent() {
                                     component={"img"}
                                     image={`https://image.tmdb.org/t/p/w500${movie.poster}`}
                                     title={movie.title}
-                                    sx={{ height: 350, objectFit:'fill', padding: "1, 1" }}
+                                    sx={{ height: 350, objectFit: 'fill', padding: "1, 1" }}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" textAlign={"left"}>
@@ -106,17 +107,15 @@ function ProfileComponent() {
                                         {movie.description}
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
-                                    {/* <Button size="small">Watch</Button> */}
-                                    <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
-                                            {/* TODO: Merve, Add the following code here
-                                    TODO: Merve, after other TODO's are complete, test to make sure it is working
-                                    <WatchListButton
-                                        movie={movie}
-                                        director={movie.director} 
-                                        topCast={movie.topCast} 
-                                    />
-                                    TODO: Merve, Add styling to this button so it's not so wide*/}
+                                <CardActions >
+                                    {/* as an example if we going to have this functionality
+                                    <Button size="small">Watch</Button>
+                                     */}
+                                        <WatchListButton
+                                            movie={movie}
+                                            director={movie.director}
+                                            topCast={movie.topCast}
+                                        />
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -126,74 +125,78 @@ function ProfileComponent() {
             ) : (
                 <>
                     <Grid item xs={12}>
-                        <Typography variant="h6">
+                        <Typography color="primary" variant="h6">
                             There isn't any movie on your watch list
                         </Typography>
                     </Grid>
                 </>
-            )}
+            )
+            }
 
             <Grid item xs={12}>
                 <Typography // title of the movie log
                     variant="h4"
+                    color="primary"
                     padding={2}
                 >
                     Movie Log
                 </Typography>
             </Grid>
-    {isMovieLog() ? (
-    <>
-        {userMovieLog.map((entry, index) => ( //loop for logged movies 
-            <Grid key={index} item xs={6} md={3}>
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                        component={"img"}
-                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
-                        title={entry.movie.title}
-                        sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" textAlign={"left"}>
-                            {entry.movie.title}
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
-                            {entry.movie.director}
-                        </Typography>
-                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
-                            {entry.movie.description}
-                        </Typography>
-                        <RatingComponent 
-                            movieId = {entry.movie.id}
-                            userRating = {entry.userRating}
-                        />
-                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
-                            Date added: {entry.dateAdded.slice(0,10)}
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <DeleteFromLogComponent 
-                            movie = {entry.movie}
-                        />
-                    </CardActions>
-                </Card>
-            </Grid>
-        ))}
-    </>
+            {
+                isMovieLog() ? (
+                    <>
+                        {userMovieLog.map((entry, index) => ( //loop for logged movies 
+                            <Grid key={index} item xs={6} md={3}>
+                                <Card sx={{ maxWidth: 345 }}>
+                                    <CardMedia
+                                        component={"img"}
+                                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
+                                        title={entry.movie.title}
+                                        sx={{ height: 200, objectFit: 'fill', padding: "1, 1" }}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" textAlign={"left"}>
+                                            {entry.movie.title}
+                                        </Typography>
+                                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
+                                            {entry.movie.director}
+                                        </Typography>
+                                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
+                                            {entry.movie.description}
+                                        </Typography>
+                                        <RatingComponent
+                                            movieId={entry.movie.id}
+                                            userRating={entry.userRating}
+                                        />
+                                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                                            Date added: {entry.dateAdded.slice(0, 10)}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <DeleteFromLogComponent
+                                            movie={entry.movie}
+                                        />
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </>
 
-) : (
-    <>
-        <Grid item xs={12}>
-            <Typography variant="h6">
-                Your movie log is currently empty
-            </Typography>
-        </Grid>
-    </>
-)}
+                ) : (
+                    <>
+                        <Grid item xs={12}>
+                            <Typography color="primary" variant="h6">
+                                Your movie log is currently empty
+                            </Typography>
+                        </Grid>
+                    </>
+                )
+            }
 
-<           Grid item xs={12}>
+            <           Grid item xs={12}>
                 <DeleteAccountComponent />
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
 
