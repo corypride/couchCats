@@ -12,12 +12,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 // TODO: how do I refresh the movie log info on the page once item has been deleted?
 
-const AddToLogComponent = ({ movie, director, topCast }) => {
+// TODO: how to display error message if user tries to submit without a star rating OR there's a login-related problem?
+
+const AddToLogComponent = ({ movie }) => {
     const { userInfo, databaseCall } = useContext(userContext);
     const logUrl = "http://localhost:8080/log/save";
-
-    // TODO: how to pass user rating value into movieDataPOST?
-    // TODO: get rid of hard-coded user rating
 
     const [open, setOpen] = React.useState(false);
     const [rating, setRating] = useState(0);
@@ -63,9 +62,9 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
             size="small"
             onClick={handleClickOpen}
             variant="contained"
-            color="attention"
+            color="primary"
             >
-                Log and Rate
+                Rate and Log
             </Button>
 
             <Dialog
@@ -85,7 +84,7 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
             <DialogContent>
                 <Rating
                     name="rating"
-                    value={rating} // TODO: check this
+                    value={rating}
                     onChange={(event, newValue) => {
                         setRating(newValue);
                     }}

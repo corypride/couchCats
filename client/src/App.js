@@ -10,7 +10,6 @@ import SingleMovie from "./pages/SingleMovie.jsx";
 import userContext from "./utils/userContext.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
-import TestMovieLog from "./pages/TestMovieLog.jsx"; //TODO: remove after testing
 
 function App() {
 
@@ -121,7 +120,6 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
-          <Route path="movielog" element={<TestMovieLog />} />
           <Route element={<ProtectedRoutes />}>
           <Route path="profile" element={<ProfilePage />} />
           </Route>

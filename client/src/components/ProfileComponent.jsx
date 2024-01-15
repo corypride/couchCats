@@ -133,8 +133,6 @@ function ProfileComponent() {
                                 <CardActions>
                                     <AddToLogComponent 
                                         movie = {movie}
-                                        director={movie.director} 
-                                        topCast={movie.cast}
                                     />
                                 </CardActions>
                             </Card>
