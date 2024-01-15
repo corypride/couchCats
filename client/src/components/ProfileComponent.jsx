@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
-// import WatchListButton from "./WatchListButton";
+import WatchListButton from "./WatchListButton";
+//TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
     //TODO: Outdated, see any notes from Eric regarding WatchListButton 

@@ -46,7 +46,7 @@ const NavBar = () => {
           {isMatch ? (
             <>
               <PetsIcon color="primary" sx={{marginRight:1, paddingBottom:1}}/>
-              <Typography color="primary">Couch Cats</Typography>
+              <Typography color="primary.main">Couch Cats</Typography>
               <DrawerComp />
             </>
           ) : (

@@ -1,9 +1,8 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { List, ListItem, Box, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
-import userContext from "../utils/userContext";
 import WatchListButton from './WatchListButton';
 // import streamingServices from '../assets/streamingServices';
 
@@ -16,7 +15,6 @@ const MovieDisplay = (props) => {
   const handleWatchList = props.handleWatchList
 
   const { userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
-
 
   //grabs cast and service from TMDB
   useEffect(() => {
