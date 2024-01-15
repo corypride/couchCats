@@ -12,6 +12,7 @@ import {
 import userContext from "../utils/userContext";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 import WatchListButton from "./WatchListButton";
+import RatingComponent from "./RatingComponent";
 
 function ProfileComponent() {
     const { userInfo, userWatchList } = useContext(userContext);
