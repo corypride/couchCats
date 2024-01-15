@@ -14,6 +14,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 function App() {
 
   const [userWatchList, setUserWatchList] = useState([]);
+  const [userMovieLog, setUserMovieLog] = useState([]);
   const [userInfo, setUserInfo] = useState({
     isAuthenticated: false,
     id: null,
@@ -38,7 +39,6 @@ function App() {
   const sessionCheck = async (config) => {
     try {
       const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
-      console.log("response from test => ", response);
       return config;
     } catch (error) {
       setUserInfo({
@@ -82,9 +82,35 @@ function App() {
     }
   }, [userInfo, refetchDb]);
 
+  // calls userMovieLog from database
+  const getUserMovieLog = async (userInfo) => {
+    try {
+      const response = await databaseCall.get(`log/${userInfo.id}`);
+      const data = await response.data;
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  // sets userMovieLog
+  useEffect(() => {
+    if(userInfo.isAuthenticated) {
+      getUserMovieLog(userInfo)
+      .then(data => {
+        setUserMovieLog(data)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+  }, [userInfo, refetchDb]);
+
   return (
     <div className="App">
-      <userContext.Provider value={{ userWatchList, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall, sessionCheck }}>
+      <userContext.Provider value={{ userWatchList, userMovieLog, refetchDb, setRefetchDb, userInfo, setUserInfo, databaseCall, sessionCheck }}>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />

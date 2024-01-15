@@ -3,8 +3,8 @@ import { List, ListItem, Box, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
-import userContext from "../utils/userContext";
 import WatchListButton from './WatchListButton';
+import userContext from "../utils/userContext";
 // import streamingServices from '../assets/streamingServices';
 
 const MovieDisplay = (props) => {
@@ -13,9 +13,6 @@ const MovieDisplay = (props) => {
   const [castCrew, setCastCrew] = useState();
   const [director, setDirector] = useState();
   const [topCast, setTopCast] = useState();
-  const [selected, setSelected] = useState(false);
-
-  const movie = props.movie
   const handleWatchList = props.handleWatchList
 
   const { userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
@@ -53,7 +50,7 @@ const MovieDisplay = (props) => {
         key={props.movie.original_title}
         sx={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "center"
         }}>
           {/* movie poster and add button-left side*/}
           <Box component="div">
@@ -66,11 +63,11 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                  <WatchListButton   
+                  {userInfo.isAuthenticated && <WatchListButton
                       movie={props.movie}
                       handleWatchList={handleWatchList}
                       director={director}
-                      topCast={topCast} />
+                      topCast={topCast} />}
           </Box>
           {/* right side */}
           <Box 
@@ -93,7 +90,8 @@ const MovieDisplay = (props) => {
                     sx={{
                       alignSelf: "flex-start",
                       fontSize: "2.5rem",
-                      fontWeight: "bold"
+                      fontWeight: "bold",
+                      color: "primary.main"
                     }}
                     >{props.movie.original_title}</Typography>
                   <Typography
@@ -121,7 +119,8 @@ const MovieDisplay = (props) => {
                       }} />
                       <Typography
                       sx={{
-                          fontSize: "1.5rem"
+                          fontSize: "1.5rem",
+                          color: "primary.main"
                       }}>{String(props.movie.vote_average).slice(0,3)}</Typography>
                   </Box>
                 {/* director and top billed cast-middle */}
@@ -138,7 +137,8 @@ const MovieDisplay = (props) => {
                     }}>
                         <Typography
                         sx={{
-                          fontSize: "3rem"
+                          fontSize: "3rem",
+                          color: "primary.main"
                         }}>Director</Typography>
                         {director ? 
                           <>
@@ -160,7 +160,8 @@ const MovieDisplay = (props) => {
                     }}>
                         <Typography
                         sx={{
-                          fontSize: "3rem"
+                          fontSize: "3rem",
+                          color: "primary.main"
                         }}>Cast</Typography>
                         {topCast ? 
                           <>
@@ -190,7 +191,10 @@ const MovieDisplay = (props) => {
                       src={`https://image.tmdb.org/t/p/original/${service.logo_path}`} alt="stream logo" />
                   ))}
                   </Box>
-                  : "Not on Streaming...."}
+                  : <Typography
+                      sx={{
+                        color: "primary.main"
+                      }}>Not on Streaming...</Typography>}
           </Box>
         </ListItem>
       </List>
