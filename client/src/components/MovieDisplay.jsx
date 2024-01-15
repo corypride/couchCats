@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { List, ListItem, Box, Typography } from "@mui/material";
 import getCastCrew from "../utils/getCastCrew"
 import getServices from "../utils/getServices"
 import tmdb_main from "../assets/tmdb_main.svg";
+import userContext from "../utils/userContext";
 import WatchListButton from './WatchListButton';
 // import streamingServices from '../assets/streamingServices';
 
@@ -13,6 +14,9 @@ const MovieDisplay = (props) => {
   const [director, setDirector] = useState();
   const [topCast, setTopCast] = useState();
   const handleWatchList = props.handleWatchList
+
+  const { userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
+
 
   //grabs cast and service from TMDB
   useEffect(() => {
@@ -60,11 +64,11 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                  <WatchListButton   
+                  {userInfo.isAuthenticated && <WatchListButton   
                       movie={props.movie}
                       handleWatchList={handleWatchList}
                       director={director}
-                      topCast={topCast} />
+                      topCast={topCast} />}
           </Box>
           {/* right side */}
           <Box 

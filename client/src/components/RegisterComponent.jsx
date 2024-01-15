@@ -46,10 +46,8 @@ function RegisterComponent() {
   .catch((error) => {
     console.error("error while backend calling ", error);
 
-    // Note from Erin: Added this code to handle the HTTP Response that the server sends
     if (error.response) {
-      //The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
+    // The request was made, server responded with a status code outside of 2xx
       console.log("Error data:", error.response.data);
       console.log("Error status:", error.response.status);
       console.log("Error headers:", error.response.headers);
@@ -122,8 +120,8 @@ const validationSchema = Yup.object().shape({
               {failMessage && 
                 (<Typography 
                 variant="standard" 
-                color="attention.main" 
-                sx={{ marginTop: "1rem" }}
+                color="attention.main"
+                sx={{ marginTop: "1.5rem" }}
                 > 
                   {failMessage}
                 </Typography>
