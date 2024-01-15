@@ -89,7 +89,7 @@ function ProfileComponent() {
                                     component={"img"}
                                     image={`https://image.tmdb.org/t/p/w500${movie.poster}`}
                                     title={movie.title}
-                                    sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                                    sx={{ height: 350, objectFit:'fill', padding: "1, 1" }}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" textAlign={"left"}>
@@ -103,7 +103,7 @@ function ProfileComponent() {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">Watch</Button>
+                                    {/* <Button size="small">Watch</Button> */}
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
                                             {/* TODO: Merve, Add the following code here
                                     TODO: Merve, after other TODO's are complete, test to make sure it is working
