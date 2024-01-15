@@ -54,7 +54,7 @@ const LandingPage = () => {
                     marginBottom: "1rem",
                     color: "primary.main"
                 }}
-                >Spend your time watching.</Typography>
+                >Less time scrolling, more time watching.</Typography>
 
                 <Button 
                     // variant="outlined" 

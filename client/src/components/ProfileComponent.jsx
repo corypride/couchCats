@@ -7,16 +7,20 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid
+    Grid,
+    Rating
 } from "@mui/material";
 import userContext from "../utils/userContext";
+import RatingComponent from "./RatingComponent";
+import AddToLogComponent from "./AddToLogComponent";
+import DeleteFromLogComponent from "./DeleteFromLogComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
 import WatchListButton from "./WatchListButton";
 //TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
     //TODO: Merve, Add the necessary props to ProfileComponent to pass to WatchListButton ({ movie, director, topCast })
-    const { userInfo, userWatchList } = useContext(userContext);
+    const { userInfo, userWatchList, userMovieLog } = useContext(userContext);
 
     const navigate = useNavigate();
 
@@ -30,6 +34,10 @@ function ProfileComponent() {
     
     const isWatchList = () => {
         return userWatchList?.length > 0
+    }
+
+    const isMovieLog = () => {
+        return userMovieLog?.length > 0
     }
 
     const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
@@ -116,6 +124,11 @@ function ProfileComponent() {
                                     // />
                                     TODO: Merve, Add styling to this button so it's not so wide*/}
                                 </CardActions>
+                                <CardActions>
+                                    <AddToLogComponent 
+                                        movie = {movie}
+                                    />
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))}
@@ -132,8 +145,66 @@ function ProfileComponent() {
             )}
 
             <Grid item xs={12}>
+                <Typography // title of the movie log
+                    variant="h4"
+                    padding={2}
+                >
+                    Movie Log
+                </Typography>
+            </Grid>
+            {isMovieLog ? (
+    <>
+        {userMovieLog.map((entry, index) => ( //loop for logged movies 
+            <Grid key={index} item xs={6} md={3}>
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                        component={"img"}
+                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
+                        title={entry.movie.title}
+                        sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" textAlign={"left"}>
+                            {entry.movie.title}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
+                            {entry.movie.director}
+                        </Typography>
+                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
+                            {entry.movie.description}
+                        </Typography>
+                        <RatingComponent 
+                            movieId = {entry.movie.id}
+                            userRating = {entry.userRating}
+                        />
+                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                            Date added: {entry.dateAdded.slice(0,10)}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <DeleteFromLogComponent 
+                            movie = {entry.movie}
+                        />
+                    </CardActions>
+                </Card>
+            </Grid>
+        ))}
+    </>
+
+) : (
+    <>
+        <Grid item xs={12}>
+            <Typography variant="h6">
+                Your movie log is currently empty
+            </Typography>
+        </Grid>
+    </>
+)}
+
+<           Grid item xs={12}>
                 <DeleteAccountComponent />
             </Grid>
+            
         </Grid>
     );
 }

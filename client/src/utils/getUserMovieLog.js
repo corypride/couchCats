@@ -1,8 +1,8 @@
 import databaseCall from './databaseCall.js';
 
-const getWatchList = async (userInfo) => {
+const getUserMovieLog = async (userInfo) => {
     try {
-      const response = await databaseCall.get(`watchlist/${userInfo.id}`);
+      const response = await databaseCall.get(`log/${userInfo.id}`);
       const data = await response.data;
       console.log(data)
       return data; // flatrate is movies on subscription streaming
@@ -12,4 +12,4 @@ const getWatchList = async (userInfo) => {
     }
   };
   
-export default getWatchList;
+export default getUserMovieLog;

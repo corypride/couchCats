@@ -60,7 +60,7 @@ const MovieDisplay = (props) => {
                   component="img" 
                   src={`https://image.tmdb.org/t/p/w500${props.movie.poster_path}`} 
                   alt="movie poster" />
-                  <WatchListButton   
+                  <WatchlistButton   
                       movie={props.movie}
                       handleWatchList={handleWatchList}
                       director={director}
