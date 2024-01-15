@@ -120,6 +120,7 @@ public class UserService {
     public ResponseEntity<String> logoutUser(String sessionId) {
         if (sessionId != null) {
             boolean sessionValidated = authenticationConfig.isValidSession(sessionId);
+            System.out.println(sessionValidated);
             if (sessionValidated) {
                 //if sessionId is valid, calls this method, which changes the sessionId to null in the database,
                 // which is important for our isAuthenticated method in the front end, which checks if a user is logged in and grants or restricts access to secure pages accordingly;
@@ -128,12 +129,9 @@ public class UserService {
                 //            sets the cookie in the browser to an empty value, expires it using max-age=0 and returns logout successful;
                 headers.add(HttpHeaders.SET_COOKIE, "sessionId=; Max-Age=0; HttpOnly; SameSite=None; Secure");
                 return HTTPResponseBuilder.ok("Logout successful", headers);
-            } else {
-                //occurs if sessionId was empty or had a value that doesn't match a user in the database; should be rare
-                return HTTPResponseBuilder.badRequest("Unable to authenticate session.");
             }
         }
-        //occurs if sessionId was null
+        //occurs if sessionId was null or if sessionId was empty/had a value that didn't match a user in the database;
         return HTTPResponseBuilder.badRequest("Unable to authenticate session.");
     }
 }

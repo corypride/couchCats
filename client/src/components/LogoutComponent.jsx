@@ -26,12 +26,25 @@ const LogoutComponent = ({ headersObj }) => {
                     email: null
                 });
                 navigate('/login');
-                // Perform any additional actions after successful logout if/as needed 
-                //-- not sure if we'll need to add anything else here (i.e. if there is boolean or something Yumi establishes) so leaving a comment for us to revisit
             })
             .catch((error) => {
                 console.error("Error while backend calling ", error);
-            });
+
+                if (error.response) {
+                    //   very unlikely to happen because of everything we have in place, but as a precaution if somehow a sessionId was passed that didn't match the database, or was null
+                    //   this revokes access and resets the user's data, which to the end user, doesn't look any different if it's not a malicious attack but puts silent security in place in the event it is malicious
+                      setUserInfo({
+                        isAuthenticated: false,
+                        id: null,
+                        firstName: null,
+                        lastName: null,
+                        email: null
+                        });
+                  } else {
+                      // Something happened in setting up the request that triggered an Error
+                      console.log("Error message:", error.message);
+                  }
+                });
     };
 
     return (
