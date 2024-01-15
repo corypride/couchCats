@@ -78,7 +78,7 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
                     }
                 }}
                 onChange={handleChange}
-                {...params} label="Cast & Crew" />}
+                {...params} label="Enter a name..." />}
                />
         </Stack>
     )

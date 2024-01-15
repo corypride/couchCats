@@ -6,34 +6,44 @@ import StarIcon from '@mui/icons-material/Star';
 const WatchListButton = ({ movie, director, topCast }) => {
   const [selected, setSelected] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [movieDataPOST, setMovieDataPOST] = useState();
 
   const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
 
+  const checkSelected = () => {
+    if(userInfo.id)
+    if(userWatchList?.some((item)=> item.id === movie.id)) {
+      setSelected(true);
+    }
+  }
+
+  useEffect(() => {
+    checkSelected();
+  }, [userWatchList])
+
   async function handleWatchList() {
     
-    const movieDataPOST = {
-      userId: userInfo.id,
-      movie: {
-        id: movie.id,
-        title: movie.title,
-        year: parseInt(movie.release_date.slice(0,4)),
-        description: movie.overview,
-        director: director[0].name,
-        cast: topCast[0].name,
-        rating: movie.vote_average,
-        poster: movie.poster_path
-      }
-    };
-
     const dataDelete = {
       userId: userInfo.id,
       movieId: movie.id
     }
 
-
     // if movie is selected(in userWatchList), POST. Else, Delete.
     if(!selected) {
       try {
+        const movieDataPOST = {
+          userId: userInfo.id,
+          movie: {
+            id: movie.id,
+            title: movie.title,
+            year: parseInt(movie.release_date.slice(0,4)),
+            description: movie.overview,
+            director: director[0].name,
+            cast: topCast[0].name,
+            rating: movie.vote_average,
+            poster: movie.poster_path
+          }
+        };
         const response = await databaseCall.post('/watchlist/save', movieDataPOST);
         console.log('Response:', response.data);
         setSelected(true);
@@ -64,13 +74,6 @@ const WatchListButton = ({ movie, director, topCast }) => {
       }
     }
   }
-
-  useEffect(() => {
-      if(userInfo.id)
-        if(userWatchList?.some((item)=> item.id === movie.id)) {
-          setSelected(true);
-      }
-    }, [userWatchList, movie.id, userInfo.id])
    
       return (
         <ListItemButton

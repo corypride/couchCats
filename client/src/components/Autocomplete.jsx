@@ -20,7 +20,7 @@ const AutocompleteMUI = () => {
             const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchTerm}`);
             // console.log(response)
             const data = await response.json();
-            setSearchResults(data.results);
+            setSearchResults(data.results.slice(0, 6));
           }
         };
         handleSearch();
@@ -43,7 +43,8 @@ const AutocompleteMUI = () => {
             onChange={
               (event, value) => {
                 if(!value) {
-                  return
+                  setSearchResults([]);
+                  setSearchTerm("")
                 } else {
                   navigate(`/movie`, { state: { value } })
                 }

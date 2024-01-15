@@ -40,6 +40,7 @@ const FilterSearch = () => {
 
   const toggleButtonSx = {
     bgcolor: "primary.main",
+    padding: "0.4rem",
     "&:hover": {
       color: "accent.main",
       bgcolor: "primary.main",
@@ -184,6 +185,11 @@ const FilterSearch = () => {
                 >{service.name}</ToggleButton>
               ))}
             </ToggleButtonGroup>
+            <Typography 
+              variant="h4"
+              sx={{
+                color: "accent.main"
+              }}>Cast & Crew</Typography>
             <CastCrewSelect handleCastCrewChange={handleCastCrewChange}/>
         </form>
 {/* submit buttons */}
