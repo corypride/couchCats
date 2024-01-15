@@ -1,7 +1,3 @@
-.MuiButton-outlined {
-    color: white;
-}
-
 /* General Page/Background */
 html {
     min-height: 100%;
@@ -13,5 +9,4 @@ body {
     text-align: center;
     font-family: 'Exo 2', sans-serif;
     font-family: 'Poppins', sans-serif;
-    color: #642B6B;
 }
