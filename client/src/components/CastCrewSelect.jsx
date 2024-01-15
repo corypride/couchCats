@@ -42,7 +42,6 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
                     setSearchTerm("")
                   } else {
                     handleCastCrewChange(value.id);
-                    console.log(value)
                   }
                 } 
               }
@@ -59,6 +58,7 @@ const CastCrewSelect = ({handleCastCrewChange}) => {
                       justifyContent: "space-between",
                     }}>
                         <Typography>{option.name}</Typography>
+                        <Typography>{option.known_for_department}</Typography>
                   </Box>
               );
             }}

@@ -38,7 +38,6 @@ function App() {
   const sessionCheck = async (config) => {
     try {
       const response = await axios.get(`http://localhost:8080/user/secure/${userInfo.id}`, { headers: headersObj, withCredentials: true });
-      console.log("response from test => ", response);
       return config;
     } catch (error) {
       setUserInfo({
