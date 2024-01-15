@@ -12,7 +12,6 @@ const getServices = async (id) => {
         },
       });
       const data = await response.data;
-      console.log(data.results)
       return data.results.US.flatrate; // flatrate is movies on subscription streaming
     } catch (error) {
       console.error(error);

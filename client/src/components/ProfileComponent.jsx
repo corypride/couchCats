@@ -15,6 +15,7 @@ import RatingComponent from "./RatingComponent";
 import AddToLogComponent from "./AddToLogComponent";
 import DeleteFromLogComponent from "./DeleteFromLogComponent";
 import DeleteAccountComponent from "./DeleteAccountComponent";
+import WatchListButton from "./WatchListButton";
 //TODO: Merve, Import WatchListButton
 
 function ProfileComponent() {
@@ -113,13 +114,14 @@ function ProfileComponent() {
                                 <CardActions>
                                     <Button size="small">Watch</Button>
                                     <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button>
+                                    <WatchListButton movie={movie}/>
                                             {/* TODO: Merve, Add the following code here
                                     TODO: Merve, after other TODO's are complete, test to make sure it is working
-                                    <WatchListButton
-                                        movie={movie}
-                                        director={movie.director} 
-                                        topCast={movie.topCast} 
-                                    />
+                                    // <WatchListButton
+                                    //     movie={movie}
+                                    //     director={movie.director} 
+                                    //     topCast={movie.topCast} 
+                                    // />
                                     TODO: Merve, Add styling to this button so it's not so wide*/}
                                 </CardActions>
                                 <CardActions>
