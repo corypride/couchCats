@@ -7,8 +7,7 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid,
-    Rating
+    Grid
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
@@ -150,7 +149,7 @@ function ProfileComponent() {
                     Movie Log
                 </Typography>
             </Grid>
-            {isMovieLog ? (
+    {isMovieLog() ? (
     <>
         {userMovieLog.map((entry, index) => ( //loop for logged movies 
             <Grid key={index} item xs={6} md={3}>
