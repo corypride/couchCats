@@ -3,6 +3,7 @@ import userContext from "../utils/userContext";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Rating from '@mui/material/Rating';
+import Switch from '@mui/material/Switch';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -19,6 +20,7 @@ const AddToLogComponent = ({ movie }) => {
     const logUrl = "http://localhost:8080/log/save";
 
     const [open, setOpen] = React.useState(false);
+    const [checked, setChecked] = React.useState(true);
     const [rating, setRating] = useState(0);
 
     const handleClickOpen = () => {
@@ -28,6 +30,16 @@ const AddToLogComponent = ({ movie }) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleChange = () => {
+        // switch boolean value of 'checked' every time switch is clicked
+        if (checked) {
+            setChecked(false);
+        } else {
+            setChecked(true);
+        }
+        // setChecked( checked ? false : true);
+      };
 
     const addToLog = () => {
         const movieDataPOST = {
@@ -47,13 +59,24 @@ const AddToLogComponent = ({ movie }) => {
         databaseCall.post(logUrl, movieDataPOST)
             .then((response) => {
                 console.log("Response from back end: ", response);
-                handleClose();
+                // handleClose();
             })
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
                 // TODO: display error message to user? can I display this in the dialog?
-                handleClose();
+                // handleClose();
             });
+
+        if (checked) {
+            const dataDelete = {
+                userId: userInfo.id,
+                movieId: movie.id
+            }
+            databaseCall.delete('/watchlist', {
+                data: dataDelete
+            });
+        }
+        handleClose();
     };
 
     return (
@@ -88,6 +111,13 @@ const AddToLogComponent = ({ movie }) => {
                     onChange={(event, newValue) => {
                         setRating(newValue);
                     }}
+                />
+            </DialogContent>
+            <DialogContent>
+                Remove from watchlist? 
+                <Switch 
+                    checked={checked}
+                    onChange={handleChange}
                 />
             </DialogContent>
             <DialogActions>
