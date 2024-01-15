@@ -30,7 +30,7 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
         setOpen(false);
     };
 
-    const addToLog = (userRating) => {
+    const addToLog = () => {
         const movieDataPOST = {
             userId: userInfo.id,
             movie: {
@@ -43,7 +43,7 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
               rating: movie.rating,
               poster: movie.poster
             },
-            userRating: userRating
+            userRating: rating
           };
         databaseCall.post(logUrl, movieDataPOST)
             .then((response) => {
@@ -86,7 +86,9 @@ const AddToLogComponent = ({ movie, director, topCast }) => {
                 <Rating
                     name="rating"
                     value={rating} // TODO: check this
-                    onChange={addToLog(rating)}
+                    onChange={(event, newValue) => {
+                        setRating(newValue);
+                    }}
                 />
             </DialogContent>
             <DialogActions>
