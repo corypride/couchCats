@@ -27,7 +27,7 @@ function ProfileComponent() {
         if (userWatchList) {
         }
     });
-    
+
     const isWatchList = () => {
         return userWatchList?.length > 0
     }
@@ -57,6 +57,7 @@ function ProfileComponent() {
             <Grid item xs={12}>
                 <Typography // title of the watch list
                     variant="h4"
+                    color="primary"
                     padding={2}
                     color="accent.main"
                 >
@@ -73,7 +74,7 @@ function ProfileComponent() {
                                     component={"img"}
                                     image={`https://image.tmdb.org/t/p/w500${movie.poster}`}
                                     title={movie.title}
-                                    sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                                    sx={{ height: 350, objectFit: 'fill', padding: "1, 1" }}
                                 />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" textAlign={"left"}>
@@ -86,15 +87,15 @@ function ProfileComponent() {
                                         {movie.description}
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
+                                <CardActions >
+                                    {/* as an example if we going to have this functionality
                                     <Button size="small">Watch</Button>
-                                    {/* <Button size="small" color="attention" onClick={deleteMovieFromWatchList}>Delete</Button> */}
-                                    <WatchListButton movie={movie}/>
-                                </CardActions>
-                                <CardActions>
-                                    <AddToLogComponent 
-                                        movie = {movie}
-                                    />
+                                     */}
+                                        <WatchListButton
+                                            movie={movie}
+                                            director={movie.director}
+                                            topCast={movie.topCast}
+                                        />
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -104,16 +105,18 @@ function ProfileComponent() {
             ) : (
                 <>
                     <Grid item xs={12}>
-                        <Typography variant="h6" color="accent.main">
+                        <Typography color="primary" variant="h6">
                             There isn't any movie on your watch list
                         </Typography>
                     </Grid>
                 </>
-            )}
+            )
+            }
 
             <Grid item xs={12}>
                 <Typography // title of the movie log
                     variant="h4"
+                    color="primary"
                     padding={2}
                     color="accent.main"
                 >
@@ -158,21 +161,21 @@ function ProfileComponent() {
             </Grid>
         ))}
     </>
+                ) : (
+                    <>
+                        <Grid item xs={12}>
+                            <Typography color="primary" variant="h6">
+                                Your movie log is currently empty
+                            </Typography>
+                        </Grid>
+                    </>
+                )
+            }
 
-) : (
-    <>
-        <Grid item xs={12}>
-            <Typography variant="h6">
-                Your movie log is currently empty
-            </Typography>
-        </Grid>
-    </>
-)}
-
-<           Grid item xs={12}>
+            <           Grid item xs={12}>
                 <DeleteAccountComponent />
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
 
