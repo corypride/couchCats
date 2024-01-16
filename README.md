@@ -1,6 +1,6 @@
-# couchCats
+# CouchCat
 
-While consumers now have access to more streaming services than ever, this can make it more difficult to find a specific title or browse across multiple streaming service subscriptions. Couch Cat streamlines the process of finding a movie to watch by allowing the user to search across streaming service catalogues, filtering results by categories like genre, director, and cast. The website also allows the user to create an account, which they can use to add movies to their watchlist and rate movies they have watched. These features help the user spend less time browsing and more time watching, and maximize the value they receive from their streaming subscriptions.
+While consumers now have access to more streaming services than ever, this can make it more difficult to find a specific title or browse across multiple streaming service subscriptions. CouchCat streamlines the process of finding a movie to watch by allowing the user to search across streaming service catalogues, filtering results by categories like genre, director, and cast. The website also allows the user to create an account, which they can use to add movies to their watchlist and rate movies they have watched. These features help the user spend less time browsing and more time watching, and maximize the value they receive from their streaming subscriptions.
 
 ---
 
