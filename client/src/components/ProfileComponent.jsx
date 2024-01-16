@@ -7,8 +7,7 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid,
-    Rating
+    Grid
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
@@ -32,26 +31,6 @@ function ProfileComponent() {
     const isWatchList = () => {
         return userWatchList?.length > 0
     }
-
-    const isMovieLog = () => {
-        return userMovieLog?.length > 0
-    }
-
-    //     // const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
-
-    //Tested commenting this out, and using only the Watchlist button, it works to remove the movie both from the front end and from the user_watchlist table in the database so I think this can be deleted.
-    // const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
-    //     console.log("delete a movie from watch list handle called")
-    //     setTimeout(() => {
-    //     }, 2000)
-    //     const headersObj = {
-    //         "Content-Type": "application/json"
-    //     }
-    //     const deletePayload = {
-    //         "userId": userInfo.id,
-    //         "movieId": movie.id
-    //     }
-    // }
 
     return (
         <Grid container spacing={2}>
@@ -79,6 +58,7 @@ function ProfileComponent() {
                 <Typography // title of the watch list
                     variant="h4"
                     padding={2}
+                    color="accent.main"
                 >
                     Watch List
                 </Typography>
@@ -124,7 +104,7 @@ function ProfileComponent() {
             ) : (
                 <>
                     <Grid item xs={12}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" color="accent.main">
                             There isn't any movie on your watch list
                         </Typography>
                     </Grid>
@@ -135,11 +115,12 @@ function ProfileComponent() {
                 <Typography // title of the movie log
                     variant="h4"
                     padding={2}
+                    color="accent.main"
                 >
                     Movie Log
                 </Typography>
             </Grid>
-    {isMovieLog() ? (
+    {userMovieLog ? (
     <>
         {userMovieLog.map((entry, index) => ( //loop for logged movies 
             <Grid key={index} item xs={6} md={3}>

@@ -61,20 +61,19 @@ function App() {
     try {
       const response = await databaseCall.get(`watchlist/${userInfo.id}`); //FROM ERIN: fixed a hard-coded user id here
       const data = await response.data;
-      console.log(data)
       return data; // flatrate is movies on subscription streaming
     } catch (error) {
       console.error(error);
       return null;
     }
   };
-
   // sets userWatchList
   useEffect(() => {
     if(userInfo.isAuthenticated) {
       getWatchList(userInfo)
       .then(data => {
         setUserWatchList(data)
+        console.log(data)
       })
       .catch(error => {
         console.error(error);
@@ -87,20 +86,20 @@ function App() {
     try {
       const response = await databaseCall.get(`log/${userInfo.id}`);
       const data = await response.data;
-      console.log(data)
       return data;
     } catch (error) {
       console.error(error);
       return null;
     }
   };
-
+  
   // sets userMovieLog
   useEffect(() => {
     if(userInfo.isAuthenticated) {
       getUserMovieLog(userInfo)
       .then(data => {
         setUserMovieLog(data)
+        console.log(data)
       })
       .catch(error => {
         console.error(error);

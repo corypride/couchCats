@@ -5,8 +5,6 @@ import StarIcon from '@mui/icons-material/Star';
 
 const WatchListButton = ({ movie, director, topCast }) => {
   const [selected, setSelected] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [movieDataPOST, setMovieDataPOST] = useState();
 
   const { userWatchList, userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
 
@@ -78,7 +76,6 @@ const WatchListButton = ({ movie, director, topCast }) => {
         <ListItemButton
                   variant="cont"
                   onClick={() => handleWatchList(movie)}
-                  onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
                   selected={selected}
                   sx={{
                     display: "flex",
@@ -115,18 +112,6 @@ const WatchListButton = ({ movie, director, topCast }) => {
                       }}>
                         <SvgIcon
                         component={StarIcon}/>
-                        {/* {isHovered ? 
-                          <Box
-                            sx={{
-                              transition: 'max-width 0.3s ease-in-out', // Transition for smooth roll-out
-                              overflow: 'hidden',
-                              maxWidth: isHovered ? '200px' : '0px', // Adjust heights as needed
-                            }}
-                          >
-                            Add to WatchList
-                          </Box>
-                        :
-                        null} */}
                         <Box>Add</Box>
                       </Box>
 
