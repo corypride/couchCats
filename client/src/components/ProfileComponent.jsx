@@ -59,7 +59,6 @@ function ProfileComponent() {
                     variant="h4"
                     color="primary"
                     padding={2}
-                    color="accent.main"
                 >
                     Watch List
                 </Typography>
@@ -97,6 +96,11 @@ function ProfileComponent() {
                                             topCast={movie.topCast}
                                         />
                                 </CardActions>
+                                <CardActions>
+                                    <AddToLogComponent 
+                                        movie = {movie}
+                                    />
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))}
@@ -118,7 +122,6 @@ function ProfileComponent() {
                     variant="h4"
                     color="primary"
                     padding={2}
-                    color="accent.main"
                 >
                     Movie Log
                 </Typography>
