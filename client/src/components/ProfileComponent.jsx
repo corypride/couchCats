@@ -7,8 +7,7 @@ import {
     CardMedia,
     CardContent,
     CardActions,
-    Grid,
-    Rating,
+    Grid
 } from "@mui/material";
 import userContext from "../utils/userContext";
 import RatingComponent from "./RatingComponent";
@@ -32,26 +31,6 @@ function ProfileComponent() {
     const isWatchList = () => {
         return userWatchList?.length > 0
     }
-
-    const isMovieLog = () => {
-        return userMovieLog?.length > 0
-    }
-
-    //     // const deleteMovieFromWatchlistUrl = "http://localhost:8080/watchlist/";
-
-    //Tested commenting this out, and using only the Watchlist button, it works to remove the movie both from the front end and from the user_watchlist table in the database so I think this can be deleted.
-    // const deleteMovieFromWatchList = (movie) => { // deletes a movie from the watch list
-    //     console.log("delete a movie from watch list handle called")
-    //     setTimeout(() => {
-    //     }, 2000)
-    //     const headersObj = {
-    //         "Content-Type": "application/json"
-    //     }
-    //     const deletePayload = {
-    //         "userId": userInfo.id,
-    //         "movieId": movie.id
-    //     }
-    // }
 
     return (
         <Grid container spacing={2}>
@@ -80,6 +59,7 @@ function ProfileComponent() {
                     variant="h4"
                     color="primary"
                     padding={2}
+                    color="accent.main"
                 >
                     Watch List
                 </Typography>
@@ -138,50 +118,49 @@ function ProfileComponent() {
                     variant="h4"
                     color="primary"
                     padding={2}
+                    color="accent.main"
                 >
                     Movie Log
                 </Typography>
             </Grid>
-            {
-                isMovieLog() ? (
-                    <>
-                        {userMovieLog.map((entry, index) => ( //loop for logged movies 
-                            <Grid key={index} item xs={6} md={3}>
-                                <Card sx={{ maxWidth: 345 }}>
-                                    <CardMedia
-                                        component={"img"}
-                                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
-                                        title={entry.movie.title}
-                                        sx={{ height: 200, objectFit: 'fill', padding: "1, 1" }}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" textAlign={"left"}>
-                                            {entry.movie.title}
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
-                                            {entry.movie.director}
-                                        </Typography>
-                                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
-                                            {entry.movie.description}
-                                        </Typography>
-                                        <RatingComponent
-                                            movieId={entry.movie.id}
-                                            userRating={entry.userRating}
-                                        />
-                                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
-                                            Date added: {entry.dateAdded.slice(0, 10)}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <DeleteFromLogComponent
-                                            movie={entry.movie}
-                                        />
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </>
-
+    {userMovieLog ? (
+    <>
+        {userMovieLog.map((entry, index) => ( //loop for logged movies 
+            <Grid key={index} item xs={6} md={3}>
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                        component={"img"}
+                        image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
+                        title={entry.movie.title}
+                        sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" textAlign={"left"}>
+                            {entry.movie.title}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
+                            {entry.movie.director}
+                        </Typography>
+                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
+                            {entry.movie.description}
+                        </Typography>
+                        <RatingComponent 
+                            movieId = {entry.movie.id}
+                            userRating = {entry.userRating}
+                        />
+                        <Typography variant="body2" color="text.secondary" textAlign={"left"}>
+                            Date added: {entry.dateAdded.slice(0,10)}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <DeleteFromLogComponent 
+                            movie = {entry.movie}
+                        />
+                    </CardActions>
+                </Card>
+            </Grid>
+        ))}
+    </>
                 ) : (
                     <>
                         <Grid item xs={12}>

@@ -37,14 +37,15 @@ const DeleteFromLogComponent = ({ movie }) => {
             .then((response) => {
                 console.log("Response from back end: ", response);
                 handleClose();
+                setRefetchDb(!refetchDb);
             })
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
                 // TODO: display error message to user? can I display this in the dialog?
                 handleClose();
             });
-            setRefetchDb(!refetchDb);
     };
+
 
     return (
         <React.Fragment>

@@ -41,6 +41,24 @@ const AddToLogComponent = ({ movie }) => {
         // setChecked( checked ? false : true);
       };
 
+    const handleDelete = async () => {
+                    try {
+                const dataDelete = {
+                    userId: userInfo.id,
+                    movieId: movie.id
+                }
+                const response = await databaseCall.delete('/watchlist', {
+                        data: dataDelete
+                    });
+                const data = await response.data;
+                setRefetchDb(!refetchDb)
+                return data;
+              } catch (error) {
+                console.error(error);
+                return null;
+              }
+    }
+
     const addToLog = () => {
         const movieDataPOST = {
             userId: userInfo.id,
@@ -68,16 +86,10 @@ const AddToLogComponent = ({ movie }) => {
             });
 
         if (checked) {
-            const dataDelete = {
-                userId: userInfo.id,
-                movieId: movie.id
-            }
-            databaseCall.delete('/watchlist', {
-                data: dataDelete
-            });
+            handleDelete();
         }
         handleClose();
-        setRefetchDb(!refetchDb)
+        
     };
 
     return (
