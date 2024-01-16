@@ -100,21 +100,20 @@ const validationSchema = Yup.object().shape({
             marginTop={5}
             padding={3}
             borderRadius={5}
-            boxShadow={"5px 5px 10px #d3d3d3"}
-            bgcolor="box.main"
+            boxShadow={"5px 5px 10px #d993ab"}
             sx={{
-              hover: {
-                boxShadow: "10px 10px 20px #d3d3d3",
-              },
+               hover: {
+                  boxShadow: "10px 10px 20px #d993ab",
+               },
             }}
           >
             <Typography
-              variant="h3"
+              variant="h4"
               color="primary"
               padding={2}
               textAlign={"center"}
             >
-              Register!
+              Create a CouchCat account
             </Typography>
               {/* Displays fail message if/when it exists to let the user know why registration didn't work */}
               {failMessage && 
@@ -132,10 +131,19 @@ const validationSchema = Yup.object().shape({
               type={"text"}
               variant="standard"
               placeholder="First Name"
-              color="primary"
+              color="secondary"
               fullWidth
               name="firstName"  
               helperText={<ErrorMessage name="firstName" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
               />
             <Field
               as={TextField}
@@ -147,6 +155,15 @@ const validationSchema = Yup.object().shape({
               fullWidth
               name="lastName"
               helperText={<ErrorMessage name="lastName" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
             />
             <Field
               as={TextField}
@@ -158,6 +175,15 @@ const validationSchema = Yup.object().shape({
               fullWidth
               name="email" 
               helperText={<ErrorMessage name="email" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
 
             />
             <Field
@@ -170,6 +196,15 @@ const validationSchema = Yup.object().shape({
               fullWidth
               name="emailConfirmation"
               helperText={<ErrorMessage name="emailConfirmation" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
 
             />
             <Field
@@ -182,6 +217,15 @@ const validationSchema = Yup.object().shape({
               fullWidth
               name="password"
               helperText={<ErrorMessage name="password" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
             />
             <Field
               as={TextField}
@@ -193,6 +237,15 @@ const validationSchema = Yup.object().shape({
               fullWidth
               name="passwordConfirmation"
               helperText={<ErrorMessage name="passwordConfirmation" component="span"/>}
+              sx={{ 
+                padding: "1rem",
+                backgroundColor: "#d3d3d3",
+                borderRadius: 2, // Set border radius
+                borderColor: "accent.main", // Set border color
+                hover: {
+                borderColor: "primary.dark", // Set border color on hover
+                },
+            }} 
             />
             <Button
               type="submit"
@@ -202,6 +255,15 @@ const validationSchema = Yup.object().shape({
               disabled={props.isSubmitting}
             >{props.isSubmitting? "Loading" : "Register"}
             </Button>
+            <Typography
+                variant="standard"
+                color="primary"
+                sx={{ marginTop: "0.5rem" }}
+                padding={2}
+                textAlign={"center"}
+             >
+              Already have an account?  <a href='/login'>Login</a>
+             </Typography>
           </Box>
         </Form>
       )}

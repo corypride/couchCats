@@ -119,7 +119,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="movie" element={<SingleMovie />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </userContext.Provider>

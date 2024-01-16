@@ -12,10 +12,10 @@ const theme = createTheme({
     },
     accent: {
       main: '#ff9610',
-      secondary: '#d993ab'
+      secondary:'#d993ab'
     },
     box: {
-        main: '#d3d3d3',
+        main: '#d3d3d3'
     },
     attention: {
       main: '#D92F2F',
