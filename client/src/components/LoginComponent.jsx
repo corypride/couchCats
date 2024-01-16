@@ -85,10 +85,9 @@ const LoginComponent = () => {
                         justifyContent={"center"}
                         margin="auto"
                         marginTop={5}
-                        padding={5}
+                        padding={3}
                         borderRadius={5}
                         boxShadow={"5px 5px 10px #d993ab"}
-                        // bgcolor="box.main"
                         sx={{
                             hover: {
                                 boxShadow: "10px 10px 20px #d993ab",
@@ -125,10 +124,10 @@ const LoginComponent = () => {
                             sx={{ 
                                 padding: "1rem",
                                 backgroundColor: "#d3d3d3",
-                                borderRadius: 2, // Set border radius
-                                borderColor: "accent.main", // Set border color
+                                borderRadius: 2, 
+                                borderColor: "accent.main", 
                                 hover: {
-                                borderColor: "primary.dark", // Set border color on hover
+                                borderColor: "primary.dark", 
                                 },
                             }} 
                         />
@@ -162,12 +161,12 @@ const LoginComponent = () => {
                         </Button>
                         <Typography
                             variant="standard"
-                            color="secondary"
+                            color="primary"
                             sx={{ marginTop: "0.5rem" }}
                             padding={2}
                             textAlign={"center"}
                         >
-                            Don't have an account?  <a href='/register' style={{ color: "accent.main", textDecoration: 'underline', cursor: 'pointer' }}>Join now</a>
+                            Don't have an account?  <a href='/register'>Join now</a>
                         </Typography>
                     </Box>
                 </Form>
