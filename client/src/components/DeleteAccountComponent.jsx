@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Typography } from '@mui/material';
 
 // TODO after implementing Redux: do I also need to update user context or headersObj through UserManagement?
 
@@ -44,9 +45,18 @@ const DeleteAccountComponent = ({ headersObj }) => {
             //calls function above on button click
             onClick={handleClickOpen}
             variant="contained"
-            color="error"
+            color="secondary"
+            sx={{ 
+                width: "5rem", 
+                padding: "0",
+                color: "primary",
+                "&:hover": {
+                    backgroundColor: "#D92F2F",
+                    color: "white"
+                }
+            }}
             >
-                Delete Account
+                <Typography sx={{ fontSize: "0.75rem"}}>Delete Account</Typography>
             </Button>
 
             <Dialog

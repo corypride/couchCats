@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import userContext from "../utils/userContext";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Typography from "@mui/material/Typography";
 
 // TODO: make it look like Merve's 'delete' button
 
@@ -53,9 +54,17 @@ const DeleteFromLogComponent = ({ movie }) => {
             size="small"
             onClick={handleClickOpen}
             variant="contained"
-            color="attention"
+            sx={{ 
+                width: "5rem", 
+                padding: "0",
+                color: "primary",
+                "&:hover": {
+                    backgroundColor: "#D92F2F",
+                    color: "white"
+                }
+            }}
             >
-                Delete
+                <Typography sx={{ fontSize: "0.75rem"}}>Remove</Typography>
             </Button>
 
             <Dialog

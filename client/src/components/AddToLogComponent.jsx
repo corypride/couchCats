@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Rating from '@mui/material/Rating';
 import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -100,7 +101,7 @@ const AddToLogComponent = ({ movie }) => {
             variant="contained"
             color="primary"
             >
-                Rate and Log
+                <Typography sx={{color: "accent.main"}}>Rate and Log</Typography>
             </Button>
 
             <Dialog
