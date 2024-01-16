@@ -77,7 +77,7 @@ const LoginComponent = () => {
         <Formik initialValues={initialLoginValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {(props) => (
                 <Form>
-                    <Box
+                    <Box 
                         display="flex"
                         flexDirection={"column"}
                         maxWidth={400}
@@ -85,22 +85,23 @@ const LoginComponent = () => {
                         justifyContent={"center"}
                         margin="auto"
                         marginTop={5}
-                        padding={3}
+                        padding={5}
                         borderRadius={5}
-                        boxShadow={"5px 5px 10px #d3d3d3"}
-                        bgcolor="box.main"
+                        boxShadow={"5px 5px 10px #d993ab"}
+                        // bgcolor="box.main"
                         sx={{
                             hover: {
-                                boxShadow: "10px 10px 20px #d3d3d3",
+                                boxShadow: "10px 10px 20px #d993ab",
                             },
                         }}
                     >
                         <Typography
-                            variant="h3"
+                            variant="h4"
+                            color="primary"
                             padding={2}
                             textAlign={"center"}
                         >
-                            Login!
+                           Welcome back to CouchCat
                         </Typography>
                         {/* Displays fail message if/when it exists to let the user know why their login didn't work */}
                         {failMessage && (
@@ -121,6 +122,15 @@ const LoginComponent = () => {
                             fullWidth
                             name="email"
                             helperText={<ErrorMessage name="email" component="span" />}
+                            sx={{ 
+                                padding: "1rem",
+                                backgroundColor: "#d3d3d3",
+                                borderRadius: 2, // Set border radius
+                                borderColor: "accent.main", // Set border color
+                                hover: {
+                                borderColor: "primary.dark", // Set border color on hover
+                                },
+                            }} 
                         />
                         <Field
                             as={TextField}
@@ -132,6 +142,15 @@ const LoginComponent = () => {
                             fullWidth
                             name="password"
                             helperText={<ErrorMessage name="password" component="span" />}
+                            sx={{ 
+                                padding: "1rem",
+                                backgroundColor: "#d3d3d3",
+                                borderRadius: 2, // Set border radius
+                                borderColor: "accent.main", // Set border color
+                                hover: {
+                                borderColor: "primary.dark", // Set border color on hover
+                                },
+                            }} 
                         />
                         <Button
                             type="submit"
@@ -141,6 +160,15 @@ const LoginComponent = () => {
                             disabled={props.isSubmitting}
                         >{props.isSubmitting ? "Loading" : "Login"}
                         </Button>
+                        <Typography
+                            variant="standard"
+                            color="secondary"
+                            sx={{ marginTop: "0.5rem" }}
+                            padding={2}
+                            textAlign={"center"}
+                        >
+                            Don't have an account?  <a href='/register' style={{ color: "accent.main", textDecoration: 'underline', cursor: 'pointer' }}>Join now</a>
+                        </Typography>
                     </Box>
                 </Form>
             )}
