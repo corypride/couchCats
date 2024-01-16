@@ -148,6 +148,7 @@ const FilterSearch = () => {
           sx={{
             color: "accent.main"
           }}>Genre</Typography>
+          <br></br>
             <ToggleButtonGroup 
             id="genreContainer"
             value={selectedGenres}
@@ -166,11 +167,13 @@ const FilterSearch = () => {
               )}
             </ToggleButtonGroup>
 {/* Streaming Service Filters */}
+          <br></br><br></br>
           <Typography 
           variant="h4"
           sx={{
             color: "accent.main"
           }}>Streaming Service</Typography>
+          <br></br>
             <ToggleButtonGroup 
             sx={toggleButtonGroupSx}
             value={selectedStreaming}
@@ -185,11 +188,13 @@ const FilterSearch = () => {
                 >{service.name}</ToggleButton>
               ))}
             </ToggleButtonGroup>
+            <br></br><br></br>
             <Typography 
               variant="h4"
               sx={{
                 color: "accent.main"
               }}>Cast & Crew</Typography>
+              <br></br>
             <CastCrewSelect handleCastCrewChange={handleCastCrewChange}/>
         </form>
 {/* submit buttons */}
@@ -207,7 +212,7 @@ const FilterSearch = () => {
               setDisplay(false);
               setSingleRandom(Math.floor(Math.random() * 19));
             }}
-            >Find My Movie!</Button>
+            >Find One Movie!</Button>
           <Button 
             variant="outlined"
             sx={submitButtonSx}
