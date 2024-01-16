@@ -40,8 +40,12 @@ function ProfileComponent() {
                     color="primary"
                     padding={2}
                     textAlign={"center"}
+                    sx={{
+                        paddingBottom: "0"
+                    }}
                 >
-                    Welcome  {userInfo.firstName} {userInfo.lastName}
+                    Welcome,  
+                    <Typography sx={{ color: "accent.main", fontSize: "2.5rem"}}>{userInfo.firstName} {userInfo.lastName}</Typography>
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -50,14 +54,19 @@ function ProfileComponent() {
                     color="primary"
                     padding={2}
                     textAlign={"center"}
+                    sx={{ padding: "0", paddingBottom: "1rem"}}
                 >
-                    E-mail: {userInfo.email}
+                    E-mail: 
+                    <Typography sx={{color: "accent.main"}}>{userInfo.email}</Typography>
                 </Typography>
+                <Grid item xs={12}>
+                    <DeleteAccountComponent />
+                </Grid>
             </Grid>
             <Grid item xs={12}>
                 <Typography // title of the watch list
                     variant="h4"
-                    color="primary"
+                    color="accent.main"
                     padding={2}
                 >
                     Watch List
@@ -67,26 +76,25 @@ function ProfileComponent() {
                 // {/*TODO: Merve, review CSS for Watchlist, the Posters images are the wrong ratio, and should the cards be a fixed height?*/}
                 <>
                     {userWatchList.map((movie, index) => ( //loop for watch list movies 
-                        <Grid key={index} item xs={6} md={3}>
-                            <Card sx={{ maxWidth: 345 }}>
+                        <Grid
+                         key={index} 
+                         item xs={6} 
+                         md={3}>
+                            <Card sx={{ width:"15rem", display: "flex", flexDirection: "column", alignItems: "center", bgcolor: "accent.secondary" }}>
                                 <CardMedia
                                     component={"img"}
                                     image={`https://image.tmdb.org/t/p/w500${movie.poster}`}
                                     title={movie.title}
-                                    sx={{ height: 350, objectFit: 'fill', padding: "1, 1" }}
+                                    sx={{                     
+                                        height: "25rem",
+                                        width: "15rem" }}
                                 />
-                                <CardContent>
+                                <CardContent sx={{ padding: "0"}}>
                                     <Typography gutterBottom variant="h5" textAlign={"left"}>
                                         {movie.title}
                                     </Typography>
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
-                                        {movie.director}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" textAlign={"left"}>
-                                        {movie.description}
-                                    </Typography>
                                 </CardContent>
-                                <CardActions >
+                                <CardActions sx={{ border: "3px solid #642B6B", padding: "0"}} >
                                     {/* as an example if we going to have this functionality
                                     <Button size="small">Watch</Button>
                                      */}
@@ -120,7 +128,7 @@ function ProfileComponent() {
             <Grid item xs={12}>
                 <Typography // title of the movie log
                     variant="h4"
-                    color="primary"
+                    color="accent.main"
                     padding={2}
                 >
                     Movie Log
@@ -129,23 +137,19 @@ function ProfileComponent() {
     {userMovieLog ? (
     <>
         {userMovieLog.map((entry, index) => ( //loop for logged movies 
-            <Grid key={index} item xs={6} md={3}>
-                <Card sx={{ maxWidth: 345 }}>
+            <Grid key={index} item xs={6} md={3} sx={{ marginBottom: "8rem" }}>
+                <Card sx={{ width:"15rem", display: "flex", flexDirection: "column", alignItems: "center", bgcolor: "accent.secondary" }}>
                     <CardMedia
                         component={"img"}
                         image={`https://image.tmdb.org/t/p/w500${entry.movie.poster}`}
                         title={entry.movie.title}
-                        sx={{ height: 200, objectFit:'fill', padding: "1, 1" }}
+                        sx={{                     
+                            height: "25rem",
+                            width: "15rem" }}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" textAlign={"left"}>
                             {entry.movie.title}
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={"left"}>
-                            {entry.movie.director}
-                        </Typography>
-                        <Typography gutterBottom variant="body2" color="text.secondary" textAlign={"left"}>
-                            {entry.movie.description}
                         </Typography>
                         <RatingComponent 
                             movieId = {entry.movie.id}
@@ -174,10 +178,6 @@ function ProfileComponent() {
                     </>
                 )
             }
-
-            <           Grid item xs={12}>
-                <DeleteAccountComponent />
-            </Grid>
         </Grid >
     );
 }

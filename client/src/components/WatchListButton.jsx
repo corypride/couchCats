@@ -101,7 +101,7 @@ const WatchListButton = ({ movie, director, topCast }) => {
                     <>
                       <SvgIcon
                       component={StarIcon}/>
-                      <Box>Added</Box>
+                      <Box sx={{paddingRight: "0.25rem"}}>Added</Box>
                     </>
 
                       : 
