@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ListItemButton, SvgIcon, Typography, Box } from "@mui/material";
+import { ListItemButton, SvgIcon, Box } from "@mui/material";
 import userContext from "../utils/userContext";
 import StarIcon from '@mui/icons-material/Star';
 
@@ -20,6 +20,7 @@ const WatchListButton = ({ movie, director, topCast }) => {
   }, [userWatchList])
 
   async function handleWatchList() {
+    if(!movie){return}
 
     // if movie is selected(in userWatchList), POST. Else, Delete.
     if(!selected) {
