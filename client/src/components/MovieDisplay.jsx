@@ -15,28 +15,33 @@ const MovieDisplay = (props) => {
   const [topCast, setTopCast] = useState();
   const handleWatchList = props.handleWatchList
 
-  const { userInfo, refetchDb, setRefetchDb, databaseCall } = useContext(userContext)
+  const { userInfo } = useContext(userContext)
 
   //grabs cast and service from TMDB
   useEffect(() => {
-    getServices(props.movie.id)
+    if(!props.movie){return}
+    getServices(props.movie?.id)
     .then(servicesResult => {
       setServices(servicesResult);
       })
-    getCastCrew(props.movie.id)
+    getCastCrew(props.movie?.id)
     .then(castCrewResult => {
       setCastCrew(castCrewResult)
       })
   }, [props.movie])
 
   useEffect(() => {
+    if(!props.movie){return}
     if(castCrew) {
       setDirector(castCrew.crew.filter(({job})=> job ==='Director'))
       setTopCast(castCrew.cast.slice(0,3))
     } 
-  }, [castCrew])
+  }, [castCrew, props.movie])
 
   return (
+
+    <>
+      {props.movie ? 
       <List
       sx={{
         display: "flex",
@@ -198,6 +203,9 @@ const MovieDisplay = (props) => {
           </Box>
         </ListItem>
       </List>
+      : <Typography sx={{ color: "accent.main", fontSize: "2rem"}}>No movies match this search...</Typography>
+      }
+      </>
     )
   }
 
