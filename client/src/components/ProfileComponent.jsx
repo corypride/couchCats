@@ -118,7 +118,7 @@ function ProfileComponent() {
                 <>
                     <Grid item xs={12}>
                         <Typography color="primary" variant="h6">
-                            There aren't any movies on your watchlist
+                            Your watchlist is currently empty
                         </Typography>
                     </Grid>
                 </>
