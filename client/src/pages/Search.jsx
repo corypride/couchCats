@@ -259,7 +259,8 @@ const FilterSearch = () => {
               null :
                 singleResult ?
                   <MovieDisplay
-                    movie={queriedMovies[singleRandom]}
+                    // movie={queriedMovies[singleRandom]}
+                    movie={queriedMovies[0]}
                     />
                   :
                   queriedMovies.map((queriedMovie, index) => (
