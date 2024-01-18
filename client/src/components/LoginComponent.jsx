@@ -15,16 +15,18 @@ const LoginComponent = () => {
         password: "",
     };
 
+    //informs the server about the type of data being sent in the request body 
     const headersObj = {
         "Content-Type": "application/json",
     };
 
     const navigate = useNavigate();
-
+//logs the values from the form submission and props provide various helper functions and properties from Formik
     const onSubmit = (values, props) => {
         console.log(values);
         console.log(props);
         setTimeout(() => {
+            //calls these props from Formik to reset the form after a 2 sec delay from when the form was submitted
             props.resetForm();
             props.setSubmitting(false);
         }, 2000);
@@ -102,7 +104,7 @@ const LoginComponent = () => {
                         >
                            Welcome back to CouchCat
                         </Typography>
-                        {/* Displays fail message if/when it exists to let the user know why their login didn't work */}
+                        {/* Displays server-side error message if/when it exists to let the user know why their login didn't work */}
                         {failMessage && (
                             <Typography 
                             variant="standard" 
@@ -144,10 +146,10 @@ const LoginComponent = () => {
                             sx={{ 
                                 padding: "1rem",
                                 backgroundColor: "#d3d3d3",
-                                borderRadius: 2, // Set border radius
-                                borderColor: "accent.main", // Set border color
+                                borderRadius: 2, 
+                                borderColor: "accent.main", 
                                 hover: {
-                                borderColor: "primary.dark", // Set border color on hover
+                                borderColor: "primary.dark", 
                                 },
                             }} 
                         />
@@ -157,6 +159,7 @@ const LoginComponent = () => {
                             color="primary"
                             sx={{ marginTop: "1.5rem" }}
                             disabled={props.isSubmitting}
+                            //shows while form is submitting if it is a slower connection, most users won't see this
                         >{props.isSubmitting ? "Loading" : "Login"}
                         </Button>
                         <Typography
