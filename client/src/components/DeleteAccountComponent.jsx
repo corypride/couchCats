@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import Button from '@mui/material/Button';
@@ -8,12 +8,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Typography } from '@mui/material';
+import userContext from "../utils/userContext";
+
 
 // TODO after implementing Redux: do I also need to update user context or headersObj through UserManagement?
 
 const DeleteAccountComponent = ({ headersObj }) => {
     const deleteUrl = "http://localhost:8080/user";
     const navigate = useNavigate();
+    const { setUserInfo } = useContext(userContext);
 
     const [open, setOpen] = React.useState(false);
 
@@ -31,6 +34,13 @@ const DeleteAccountComponent = ({ headersObj }) => {
         axios.delete(deleteUrl, { headers: headersObj, withCredentials: true })
             .then((response) => {
                 console.log("Response from back end: ", response);
+                setUserInfo({
+                    isAuthenticated: false,
+                    id: null,
+                    firstName: null,
+                    lastName: null,
+                    email: null
+                });
                 navigate('/');
             })
             .catch((error) => {
