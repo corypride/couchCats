@@ -78,7 +78,14 @@ const AddToLogComponent = ({ movie }) => {
         databaseCall.post(logUrl, movieDataPOST)
             .then((response) => {
                 console.log("Response from back end: ", response);
-                setRefetchDb(!refetchDb)
+                setRefetchDb(!refetchDb);
+                // // // Reset the rating state
+                setRating(0); 
+
+                if (checked) {
+                    handleDelete();
+                }
+                handleClose();
             })
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
@@ -86,10 +93,6 @@ const AddToLogComponent = ({ movie }) => {
                 // handleClose();
             });
 
-        if (checked) {
-            handleDelete();
-        }
-        handleClose();
     };
 
     return (
