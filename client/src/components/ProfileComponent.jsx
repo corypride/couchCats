@@ -69,7 +69,7 @@ function ProfileComponent() {
                     color="accent.main"
                     padding={2}
                 >
-                    Watch List
+                    Watchlist
                 </Typography>
             </Grid>
             {isWatchList() ? (
@@ -118,7 +118,7 @@ function ProfileComponent() {
                 <>
                     <Grid item xs={12}>
                         <Typography color="primary" variant="h6">
-                            There isn't any movie on your watch list
+                            Your watchlist is currently empty
                         </Typography>
                     </Grid>
                 </>

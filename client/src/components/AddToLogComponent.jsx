@@ -10,12 +10,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// TODO: make it look like Merve's 'delete' and 'watch' buttons
-
-// TODO: how do I refresh the movie log info on the page once item has been deleted?
-
-// TODO: how to display error message if user tries to submit without a star rating OR there's a login-related problem?
-
 const AddToLogComponent = ({ movie }) => {
     const { userInfo, databaseCall, setRefetchDb, refetchDb } = useContext(userContext);
     const logUrl = "http://localhost:8080/log/save";
@@ -78,18 +72,18 @@ const AddToLogComponent = ({ movie }) => {
         databaseCall.post(logUrl, movieDataPOST)
             .then((response) => {
                 console.log("Response from back end: ", response);
-                setRefetchDb(!refetchDb)
+                setRefetchDb(!refetchDb);
+                // // // // Reset the rating state
+                setRating(0); 
+
+                if (checked) {
+                    handleDelete();
+                }
+                handleClose();
             })
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
-                // TODO: display error message to user? can I display this in the dialog?
-                // handleClose();
             });
-
-        if (checked) {
-            handleDelete();
-        }
-        handleClose();
     };
 
     return (

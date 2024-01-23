@@ -121,6 +121,7 @@ const FilterSearch = () => {
         const data = await response.data;
         //error handler when resuls is 0 (needs message)
         if(data.results.length > 0) {
+          setSingleRandom(Math.floor(Math.random() * data.results.length));
           setQueriedMovies(data.results);
           setDisplay(true);
         } else setParams()
@@ -210,7 +211,6 @@ const FilterSearch = () => {
               handleSubmit();
               setSingleResult(true);
               setDisplay(false);
-              setSingleRandom(Math.floor(Math.random() * 19));
             }}
             >Find One Movie!</Button>
           <Button 
