@@ -73,7 +73,7 @@ const AddToLogComponent = ({ movie }) => {
             .then((response) => {
                 console.log("Response from back end: ", response);
                 setRefetchDb(!refetchDb);
-                // // // Reset the rating state
+                // // // // Reset the rating state
                 setRating(0); 
 
                 if (checked) {
@@ -84,7 +84,6 @@ const AddToLogComponent = ({ movie }) => {
             .catch((error) => {
                 console.error("Error while calling back end: ", error);
             });
-
     };
 
     return (
